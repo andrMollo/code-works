@@ -1,2 +1,3 @@
-# code-works
- An add-in for SolidWorks
+# CodeWorks
+
+ An add-in for SolidWorks with a set of tools to automate your SolidWorks workflow.
