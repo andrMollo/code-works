@@ -38,6 +38,15 @@ namespace CodeWorksLibrary
             // Get the username connected to PDM
             string userName = CwPdmManager.GetPdmUserName();
 
+            // Set the username in each member of the list of model
+            for (int i = 0; i < models.Count; i++)
+            {
+                var model = Application.ActiveModel;
+
+                model = (Model)models[i];
+
+                model.SetCustomProperty(GlobalConfig.AuthorPropName, userName);
+            }
         }
     }
 }
