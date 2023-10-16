@@ -6,6 +6,7 @@
 # Personal
 .vscode/
 CodeWorksLibrary/AdditionalReferences/
+CodeWorksLibrary/Private/
 
 # User-specific files
 *.rsuser
