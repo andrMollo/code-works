@@ -36,6 +36,14 @@
     <Reference Include="CADBooster.SolidDna, Version=2.8.0.0, Culture=neutral, PublicKeyToken=f23bab2866e226c4, processorArchitecture=MSIL">
       <HintPath>..\packages\CADBooster.SolidDna.2.8.0\lib\net48\CADBooster.SolidDna.dll</HintPath>
     </Reference>
+    <Reference Include="EPDM.Interop.epdm">
+      <HintPath>AdditionalReferences\EPDM.Interop.epdm.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="EPDM.Interop.EPDMResultCode">
+      <HintPath>AdditionalReferences\EPDM.Interop.EPDMResultCode.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="SolidWorks.Interop.sldworks, Version=31.0.1.4, Culture=neutral, PublicKeyToken=7c4797c3e4eeac03, processorArchitecture=MSIL">
@@ -108,8 +116,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CodeWorksAddIn.cs" />
+    <Compile Include="GlobalConfig.cs" />
+    <Compile Include="Helpers\CwPdmManager.cs" />
     <Compile Include="Helpers\CwSelectionManager.cs" />
     <Compile Include="Macros\Properties\SetAuthorMacro.cs" />
+    <Compile Include="Private\GlobalConfigPrivate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
