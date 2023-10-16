@@ -1,7 +1,9 @@
-﻿using SolidWorks.Interop.sldworks;
-using CADBooster.SolidDna;
-using static CADBooster.SolidDna.SolidWorksEnvironment;
+﻿using CADBooster.SolidDna;
+using CodeWorksLibrary.Helpers;
+using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
+using System.Collections.Generic;
+using static CADBooster.SolidDna.SolidWorksEnvironment;
 
 namespace CodeWorksLibrary
 {
@@ -29,6 +31,9 @@ namespace CodeWorksLibrary
             }
             #endregion
 
+            // Get the list of selected models
+            // If nothing is selected add the active model to the list of model object
+            List<ModelDoc2> models = CwSelectionManager.GetSelectedModels(swModel);
         }
     }
 }
