@@ -41,6 +41,11 @@ namespace CodeWorksLibrary
             swApp = (SldWorks)this.Application.Sw;
         }
 
+        public override void OnDisconnect()
+        {
+            AddInIntegration.TearDown();
+        }
+
         private void OnCommandClick(CwCommands_e spec)
         {
             switch (spec)
