@@ -3,7 +3,6 @@ using CodeWorksLibrary.Helpers;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System.Collections.Generic;
-using static CADBooster.SolidDna.SolidWorksEnvironment;
 
 namespace CodeWorksLibrary
 {
@@ -41,11 +40,9 @@ namespace CodeWorksLibrary
             // Set the username in each member of the list of model
             for (int i = 0; i < models.Count; i++)
             {
-                var model = Application.ActiveModel;
+                var prpManager = new CwPropertyManager();
 
-                model = (Model)models[i];
-
-                model.SetCustomProperty(GlobalConfig.AuthorPropName, userName);
+                prpManager.SetCustomProperty(models[i], GlobalConfig.AuthorPropName, userName);
             }
         }
     }
