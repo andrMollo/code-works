@@ -14,27 +14,28 @@ namespace CodeWorksLibrary
         {
             string userName = string.Empty;
 
-            IEdmVault5 pdmVault = new EdmVault5();
-
             // Try to auto-login to PDM
             try
             {
+                IEdmVault5 pdmVault = new EdmVault5();
+
                 pdmVault.LoginAuto(GlobalConfig.VaultName, 0);
+
+                IEdmUserMgr5 userMgr = (IEdmUserMgr5) pdmVault;
+
+                IEdmUser6 user = (IEdmUser6)userMgr.GetLoggedInUser();
+
+                userName = (string)user.UserData;
+
+                return userName;
             }
             catch
             {
                 Application.ShowMessageBox("Unable to connect to the Vault, the user is set to the Windows login username", CADBooster.SolidDna.SolidWorksMessageBoxIcon.Warning);
                 userName = Environment.UserName;
+
                 return userName;
             }
-
-            IEdmUserMgr5 userMgr = (IEdmUserMgr5) pdmVault;
-
-            IEdmUser6 user = (IEdmUser6)userMgr.GetLoggedInUser();
-
-            userName = (string)user.UserData;
-
-            return userName;
         }
     }
 }
