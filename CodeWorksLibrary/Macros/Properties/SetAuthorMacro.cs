@@ -3,6 +3,7 @@ using CodeWorksLibrary.Helpers;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System.Collections.Generic;
+using static CADBooster.SolidDna.SolidWorksEnvironment;
 
 namespace CodeWorksLibrary
 {

@@ -1,8 +1,10 @@
 ﻿using CADBooster.SolidDna;
+using CodeWorksLibrary.Properties;
 using SolidWorks.Interop.sldworks;
 using System.ComponentModel;
 using Xarial.XCad.Base.Attributes;
 using Xarial.XCad.UI.Commands;
+using Xarial.XCad.Extensions.Attributes;
 
 namespace CodeWorksLibrary
 {
@@ -19,6 +21,7 @@ namespace CodeWorksLibrary
         {
             [Title("Set author")]
             [Description("Write the component author in the custom properties")]
+            [Icon(typeof(Resources), nameof(Resources.SetAuthor))]
             SetAuthorE
         }
 
