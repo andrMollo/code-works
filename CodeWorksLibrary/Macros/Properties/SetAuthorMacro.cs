@@ -34,6 +34,10 @@ namespace CodeWorksLibrary
             // Get the list of selected models
             // If nothing is selected add the active model to the list of model object
             List<ModelDoc2> models = CwSelectionManager.GetSelectedModels(swModel);
+
+            // Get the username connected to PDM
+            string userName = CwPdmManager.GetPdmUserName();
+
         }
     }
 }
