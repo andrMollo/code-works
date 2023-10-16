@@ -1,5 +1,5 @@
 ﻿using CADBooster.SolidDna;
-using System;
+using SolidWorks.Interop.sldworks;
 using System.ComponentModel;
 using Xarial.XCad.Base.Attributes;
 using Xarial.XCad.UI.Commands;
@@ -9,6 +9,7 @@ namespace CodeWorksLibrary
     [System.Runtime.InteropServices.ComVisible(true)]
     public class AddIn : Xarial.XCad.SolidWorks.SwAddInEx
     {
+        #region Enumeration
         /// <summary>
         /// Enumeration that contains the commands to be added to SolidWorks
         /// </summary>
@@ -21,6 +22,13 @@ namespace CodeWorksLibrary
             SetAuthorE
         }
 
+        #endregion
+
+        #region Public properties
+        public static SldWorks swApp {  get; set; }
+
+        #endregion
+
         /// <summary>
         /// Handle the connection to SolidWorks
         /// </summary>
@@ -29,6 +37,8 @@ namespace CodeWorksLibrary
             AddInIntegration.ConnectToActiveSolidWorks(this.Application.Sw.RevisionNumber(), this.AddInId);
 
             CommandManager.AddCommandGroup<CwCommands_e>().CommandClick += OnCommandClick;
+
+            swApp = (SldWorks)this.Application.Sw;
         }
 
         private void OnCommandClick(CwCommands_e spec)
@@ -36,6 +46,7 @@ namespace CodeWorksLibrary
             switch (spec)
             {
                 case CwCommands_e.SetAuthorE:
+                    SetAuthorMacro.SetAuthor();
                     break;
             }
         }
