@@ -11,5 +11,7 @@
         /// The name of the custom property that contains the author of the file
         /// </summary>
         public const string AuthorPropName = "Disegnatore";
+
+        public const string ExportPath = @"C:\_Export";
     }
 }
