@@ -121,6 +121,7 @@
     <Compile Include="Helpers\CwPdmManager.cs" />
     <Compile Include="Helpers\CwPropertyManager.cs" />
     <Compile Include="Helpers\CwSelectionManager.cs" />
+    <Compile Include="Macros\Files\ExportFileMacro.cs" />
     <Compile Include="Macros\Properties\SetAuthorMacro.cs" />
     <Compile Include="Private\GlobalConfigPrivate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
