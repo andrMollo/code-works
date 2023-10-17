@@ -3,8 +3,10 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
-# AM
+# Personal
 .vscode/
+CodeWorksLibrary/AdditionalReferences/
+CodeWorksLibrary/Private/
 
 # User-specific files
 *.rsuser
