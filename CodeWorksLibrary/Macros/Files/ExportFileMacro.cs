@@ -1,5 +1,4 @@
 ﻿using CADBooster.SolidDna;
-using Microsoft.Win32;
 using System.IO;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
 
@@ -12,34 +11,12 @@ namespace CodeWorksLibrary.Macros.Files
         /// </summary>
         public static void ExportFile()
         {
-            /*
-             TODOs:   
-             Check what type of file is open
-             Process drawing
-              Update sheet format for all sheet
-              Export drawing
-                  Export to PDF
-                  Export to DWG
-              Get root model
-              Export model
-             Process model
-              Export model
-                  Export model to STEP
-                  Export model to PNG
-              Check if drawing exists
-              Open drawing
-              Process drawing
-             Export
-              Compose output filename
-              Create directory is not present
-            */
-
             #region Validation
             // Check if there is an open document and if there is it can't be a drawing
 
             if (Application.ActiveModel == null)
             {
-                Application.ShowMessageBox("Open a file", CADBooster.SolidDna.SolidWorksMessageBoxIcon.Stop);
+                Application.ShowMessageBox("Open a file", SolidWorksMessageBoxIcon.Stop);
 
                 return;
             }
@@ -47,13 +24,15 @@ namespace CodeWorksLibrary.Macros.Files
             // Check if the open file has already been saved
             if (Application.ActiveModel.HasBeenSaved == false)
             {
-                Application.ShowMessageBox("Save the file to run the macro", CADBooster.SolidDna.SolidWorksMessageBoxIcon.Stop);
+                Application.ShowMessageBox("Save the file to run the macro", SolidWorksMessageBoxIcon.Stop);
 
                 return;
             }
             #endregion
 
             var swModel = Application.ActiveModel;
+
+            // Check output path, create if necessary
 
             // Get file path
             var filePath = swModel.FilePath;
@@ -64,11 +43,21 @@ namespace CodeWorksLibrary.Macros.Files
             // Check the type of file open
             if (Application.ActiveModel.IsDrawing)
             {
-
+                // Update format
+                // Export drawing
+                    // Export to PDF
+                    // Export to DWG
+                // Get root model
+                // Open model
+                // Export model
+                    // Export STEP
+                    // Export PNG
             }
             else
             {
-
+                // Export model
+                // Open drawing
+                // Export drawing
             }
         }
     }
