@@ -1,4 +1,5 @@
 ﻿using CADBooster.SolidDna;
+using System.Collections.Generic;
 using System.IO;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
 
@@ -30,19 +31,11 @@ namespace CodeWorksLibrary.Macros.Files
             }
             #endregion
 
-            var swModel = Application.ActiveModel;
-
             // Check if output path exists, if not create it
             if (!Directory.Exists(GlobalConfig.ExportPath))
             {
                 Directory.CreateDirectory(GlobalConfig.ExportPath);
             }
-
-            // Get file path
-            var filePath = swModel.FilePath;
-
-            // Get file name
-            var fileName = Path.GetFileNameWithoutExtension(filePath);
 
             // Check the type of file open
             if (Application.ActiveModel.IsDrawing)
@@ -52,8 +45,6 @@ namespace CodeWorksLibrary.Macros.Files
                 // Export drawing
                 ExportDrawing();
 
-                    // Export to PDF
-                    // Export to DWG
                 // Get root model
                 // Open model
                 // Export model
@@ -66,11 +57,76 @@ namespace CodeWorksLibrary.Macros.Files
                 // Open drawing
                 // Export drawing
             }
-        }
+        } 
 
+        /// <summary>
+        /// Export a drawing to PDF
+        /// </summary>
         public static void ExportDrawing()
         {
+            // Export to PDF
+            ExportDrawingAsPdf();
 
+            // Export to DWG
+
+        }
+
+        /// <summary>
+        /// Save the active drawing as PDF
+        /// </summary>
+        public static void ExportDrawingAsPdf()
+        {
+            // Check if the model is a drawing
+            if (Application.ActiveModel?.IsDrawing != true)
+            {
+                Application.ShowMessageBox("Export to PDF allowed only for drawings", SolidWorksMessageBoxIcon.Stop);
+
+                return;
+            }
+
+            // Get the full path for the export
+            var path = ComposeOutFileName("PDF");
+
+            // Check is the export full path is empty or null
+            if (string.IsNullOrEmpty(path))
+            {
+                Application.ShowMessageBox("The export path isn't valid", SolidWorksMessageBoxIcon.Stop);
+
+                return;
+            }
+
+            // Get sheet names
+            var sheetNames = new List<string>((string[])Application.ActiveModel.AsDrawing().GetSheetNames());
+
+            var exportData = new PdfExportData();
+            exportData.SetSheets(PdfSheetsToExport.ExportSpecifiedSheets, sheetNames);
+
+            // Save new file
+            var result = Application.ActiveModel.SaveAs(
+                path,
+                options: SaveAsOptions.Silent | SaveAsOptions.Copy | SaveAsOptions.UpdateInactiveViews,
+                pdfExportData: exportData);
+
+            if (!result.Successful)
+                Application.ShowMessageBox("Failed to export drawing as PDF", SolidWorksMessageBoxIcon.Stop);
+        }
+
+        /// <summary>
+        /// Compose the export path by combining the GlobalConfig.ExportPath, the filename and the PDF extension
+        /// </summary>
+        /// <param name="extension">The file extension to append at the end of the path</param>
+        /// <returns>The string corresponding to the full path where the export will be saved</returns>
+        public static string ComposeOutFileName(string extension)
+        {
+            var swModel = Application.ActiveModel;
+
+            // Get file path
+            var modelPath = swModel.FilePath;
+
+            // Get file name without extension
+            var fileName = Path.GetFileNameWithoutExtension(modelPath);
+
+            return GlobalConfig.ExportPath + $@"\{extension}\" + fileName + "." + extension;
         }
     }
 }
