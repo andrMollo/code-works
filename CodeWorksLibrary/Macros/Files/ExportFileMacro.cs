@@ -32,7 +32,11 @@ namespace CodeWorksLibrary.Macros.Files
 
             var swModel = Application.ActiveModel;
 
-            // Check output path, create if necessary
+            // Check if output path exists, if not create it
+            if (!Directory.Exists(GlobalConfig.ExportPath))
+            {
+                Directory.CreateDirectory(GlobalConfig.ExportPath);
+            }
 
             // Get file path
             var filePath = swModel.FilePath;
@@ -43,8 +47,11 @@ namespace CodeWorksLibrary.Macros.Files
             // Check the type of file open
             if (Application.ActiveModel.IsDrawing)
             {
-                // Update format
+                // TODO Update format
+
                 // Export drawing
+                ExportDrawing();
+
                     // Export to PDF
                     // Export to DWG
                 // Get root model
@@ -59,6 +66,11 @@ namespace CodeWorksLibrary.Macros.Files
                 // Open drawing
                 // Export drawing
             }
+        }
+
+        public static void ExportDrawing()
+        {
+
         }
     }
 }
