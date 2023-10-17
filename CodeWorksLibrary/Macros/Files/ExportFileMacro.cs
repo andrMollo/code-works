@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using static CADBooster.SolidDna.SolidWorksEnvironment;
 
 namespace CodeWorksLibrary.Macros.Files
 {
@@ -36,6 +32,25 @@ namespace CodeWorksLibrary.Macros.Files
               Compose output filename
               Create directory is not present
             */
+
+            #region Validation
+            // Check if there is an open document and if there is it can't be a drawing
+
+            if (Application.ActiveModel == null)
+            {
+                Application.ShowMessageBox("Open a file", CADBooster.SolidDna.SolidWorksMessageBoxIcon.Stop);
+
+                return;
+            }
+
+            // Check if the open file has already been saved
+            if (Application.ActiveModel.HasBeenSaved == false)
+            {
+                Application.ShowMessageBox("Save the file to run the macro", CADBooster.SolidDna.SolidWorksMessageBoxIcon.Stop);
+
+                return;
+            }
+            #endregion
         }
     }
 }
