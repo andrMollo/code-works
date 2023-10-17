@@ -1,4 +1,7 @@
-﻿using static CADBooster.SolidDna.SolidWorksEnvironment;
+﻿using CADBooster.SolidDna;
+using Microsoft.Win32;
+using System.IO;
+using static CADBooster.SolidDna.SolidWorksEnvironment;
 
 namespace CodeWorksLibrary.Macros.Files
 {
@@ -10,13 +13,11 @@ namespace CodeWorksLibrary.Macros.Files
         public static void ExportFile()
         {
             /*
-             TODOs:                         
-             Check if there is an open file 
-             Check if the file is saved     
+             TODOs:   
              Check what type of file is open
              Process drawing
+              Update sheet format for all sheet
               Export drawing
-                  Update sheet format for all sheet
                   Export to PDF
                   Export to DWG
               Get root model
@@ -51,6 +52,24 @@ namespace CodeWorksLibrary.Macros.Files
                 return;
             }
             #endregion
+
+            var swModel = Application.ActiveModel;
+
+            // Get file path
+            var filePath = swModel.FilePath;
+
+            // Get file name
+            var fileName = Path.GetFileNameWithoutExtension(filePath);
+
+            // Check the type of file open
+            if (Application.ActiveModel.IsDrawing)
+            {
+
+            }
+            else
+            {
+
+            }
         }
     }
 }
