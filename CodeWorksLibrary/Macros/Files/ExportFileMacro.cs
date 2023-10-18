@@ -31,12 +31,6 @@ namespace CodeWorksLibrary.Macros.Files
             }
             #endregion
 
-            // Check if output path exists, if not create it
-            if (!Directory.Exists(GlobalConfig.ExportPath))
-            {
-                Directory.CreateDirectory(GlobalConfig.ExportPath);
-            }
-
             // Check the type of file open
             if (Application.ActiveModel.IsDrawing)
             {
@@ -126,11 +120,19 @@ namespace CodeWorksLibrary.Macros.Files
             // Get file name without extension
             var fileName = Path.GetFileNameWithoutExtension(modelPath);
 
-            // Compose the full path to the export file
+            // Compose the path to the folder
             var folderPath = Path.Combine(GlobalConfig.ExportPath, extension);
 
+            // Check if output path exists, if not create it
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+
+            // Compose the filename with the selected extension
             var fileWithExtension = fileName + "." + extension;
 
+            // Compose the full path to the export file
             var fullPath = Path.Combine(folderPath, fileWithExtension);
 
             return fullPath;
