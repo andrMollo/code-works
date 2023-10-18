@@ -112,7 +112,7 @@ namespace CodeWorksLibrary.Macros.Files
         }
 
         /// <summary>
-        /// Compose the export path by combining the GlobalConfig.ExportPath, the filename and the PDF extension
+        /// Compose the export path by combining the GlobalConfig.ExportPath, the filename and the extension
         /// </summary>
         /// <param name="extension">The file extension to append at the end of the path</param>
         /// <returns>The string corresponding to the full path where the export will be saved</returns>
@@ -126,7 +126,15 @@ namespace CodeWorksLibrary.Macros.Files
             // Get file name without extension
             var fileName = Path.GetFileNameWithoutExtension(modelPath);
 
-            return GlobalConfig.ExportPath + $@"\{extension}\" + fileName + "." + extension;
+            // Compose the full path to the export file
+            var folderPath = Path.Combine(GlobalConfig.ExportPath, extension);
+
+            var fileWithExtension = fileName + "." + extension;
+
+            var fullPath = Path.Combine(folderPath, fileWithExtension);
+
+            return fullPath;
+
         }
     }
 }
