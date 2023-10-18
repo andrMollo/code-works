@@ -1,4 +1,4 @@
-﻿// Ignore Spelling: Pdf
+﻿// Ignore Spelling: Pdf Dwg
 
 using CADBooster.SolidDna;
 using System.Collections.Generic;
@@ -64,6 +64,7 @@ namespace CodeWorksLibrary.Macros.Files
             ExportDrawingAsPdf();
 
             // Export to DWG
+            ExportDrawingAsDwg();
 
         }
 
@@ -102,6 +103,41 @@ namespace CodeWorksLibrary.Macros.Files
                 path,
                 options: SaveAsOptions.Silent | SaveAsOptions.Copy | SaveAsOptions.UpdateInactiveViews,
                 pdfExportData: exportData);
+
+            if (!result.Successful)
+                Application.ShowMessageBox("Failed to export drawing as PDF", SolidWorksMessageBoxIcon.Stop);
+        }
+
+        /// <summary>
+        /// Save the active drawing as DWG in a sub-folder "\DWG\"  of GlobalConfig.ExportPath
+        /// </summary>
+        public static void ExportDrawingAsDwg()
+        {
+            // Check if the model is a drawing
+            if (Application.ActiveModel?.IsDrawing != true)
+            {
+                Application.ShowMessageBox("Export to PDF allowed only for drawings", SolidWorksMessageBoxIcon.Stop);
+
+                return;
+            }
+
+            // Get the full path for the export
+            var path = ComposeOutFileName("DWG");
+
+            // Check is the export full path is empty or null
+            if (string.IsNullOrEmpty(path))
+            {
+                Application.ShowMessageBox("The export path isn't valid", SolidWorksMessageBoxIcon.Stop);
+
+                return;
+            }
+
+            // Save new file
+            var result = Application.ActiveModel.SaveAs(
+                path,
+                options: SaveAsOptions.Silent | SaveAsOptions.Copy | SaveAsOptions.UpdateInactiveViews,
+                pdfExportData: null);
+
 
             if (!result.Successful)
                 Application.ShowMessageBox("Failed to export drawing as PDF", SolidWorksMessageBoxIcon.Stop);
