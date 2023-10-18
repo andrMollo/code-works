@@ -1,6 +1,8 @@
-﻿// Ignore Spelling: Pdf Dwg
+﻿// Ignore Spelling: Pdf Dwg drw
 
 using CADBooster.SolidDna;
+using SolidWorks.Interop.sldworks;
+using SolidWorks.Interop.swconst;
 using System.Collections.Generic;
 using System.IO;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
@@ -42,6 +44,8 @@ namespace CodeWorksLibrary.Macros.Files
                 ExportDrawing();
 
                 // Get root model
+
+
                 // Open model
                 // Export model
                     // Export STEP
@@ -175,6 +179,42 @@ namespace CodeWorksLibrary.Macros.Files
 
             return fullPath;
 
+        }
+
+        public static Model GetRootModel(Model model)
+        {
+            DrawingDoc drwModel = model.AsDrawing();
+
+            DrawingView view = (DrawingView)drwModel.GetFirstView();
+
+            while (view != null)
+            {
+                if (view.ViewType != DrawingViewType.DrawingSheet)
+                {
+                    goto firstViewFound_;
+                }
+
+                // TODO Get the next view
+
+            }
+
+            firstViewFound_:
+
+            //Dim firstView As SldWorks.View
+            //Set firstView = drw.GetFirstView
+
+
+            //Do While Not firstView Is Nothing
+            //    If Not firstView.Type = swDrawingViewTypes_e.swDrawingSheet Then
+            //        Exit Do
+            //    End If
+
+            //    Set firstView = firstView.GetNextView
+            //Loop
+
+            //Set rootDoc = firstView.ReferencedDocument
+
+            return null;
         }
     }
 }
