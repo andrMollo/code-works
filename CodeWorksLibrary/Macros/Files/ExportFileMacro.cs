@@ -1,4 +1,6 @@
-﻿using CADBooster.SolidDna;
+﻿// Ignore Spelling: Pdf
+
+using CADBooster.SolidDna;
 using System.Collections.Generic;
 using System.IO;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
@@ -66,7 +68,7 @@ namespace CodeWorksLibrary.Macros.Files
         }
 
         /// <summary>
-        /// Save the active drawing as PDF
+        /// Save the active drawing as PDF in a sub-folder "\PDF\" of GlobalConfig.ExportPath
         /// </summary>
         public static void ExportDrawingAsPdf()
         {
