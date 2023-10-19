@@ -69,13 +69,23 @@ namespace CodeWorksLibrary.Macros.Files
             ExportModelAsStep(model);
 
             // Export PNG with Document Manager API
+            ExportModelAsPng(model);
 
+        }
+
+        /// <summary>
+        /// Export a model to PNG using the Document Manger API
+        /// </summary>
+        /// <param name="model">The model object for the model</param>
+        private static void ExportModelAsPng(Model model)
+        {
+            
         }
 
         /// <summary>
         /// Export a model to STEP
         /// </summary>
-        /// <param name="model"> The model object for the model</param>
+        /// <param name="model">The model object for the model</param>
         public static void ExportModelAsStep(Model model)
         {
             // Check that the model is a part or an assembly
@@ -87,7 +97,7 @@ namespace CodeWorksLibrary.Macros.Files
             }
 
             // Get the full path for the export
-            var path = ComposeOutFileName("STP");
+            var path = ComposeOutFileName("STP", "STEP");
 
             // Check is the export full path is empty or null
             if (string.IsNullOrEmpty(path))
@@ -111,7 +121,7 @@ namespace CodeWorksLibrary.Macros.Files
         /// <summary>
         /// Export a drawing to PDF and DWG
         /// </summary>
-        /// <param name="drwModel"> The Model object of the drawing</param>
+        /// <param name="drwModel">The Model object of the drawing</param>
         public static void ExportDrawing(Model drwModel)
         {
             // Export to PDF
@@ -125,7 +135,7 @@ namespace CodeWorksLibrary.Macros.Files
         /// <summary>
         /// Save the active drawing as PDF in a sub-folder "\PDF\" of GlobalConfig.ExportPath
         /// </summary>
-        /// <param name="model"> The Model object of the drawing</param>
+        /// <param name="model">The Model object of the drawing</param>
         public static void ExportDrawingAsPdf(Model model)
         {
             // Check if the model is a drawing
@@ -166,7 +176,7 @@ namespace CodeWorksLibrary.Macros.Files
         /// <summary>
         /// Save the active drawing as DWG in a sub-folder "\DWG\"  of GlobalConfig.ExportPath
         /// </summary>
-        /// <param name="model"> The Model object of the drawing</param>
+        /// <param name="model">The Model object of the drawing</param>
         public static void ExportDrawingAsDwg(Model model)
         {
             // Check if the model is a drawing
@@ -234,9 +244,44 @@ namespace CodeWorksLibrary.Macros.Files
         }
 
         /// <summary>
+        /// Compose the export path by combining the GlobalConfig.ExportPath, the filename of the active model and the input extension
+        /// </summary>
+        /// <param name="extension">The file extension to append at the end of the path</param>
+        /// <param name="subFolder">The name of the sub-folder to use</param>
+        /// <returns>The string corresponding to the full path where the export will be saved</returns>
+        public static string ComposeOutFileName(string extension, string subFolder)
+        {
+            var swModel = Application.ActiveModel;
+
+            // Get file path
+            var modelPath = swModel.FilePath;
+
+            // Get file name without extension
+            var fileName = Path.GetFileNameWithoutExtension(modelPath);
+
+            // Compose the path to the folder
+            var folderPath = Path.Combine(GlobalConfig.ExportPath, subFolder);
+
+            // Check if output path exists, if not create it
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+
+            // Compose the filename with the selected extension
+            var fileWithExtension = fileName + "." + extension;
+
+            // Compose the full path to the export file
+            var fullPath = Path.Combine(folderPath, fileWithExtension);
+
+            return fullPath;
+
+        }
+
+        /// <summary>
         /// Get the model of the component referenced in the first view of the drawing model
         /// </summary>
-        /// <param name="model"> The Model object of the drawing</param>
+        /// <param name="model">The Model object of the drawing</param>
         /// <returns>The pointer to the Model object</returns>
         public static Model GetRootModel(Model drawingModel)
         {
