@@ -48,10 +48,8 @@ namespace CodeWorksLibrary.Macros.Files
                 // Get the 3d model referenced in the drawing
                 Model swModel = GetRootModel(model);
 
-                // Open model
                 // Export model
-                    // Export STEP
-                    // Export PNG
+                ExportModel(swModel);
             }
             else
             {
@@ -59,10 +57,59 @@ namespace CodeWorksLibrary.Macros.Files
                 // Open drawing
                 // Export drawing
             }
-        } 
+        }
 
         /// <summary>
-        /// Export a drawing to PDF
+        /// Export a 3d model to STEP and PNG (with SolidWorks Document Manager API
+        /// </summary>
+        /// <param name="model"> The model object for the model</param>
+        public static void ExportModel(Model model)
+        {
+            // Export STEP
+            ExportModelAsStep(model);
+
+            // Export PNG with Document Manager API
+
+        }
+
+        /// <summary>
+        /// Export a model to STEP
+        /// </summary>
+        /// <param name="model"> The model object for the model</param>
+        public static void ExportModelAsStep(Model model)
+        {
+            // Check that the model is a part or an assembly
+            if (model?.IsPart != true && model?.IsAssembly != true)
+            {
+                Application.ShowMessageBox("Export to STEP allowed only for parts or assemblies", SolidWorksMessageBoxIcon.Stop);
+
+                return;
+            }
+
+            // Get the full path for the export
+            var path = ComposeOutFileName("STP");
+
+            // Check is the export full path is empty or null
+            if (string.IsNullOrEmpty(path))
+            {
+                Application.ShowMessageBox("The export path isn't valid", SolidWorksMessageBoxIcon.Stop);
+
+                return;
+            }
+
+            // Save new file
+            var result = model.SaveAs(
+                path,
+                options: SaveAsOptions.Silent | SaveAsOptions.Copy | SaveAsOptions.UpdateInactiveViews,
+                pdfExportData: null);
+
+
+            if (!result.Successful)
+                Application.ShowMessageBox("Failed to export drawing as STEP", SolidWorksMessageBoxIcon.Stop);
+        }
+
+        /// <summary>
+        /// Export a drawing to PDF and DWG
         /// </summary>
         /// <param name="drwModel"> The Model object of the drawing</param>
         public static void ExportDrawing(Model drwModel)
