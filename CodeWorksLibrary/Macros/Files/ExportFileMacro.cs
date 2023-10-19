@@ -79,7 +79,7 @@ namespace CodeWorksLibrary.Macros.Files
         /// Export a model to PNG using the Document Manger API
         /// </summary>
         /// <param name="model">The model object for the model</param>
-        private static void ExportModelAsPng(Model model)
+        public static void ExportModelAsPng(Model model)
         {
             SwDMClassFactory classFactory = Activator.CreateInstance(
                 Type.GetTypeFromProgID("SwDocumentMgr.SwDMClassFactory")) as SwDMClassFactory;
@@ -87,12 +87,24 @@ namespace CodeWorksLibrary.Macros.Files
             if (classFactory != null)
             {
                 SwDMApplication dmApp = (SwDMApplication)classFactory.GetApplication(GlobalConfig.DmKey);
-                Console.WriteLine(dmApp.GetLatestSupportedFileVersion());
+
+                SwDmDocumentType docType = GetDmDocumentType(model);
+                
             }
             else
             {
                 throw new NullReferenceException("Document Manager SDK is not installed");
             }
+        }
+
+        /// <summary>
+        /// Get the Document Manager document type
+        /// </summary>
+        /// <param name="model">The model object for the model</param>
+        /// <returns></returns>
+        private static SwDmDocumentType GetDmDocumentType(Model model)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
