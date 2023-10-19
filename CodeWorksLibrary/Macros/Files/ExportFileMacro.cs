@@ -44,7 +44,7 @@ namespace CodeWorksLibrary.Macros.Files
                 ExportDrawing();
 
                 // Get root model
-
+                ModelDoc2 swModel = (ModelDoc2)GetRootModel();
 
                 // Open model
                 // Export model
@@ -181,40 +181,31 @@ namespace CodeWorksLibrary.Macros.Files
 
         }
 
-        public static Model GetRootModel(Model model)
+        /// <summary>
+        /// Get the model of the component referenced in the first view of the drawing model
+        /// </summary>
+        /// <returns>The pointer to the ModelDoc2 object</returns>
+        public static ModelDoc2 GetRootModel()
         {
-            DrawingDoc drwModel = model.AsDrawing();
+            DrawingDoc drwModel = (DrawingDoc)AddIn.swApp.ActiveDoc;
 
-            DrawingView view = (DrawingView)drwModel.GetFirstView();
+            View firstView = (View)drwModel.GetFirstView();
 
-            while (view != null)
+            while (firstView != null)
             {
-                if (view.ViewType != DrawingViewType.DrawingSheet)
+                if (firstView.Type != (int)swDrawingViewTypes_e.swDrawingSheet)
                 {
-                    goto firstViewFound_;
+                    goto exitLoop;
                 }
 
-                // TODO Get the next view
-
+                firstView = (View)firstView.GetNextView();
             }
 
-            firstViewFound_:
+            exitLoop:
 
-            //Dim firstView As SldWorks.View
-            //Set firstView = drw.GetFirstView
+            ModelDoc2 model = (ModelDoc2)firstView.ReferencedDocument;
 
-
-            //Do While Not firstView Is Nothing
-            //    If Not firstView.Type = swDrawingViewTypes_e.swDrawingSheet Then
-            //        Exit Do
-            //    End If
-
-            //    Set firstView = firstView.GetNextView
-            //Loop
-
-            //Set rootDoc = firstView.ReferencedDocument
-
-            return null;
+            return model;
         }
     }
 }
