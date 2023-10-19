@@ -144,6 +144,17 @@
   <ItemGroup>
     <None Include="Resources\SetAuthor.png" />
   </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="SwDocumentMgr">
+      <Guid>{4F55C30F-4CFD-49E9-A1A2-00C161EF4395}</Guid>
+      <VersionMajor>30</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Xarial.XCad.SolidWorks.0.8.0-beta.4843\build\Xarial.XCad.SolidWorks.targets" Condition="Exists('..\packages\Xarial.XCad.SolidWorks.0.8.0-beta.4843\build\Xarial.XCad.SolidWorks.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

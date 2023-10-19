@@ -3,6 +3,8 @@
 using CADBooster.SolidDna;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
+using SwDocumentMgr;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
@@ -79,7 +81,18 @@ namespace CodeWorksLibrary.Macros.Files
         /// <param name="model">The model object for the model</param>
         private static void ExportModelAsPng(Model model)
         {
-            
+            SwDMClassFactory classFactory = Activator.CreateInstance(
+                Type.GetTypeFromProgID("SwDocumentMgr.SwDMClassFactory")) as SwDMClassFactory;
+
+            if (classFactory != null)
+            {
+                SwDMApplication dmApp = (SwDMApplication)classFactory.GetApplication(GlobalConfig.DmKey);
+                Console.WriteLine(dmApp.GetLatestSupportedFileVersion());
+            }
+            else
+            {
+                throw new NullReferenceException("Document Manager SDK is not installed");
+            }
         }
 
         /// <summary>
