@@ -19,7 +19,9 @@ namespace CodeWorksLibrary.Macros.Files
             #region Validation
             // Check if there is an open document and if there is it can't be a drawing
 
-            if (Application.ActiveModel == null)
+            var model = Application.ActiveModel;
+
+            if (model == null)
             {
                 Application.ShowMessageBox("Open a file", SolidWorksMessageBoxIcon.Stop);
 
@@ -27,7 +29,7 @@ namespace CodeWorksLibrary.Macros.Files
             }
 
             // Check if the open file has already been saved
-            if (Application.ActiveModel.HasBeenSaved == false)
+            if (model.HasBeenSaved == false)
             {
                 Application.ShowMessageBox("Save the file to run the macro", SolidWorksMessageBoxIcon.Stop);
 
@@ -36,15 +38,15 @@ namespace CodeWorksLibrary.Macros.Files
             #endregion
 
             // Check the type of file open
-            if (Application.ActiveModel.IsDrawing)
+            if (model.IsDrawing)
             {
                 // TODO Update format
 
                 // Export drawing
                 ExportDrawing();
 
-                // Get root model
-                ModelDoc2 swModel = (ModelDoc2)GetRootModel();
+                // Get the 3d model referenced in the drawing
+                Model swModel = GetRootModel();
 
                 // Open model
                 // Export model
@@ -185,7 +187,7 @@ namespace CodeWorksLibrary.Macros.Files
         /// Get the model of the component referenced in the first view of the drawing model
         /// </summary>
         /// <returns>The pointer to the ModelDoc2 object</returns>
-        public static ModelDoc2 GetRootModel()
+        public static Model GetRootModel()
         {
             DrawingDoc drwModel = (DrawingDoc)AddIn.swApp.ActiveDoc;
 
@@ -201,9 +203,9 @@ namespace CodeWorksLibrary.Macros.Files
                 firstView = (View)firstView.GetNextView();
             }
 
-            exitLoop:
+        exitLoop:
 
-            ModelDoc2 model = (ModelDoc2)firstView.ReferencedDocument;
+            var model = new Model((ModelDoc2)firstView.ReferencedDocument);
 
             return model;
         }
