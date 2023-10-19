@@ -43,10 +43,10 @@ namespace CodeWorksLibrary.Macros.Files
                 // TODO Update format
 
                 // Export drawing
-                ExportDrawing();
+                ExportDrawing(model);
 
                 // Get the 3d model referenced in the drawing
-                Model swModel = GetRootModel();
+                Model swModel = GetRootModel(model);
 
                 // Open model
                 // Export model
@@ -64,23 +64,25 @@ namespace CodeWorksLibrary.Macros.Files
         /// <summary>
         /// Export a drawing to PDF
         /// </summary>
-        public static void ExportDrawing()
+        /// <param name="drwModel"> The Model object of the drawing</param>
+        public static void ExportDrawing(Model drwModel)
         {
             // Export to PDF
-            ExportDrawingAsPdf();
+            ExportDrawingAsPdf(drwModel);
 
             // Export to DWG
-            ExportDrawingAsDwg();
+            ExportDrawingAsDwg(drwModel);
 
         }
 
         /// <summary>
         /// Save the active drawing as PDF in a sub-folder "\PDF\" of GlobalConfig.ExportPath
         /// </summary>
-        public static void ExportDrawingAsPdf()
+        /// <param name="model"> The Model object of the drawing</param>
+        public static void ExportDrawingAsPdf(Model model)
         {
             // Check if the model is a drawing
-            if (Application.ActiveModel?.IsDrawing != true)
+            if (model?.IsDrawing != true)
             {
                 Application.ShowMessageBox("Export to PDF allowed only for drawings", SolidWorksMessageBoxIcon.Stop);
 
@@ -99,13 +101,13 @@ namespace CodeWorksLibrary.Macros.Files
             }
 
             // Get sheet names
-            var sheetNames = new List<string>((string[])Application.ActiveModel.AsDrawing().GetSheetNames());
+            var sheetNames = new List<string>((string[])model.AsDrawing().GetSheetNames());
 
             var exportData = new PdfExportData();
             exportData.SetSheets(PdfSheetsToExport.ExportSpecifiedSheets, sheetNames);
 
             // Save new file
-            var result = Application.ActiveModel.SaveAs(
+            var result = model.SaveAs(
                 path,
                 options: SaveAsOptions.Silent | SaveAsOptions.Copy | SaveAsOptions.UpdateInactiveViews,
                 pdfExportData: exportData);
@@ -117,10 +119,11 @@ namespace CodeWorksLibrary.Macros.Files
         /// <summary>
         /// Save the active drawing as DWG in a sub-folder "\DWG\"  of GlobalConfig.ExportPath
         /// </summary>
-        public static void ExportDrawingAsDwg()
+        /// <param name="model"> The Model object of the drawing</param>
+        public static void ExportDrawingAsDwg(Model model)
         {
             // Check if the model is a drawing
-            if (Application.ActiveModel?.IsDrawing != true)
+            if (model?.IsDrawing != true)
             {
                 Application.ShowMessageBox("Export to PDF allowed only for drawings", SolidWorksMessageBoxIcon.Stop);
 
@@ -139,7 +142,7 @@ namespace CodeWorksLibrary.Macros.Files
             }
 
             // Save new file
-            var result = Application.ActiveModel.SaveAs(
+            var result = model.SaveAs(
                 path,
                 options: SaveAsOptions.Silent | SaveAsOptions.Copy | SaveAsOptions.UpdateInactiveViews,
                 pdfExportData: null);
@@ -150,7 +153,7 @@ namespace CodeWorksLibrary.Macros.Files
         }
 
         /// <summary>
-        /// Compose the export path by combining the GlobalConfig.ExportPath, the filename and the extension
+        /// Compose the export path by combining the GlobalConfig.ExportPath, the filename of the active model and the input extension
         /// </summary>
         /// <param name="extension">The file extension to append at the end of the path</param>
         /// <returns>The string corresponding to the full path where the export will be saved</returns>
@@ -186,13 +189,18 @@ namespace CodeWorksLibrary.Macros.Files
         /// <summary>
         /// Get the model of the component referenced in the first view of the drawing model
         /// </summary>
-        /// <returns>The pointer to the ModelDoc2 object</returns>
-        public static Model GetRootModel()
+        /// <param name="model"> The Model object of the drawing</param>
+        /// <returns>The pointer to the Model object</returns>
+        public static Model GetRootModel(Model drawingModel)
         {
-            DrawingDoc drwModel = (DrawingDoc)AddIn.swApp.ActiveDoc;
+            // Cast the SolidDNA model to a DrawingDoc object from the SolidWorks API
+            DrawingDoc drwModel = drawingModel.AsDrawing();
 
+            // Get the first view of the model
+            // Be careful it can be a sheet
             View firstView = (View)drwModel.GetFirstView();
 
+            // Loop through all the view to get the first one that is not a sheet
             while (firstView != null)
             {
                 if (firstView.Type != (int)swDrawingViewTypes_e.swDrawingSheet)
