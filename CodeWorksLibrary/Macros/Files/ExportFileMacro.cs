@@ -1,11 +1,13 @@
 ﻿// Ignore Spelling: Pdf Dwg drw
 
 using CADBooster.SolidDna;
+using CodeWorksLibrary.Helpers;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using SwDocumentMgr;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
 
@@ -108,7 +110,18 @@ namespace CodeWorksLibrary.Macros.Files
 
                     if (previewErr != SwDmPreviewError.swDmPreviewErrorNoPreview)
                     {
-                        
+                        // Convert preview object to image
+                        Image imgPreview = PictureDispConverter.Convert(previewObject);
+
+                        if (previewErr == SwDmPreviewError.swDmPreviewErrorNone)
+                        {
+                            // Get the output path for the preview
+                            var path = ComposeOutFileName("png", "IMG");
+
+                            // Save preview as PNG
+                            imgPreview.Save(path, System.Drawing.Imaging.ImageFormat.Png);
+                            
+                        }
                     }
                 }
                 
