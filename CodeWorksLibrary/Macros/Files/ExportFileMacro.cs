@@ -88,15 +88,28 @@ namespace CodeWorksLibrary.Macros.Files
             {
                 SwDMApplication dmApp = (SwDMApplication)classFactory.GetApplication(GlobalConfig.DmKey.Trim('"'));
 
+                // Get the document manager document type
                 SwDmDocumentType docType = GetDmDocumentType(model);
 
                 SwDmDocumentOpenError error = new SwDmDocumentOpenError();
-
                 var swDmDoc = (SwDMDocument)dmApp.GetDocument(model.FilePath, docType, true, out error);
 
                 if (swDmDoc != null)
                 {
-                    Application.ShowMessageBox("Open file with Document Manager API successful", SolidWorksMessageBoxIcon.Stop);
+                    // Get the name of the active configuration
+                    var activeConfigName = swDmDoc.ConfigurationManager.GetActiveConfigurationName();
+
+                    // Get the active configuration
+                    var activeConfig = swDmDoc.ConfigurationManager.GetConfigurationByName(activeConfigName);
+
+                    // Get the preview object
+                    var previewErr = new SwDmPreviewError();
+                    var previewObject = activeConfig.GetPreviewBitmap(out previewErr);
+
+                    if (previewErr != SwDmPreviewError.swDmPreviewErrorNoPreview)
+                    {
+                        
+                    }
                 }
                 
             }
