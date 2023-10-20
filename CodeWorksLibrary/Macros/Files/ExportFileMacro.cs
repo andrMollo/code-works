@@ -86,9 +86,18 @@ namespace CodeWorksLibrary.Macros.Files
 
             if (classFactory != null)
             {
-                SwDMApplication dmApp = (SwDMApplication)classFactory.GetApplication(GlobalConfig.DmKey);
+                SwDMApplication dmApp = (SwDMApplication)classFactory.GetApplication(GlobalConfig.DmKey.Trim('"'));
 
                 SwDmDocumentType docType = GetDmDocumentType(model);
+
+                SwDmDocumentOpenError error = new SwDmDocumentOpenError();
+
+                var swDmDoc = (SwDMDocument)dmApp.GetDocument(model.FilePath, docType, true, out error);
+
+                if (swDmDoc != null)
+                {
+                    Application.ShowMessageBox("Open file with Document Manager API successful", SolidWorksMessageBoxIcon.Stop);
+                }
                 
             }
             else
