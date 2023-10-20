@@ -104,7 +104,28 @@ namespace CodeWorksLibrary.Macros.Files
         /// <returns></returns>
         private static SwDmDocumentType GetDmDocumentType(Model model)
         {
-            throw new NotImplementedException();
+            // Get the model file extension
+            var modelExt = Path.GetExtension(model.FilePath).ToUpper();
+
+            SwDmDocumentType dmDocType = new SwDmDocumentType();
+
+            switch (modelExt)
+            {
+                case ".SLDPRT":
+                    dmDocType = SwDmDocumentType.swDmDocumentPart;
+                    break;
+                case ".SLDASM":
+                    dmDocType = SwDmDocumentType.swDmDocumentAssembly;
+                    break;
+                case ".SLDDRW":
+                    dmDocType = SwDmDocumentType.swDmDocumentDrawing;
+                    break;
+                default:
+                    Application.ShowMessageBox("The document ha no valid SolidWorks file extension", SolidWorksMessageBoxIcon.Stop);
+                    break;
+            }
+
+            return dmDocType;
         }
 
         /// <summary>
