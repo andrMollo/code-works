@@ -1,11 +1,10 @@
 ﻿using CADBooster.SolidDna;
+using CodeWorksLibrary.Macros.Files;
 using CodeWorksLibrary.Properties;
 using SolidWorks.Interop.sldworks;
 using System.ComponentModel;
 using Xarial.XCad.Base.Attributes;
 using Xarial.XCad.UI.Commands;
-using Xarial.XCad.Extensions.Attributes;
-using CodeWorksLibrary.Macros.Files;
 
 namespace CodeWorksLibrary
 {
@@ -26,6 +25,7 @@ namespace CodeWorksLibrary
             SetAuthorE,
             [Title("Export file")]
             [Description("Export the current file in different formats")]
+            [Icon(typeof (Resources), nameof(Resources.ExportFile))]
             ExportFileE
         }
 
