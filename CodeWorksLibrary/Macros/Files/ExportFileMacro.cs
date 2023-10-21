@@ -79,6 +79,10 @@ namespace CodeWorksLibrary.Macros.Files
                 }
 
                 // Export drawing
+                ExportDrawing(drwModel);
+
+                // Close the model
+                Application.CloseFile(drwPath);
 
             }
         }
