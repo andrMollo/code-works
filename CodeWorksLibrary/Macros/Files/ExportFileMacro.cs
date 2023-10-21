@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
 
 namespace CodeWorksLibrary.Macros.Files
@@ -58,8 +59,27 @@ namespace CodeWorksLibrary.Macros.Files
             else
             {
                 // Export model
-                // Open drawing
+                ExportModel(model);
+
+                // * Open drawing
+                // Assumes drawing has the same name of the model and is in the same folder
+                var drwPath = Path.ChangeExtension(model.FilePath, "SLDDRW");
+
+                // Get the list of open model
+                List<Model> models = Application.OpenDocuments().ToList();
+
+                // Open the drawing model
+                var drwModel = Application.OpenFile(drwPath, options: OpenDocumentOptions.Silent);
+
+                // If the drawing model is already open activate it
+                if (models.Contains(drwModel) != true)
+                {
+                    int activeErr = 0;
+                    Application.UnsafeObject.IActivateDoc3(Path.GetFileName(drwPath), true, activeErr);
+                }
+
                 // Export drawing
+
             }
         }
 
@@ -191,7 +211,7 @@ namespace CodeWorksLibrary.Macros.Files
             // Save new file
             var result = model.SaveAs(
                 path,
-                options: SaveAsOptions.Silent | SaveAsOptions.Copy | SaveAsOptions.UpdateInactiveViews,
+                options: SaveAsOptions.Silent | SaveAsOptions.Copy,
                 pdfExportData: null);
 
 
