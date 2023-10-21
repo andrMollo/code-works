@@ -61,31 +61,33 @@ namespace CodeWorksLibrary.Macros.Files
                 // Export model
                 ExportModel(model);
 
-                // Open drawing
-
                 // Assumes drawing has the same name of the model and is in the same folder
                 var drwPath = Path.ChangeExtension(model.FilePath, "SLDDRW");
 
-                // Get the list of open model
-                List<Model> models = Application.OpenDocuments().ToList();
-
-                // Open the drawing model
-                var drwModel = Application.OpenFile(drwPath, options: OpenDocumentOptions.Silent);
-
-                if (drwModel != null)
+                // Check if file exist
+                if (File.Exists(drwPath))
                 {
-                    // If the drawing model is already open activate it
-                    if (models.Contains(drwModel) != true)
+                    // Open the drawing model
+                    var drwModel = Application.OpenFile(drwPath, options: OpenDocumentOptions.Silent);
+
+                    if (drwModel != null)
                     {
-                        int activeErr = 0;
-                        Application.UnsafeObject.IActivateDoc3(Path.GetFileName(drwPath), true, activeErr);
-                    }
+                        // Get the list of open model
+                        List<Model> models = Application.OpenDocuments().ToList();
 
-                    // Export drawing
-                    ExportDrawing(drwModel);
+                        // If the drawing model is already open activate it
+                        if (models.Contains(drwModel) != true)
+                        {
+                            int activeErr = 0;
+                            Application.UnsafeObject.IActivateDoc3(Path.GetFileName(drwPath), true, activeErr);
+                        }
 
-                    // Close the model
-                    Application.CloseFile(drwPath);                    
+                        // Export drawing
+                        ExportDrawing(drwModel);
+
+                        // Close the model
+                        Application.CloseFile(drwPath);                    
+                    }                    
                 }
             }
         }
