@@ -6,7 +6,8 @@ CodeWorks uses the [xCAD.NET](https://xcad.xarial.com/) framework for its implem
 
 CodeWorks can help you in different areas:
 
-* [SolidWorks custom properties](/CodeWorksLibrary/Macros/Properties/README.md)
+* [Managing SolidWorks custom properties](/CodeWorksLibrary/Macros/Properties/README.md)
+* [Exporting files](/CodeWorksLibrary/Macros/Export/README.md)
 
 ## References
 
