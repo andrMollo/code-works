@@ -1,6 +1,6 @@
 # Custom property macros
 
-A collection of macro to manage SolidWorks custom properties.
+A collection of methods to manage SolidWorks custom properties.
 
 ## Set author
 
