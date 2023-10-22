@@ -22,8 +22,8 @@ namespace CodeWorksLibrary.Macros.Files
         public static void ExportFile()
         {
             #region Validation
-            // Check if there is an open document and if there is it can't be a drawing
 
+            // Check if there is an open document and if there is it can't be a drawing
             var model = Application.ActiveModel;
 
             if (model == null)
