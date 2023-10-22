@@ -1,4 +1,5 @@
 ﻿using CADBooster.SolidDna;
+using CodeWorksLibrary.Macros.Drawings;
 using CodeWorksLibrary.Macros.Files;
 using CodeWorksLibrary.Properties;
 using SolidWorks.Interop.sldworks;
@@ -26,7 +27,10 @@ namespace CodeWorksLibrary
             [Title("Export file")]
             [Description("Export the current file in different formats")]
             [Icon(typeof (Resources), nameof(Resources.ExportFile))]
-            ExportFileE
+            ExportFileE,
+            [Title("Update sheet format")]
+            [Description("Update sheet format for all the sheet of the active document")]
+            UpdateFormatE
         }
 
         #endregion
@@ -62,6 +66,9 @@ namespace CodeWorksLibrary
                     break;
                 case CwCommands_e.ExportFileE:
                     ExportFileMacro.ExportFile();
+                    break;
+                case CwCommands_e.UpdateFormatE:
+                    UpdateFormatMacro.UpdateFormat();
                     break;
             }
         }

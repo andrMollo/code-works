@@ -124,6 +124,7 @@
     <Compile Include="Helpers\PictureDispConverter.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Macros\Drawings\UpdateFormatMacro.cs" />
     <Compile Include="Macros\Export\ExportFileMacro.cs" />
     <Compile Include="Macros\Properties\SetAuthorMacro.cs" />
     <Compile Include="Private\GlobalConfigPrivate.cs" />

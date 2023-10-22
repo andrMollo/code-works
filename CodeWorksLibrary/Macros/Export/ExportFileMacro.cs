@@ -166,7 +166,7 @@ namespace CodeWorksLibrary.Macros.Files
         /// </summary>
         /// <param name="model">The model object for the model</param>
         /// <returns></returns>
-        private static SwDmDocumentType GetDmDocumentType(Model model)
+        public static SwDmDocumentType GetDmDocumentType(Model model)
         {
             // Get the model file extension
             var modelExt = Path.GetExtension(model.FilePath).ToUpper();
