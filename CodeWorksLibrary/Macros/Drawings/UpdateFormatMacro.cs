@@ -1,4 +1,8 @@
-﻿namespace CodeWorksLibrary.Macros.Drawings
+﻿using CADBooster.SolidDna;
+using static CADBooster.SolidDna.SolidWorksEnvironment;
+
+
+namespace CodeWorksLibrary.Macros.Drawings
 {
     internal class UpdateFormatMacro
     {
@@ -7,7 +11,41 @@
         /// </summary>
         public static void UpdateFormat()
         {
+            #region Validation
 
+            // Check if there is an open document and if there is it can't be a drawing
+            var model = Application.ActiveModel;
+
+            if (model == null)
+            {
+                Application.ShowMessageBox("Open a file", SolidWorksMessageBoxIcon.Stop);
+
+                return;
+            }
+
+            // Check if the open file has already been saved
+            if (model.HasBeenSaved == false)
+            {
+                Application.ShowMessageBox("Save the file to run the macro", SolidWorksMessageBoxIcon.Stop);
+
+                return;
+            }
+
+            if (model.IsDrawing != true)
+            {
+                Application.ShowMessageBox("Open a drawing to run the macro", SolidWorksMessageBoxIcon.Stop);
+            }
+            #endregion
+
+            // Get the names of the sheets of the active drawing
+            string[] sheetNames = model.Drawing.SheetNames();
+
+            for (int i = 0; i < sheetNames.Length; i++)
+            {
+                // Get the format for the i-th sheet
+
+                // Replace with new one
+            }
         }
     }
 }
