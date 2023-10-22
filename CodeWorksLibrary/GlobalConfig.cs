@@ -21,5 +21,10 @@
         /// The license key for the Document Manager API
         /// </summary>
         public const string DmKey = GlobalConfigPrivate.MyDmLicense;
+
+        /// <summary>
+        /// The path to the text file containing the map for the replacing of the sheet format
+        /// </summary>
+        public const string SheetFormatMapPath = GlobalConfigPrivate.MyReplaceMapPath;
     }
 }

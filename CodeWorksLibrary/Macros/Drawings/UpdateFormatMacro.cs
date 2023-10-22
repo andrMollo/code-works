@@ -1,5 +1,7 @@
 ﻿using CADBooster.SolidDna;
 using SolidWorks.Interop.sldworks;
+using System;
+using System.IO;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
 
 
@@ -49,14 +51,24 @@ namespace CodeWorksLibrary.Macros.Drawings
                 var swSheet = swDraw.get_Sheet(sheetNames[i]);
 
                 // Get the format for the i-th sheet
-                var sheetFormat = swSheet.GetSheetFormatName();
+                var currentSheetFormatName = swSheet.GetSheetFormatName();
 
                 // Get the name of the new format
-
+                var newSheetFormatName = GetReplaceSheetFormat(swSheet);
 
                 // Replace with new one
 
             }
+        }
+
+        private static string GetReplaceSheetFormat(Sheet swSheet)
+        {
+            // Read replace map
+            string[] replaceMap = File.ReadAllLines(GlobalConfig.SheetFormatMapPath);
+
+            string targetTemplateName = "";
+
+            return targetTemplateName;
         }
     }
 }
