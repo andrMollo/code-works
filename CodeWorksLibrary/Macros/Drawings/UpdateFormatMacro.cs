@@ -1,4 +1,5 @@
 ﻿using CADBooster.SolidDna;
+using SolidWorks.Interop.sldworks;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
 
 
@@ -37,14 +38,24 @@ namespace CodeWorksLibrary.Macros.Drawings
             }
             #endregion
 
+            DrawingDoc swDraw = model.AsDrawing();
+
             // Get the names of the sheets of the active drawing
             string[] sheetNames = model.Drawing.SheetNames();
 
             for (int i = 0; i < sheetNames.Length; i++)
             {
+                // Get the -th sheet
+                var swSheet = swDraw.get_Sheet(sheetNames[i]);
+
                 // Get the format for the i-th sheet
+                var sheetFormat = swSheet.GetSheetFormatName();
+
+                // Get the name of the new format
+
 
                 // Replace with new one
+
             }
         }
     }
