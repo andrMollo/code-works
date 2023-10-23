@@ -47,17 +47,56 @@ namespace CodeWorksLibrary.Macros.Drawings
 
             for (int i = 0; i < sheetNames.Length; i++)
             {
-                // Get the -th sheet
+                // Get the i-th sheet
                 var swSheet = swDraw.get_Sheet(sheetNames[i]);
 
                 // Get the format for the i-th sheet
                 var currentSheetFormatName = swSheet.GetSheetFormatName();
 
                 // Get the name of the new format
-                var newSheetFormatName = GetReplaceSheetFormat(swSheet);
+                var newSheetFormatPath = GetReplaceSheetFormat(swSheet);
+
+                // Get the full path of the current format
+                var currentSheetFormatPath = swSheet.GetTemplateName();
+
+                // Activate i-th sheet
+                swDraw.ActivateSheet(sheetNames[i]);
 
                 // Replace with new one
+                ReplaceSheetFormat(swDraw, swSheet, newSheetFormatPath);
+            }
+        }
 
+        /// <summary>
+        /// Replace the sheet format for the current sheet
+        /// </summary>
+        /// <param name="swDraw">The instance of the drawing doc</param>
+        /// <param name="swSheet">The instance of the current sheet</param>
+        /// <param name="newSheetFormatPath">The path to the new sheet format</param>
+        private static void ReplaceSheetFormat(DrawingDoc swDraw, Sheet swSheet, string newSheetFormatPath)
+        {
+            // Get the properties of the current sheet
+            var vProps = (double[])swSheet.GetProperties();
+
+            // Assign sheet properties
+            var paperSize = (int)vProps[0];
+            var templateType = (int)vProps[1];
+            var scale1 = (double)vProps[2];
+            var scale2 = (double)vProps[3];
+            var firstAngle = (bool)Convert.ToBoolean(vProps[4]);
+            var width = (double)vProps[5];
+            var height = (double)vProps[6];
+
+            var custPrpView = swSheet.CustomPropertyView;
+
+            // Set new sheet format
+            try
+            {
+                var setupResult = swDraw.SetupSheet5(swSheet.GetName(), paperSize, templateType, scale1, scale2, firstAngle, newSheetFormatPath, width, height, custPrpView, true);
+            }
+            catch (Exception e)
+            {
+                Application.ShowMessageBox(e.Message, SolidWorksMessageBoxIcon.Stop);
             }
         }
 
@@ -92,8 +131,6 @@ namespace CodeWorksLibrary.Macros.Drawings
                 {
                     // Assign the path of the new sheet format
                     targetTemplatePath = mapParameters[2];
-
-                    Application.ShowMessageBox("Matching size found: " + mapParameters[2], SolidWorksMessageBoxIcon.Information);
                 }
             }
 
