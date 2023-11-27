@@ -33,8 +33,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CADBooster.SolidDna, Version=2.8.0.0, Culture=neutral, PublicKeyToken=f23bab2866e226c4, processorArchitecture=MSIL">
-      <HintPath>..\packages\CADBooster.SolidDna.2.8.0\lib\net48\CADBooster.SolidDna.dll</HintPath>
+    <Reference Include="CADBooster.SolidDna, Version=2.9.0.0, Culture=neutral, PublicKeyToken=f23bab2866e226c4, processorArchitecture=MSIL">
+      <HintPath>..\packages\CADBooster.SolidDna.2.9.0\lib\net48\CADBooster.SolidDna.dll</HintPath>
     </Reference>
     <Reference Include="EPDM.Interop.epdm">
       <HintPath>AdditionalReferences\EPDM.Interop.epdm.dll</HintPath>
