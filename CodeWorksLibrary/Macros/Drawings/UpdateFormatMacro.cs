@@ -44,6 +44,10 @@ namespace CodeWorksLibrary.Macros.Drawings
 
             DrawingDoc swDraw = model.AsDrawing();
 
+            // Get the name of the active sheet
+            var sheet = (Sheet)swDraw.GetCurrentSheet();
+            var activeSheetName = sheet.GetName();
+
             // Disable updates to the graphic view
             ModelView modelView = (ModelView)model.UnsafeObject.ActiveView;
             modelView.EnableGraphicsUpdate = false;
@@ -77,6 +81,9 @@ namespace CodeWorksLibrary.Macros.Drawings
                     ReplaceSheetFormat(swDraw, swSheet, newSheetFormatPath);                    
                 }
             }
+
+            // Activate the original sheet
+            swDraw.ActivateSheet(activeSheetName);
 
             // Enable update to the graphic view
             modelView.EnableGraphicsUpdate = true;
