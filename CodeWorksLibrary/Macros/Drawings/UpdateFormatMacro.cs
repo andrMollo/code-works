@@ -44,9 +44,13 @@ namespace CodeWorksLibrary.Macros.Drawings
 
             DrawingDoc swDraw = model.AsDrawing();
 
+            // Disable updates to the graphic view
+            ModelView modelView = (ModelView)model.UnsafeObject.ActiveView;
+            modelView.EnableGraphicsUpdate = false;
+
             string[] sheetNames = new string[1];
 
-            // Get all names of all the sheets
+            // Get the names of all the sheets
             if (updateCurrent == false)
             {
                 // Get the names of the sheets of the active drawing
@@ -95,6 +99,9 @@ namespace CodeWorksLibrary.Macros.Drawings
                     ReplaceSheetFormat(swDraw, swSheet, newSheetFormatPath);                    
                 }
             }
+
+            // Enable update to the graphic view
+            modelView.EnableGraphicsUpdate = true;
         }
 
         /// <summary>
