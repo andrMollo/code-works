@@ -2,6 +2,7 @@
 using SolidWorks.Interop.sldworks;
 using System;
 using System.IO;
+using System.Windows.Documents;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
 
 
@@ -50,21 +51,53 @@ namespace CodeWorksLibrary.Macros.Drawings
                 // Get the i-th sheet
                 var swSheet = swDraw.get_Sheet(sheetNames[i]);
 
-                // Get the format for the i-th sheet
-                var currentSheetFormatName = swSheet.GetSheetFormatName();
+                var containsFlatPattern = CheckFlatPattern(swSheet);
 
-                // Get the name of the new format
-                var newSheetFormatPath = GetReplaceSheetFormat(swSheet);
+                if (containsFlatPattern == false)
+                {
+                    // Get the format for the i-th sheet
+                    var currentSheetFormatName = swSheet.GetSheetFormatName();
 
-                // Get the full path of the current format
-                var currentSheetFormatPath = swSheet.GetTemplateName();
+                    // Get the name of the new format
+                    var newSheetFormatPath = GetReplaceSheetFormat(swSheet);
 
-                // Activate i-th sheet
-                swDraw.ActivateSheet(sheetNames[i]);
+                    // Get the full path of the current format
+                    var currentSheetFormatPath = swSheet.GetTemplateName();
 
-                // Replace with new one
-                ReplaceSheetFormat(swDraw, swSheet, newSheetFormatPath);
+                    // Activate i-th sheet
+                    swDraw.ActivateSheet(sheetNames[i]);
+
+                    // Replace with new one
+                    ReplaceSheetFormat(swDraw, swSheet, newSheetFormatPath);                    
+                }
             }
+        }
+
+        /// <summary>
+        /// Check if the current sheet contains only one view that reference the flat pattern configuration
+        /// </summary>
+        /// <param name="sheet">The pointer to the current sheet object</param>
+        /// <returns>Return true if the current sheet contains the flat pattern view</returns>
+        private static bool CheckFlatPattern(Sheet sheet)
+        {
+            var views = (object[])sheet.GetViews();
+
+            if ( views != null )
+            {
+                if ( views.Length == 1)
+                {
+                    var view = (View)views[0];
+
+                    var refConfiguration = view.ReferencedConfiguration;
+
+                    if ( refConfiguration != null && refConfiguration == GlobalConfig.FlatPatternConfigurationName)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         /// <summary>
