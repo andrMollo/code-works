@@ -4,6 +4,8 @@ A collection of methods to export SolidWorks files.
 
 ## Export file
 
+![Export file icon](../../Resources/ExportFile.png "Export file")
+
 Export the open file to different formats. The root output folder is defined in `GlobalConfig.ExportPath`, a set of sub-folder is created based on the output format (PDF, DWG...). The output file name is equal to the SolidWorks one.
 
 If the open file is a drawing it's saved as DWG and PDF, then the referenced model is exported to STEP and it's preview to PNG.
