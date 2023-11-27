@@ -48,30 +48,8 @@ namespace CodeWorksLibrary.Macros.Drawings
             ModelView modelView = (ModelView)model.UnsafeObject.ActiveView;
             modelView.EnableGraphicsUpdate = false;
 
-            string[] sheetNames = new string[1];
-
-            // Get the names of all the sheets
-            if (updateCurrent == false)
-            {
-                // Get the names of the sheets of the active drawing
-                string[] vSheetNames = model.Drawing.SheetNames();
-
-                var sheetCount = vSheetNames.Length;
-
-                // Resize the string array
-                Array.Resize(ref sheetNames, sheetCount);
-
-                // Assign the names of the sheet to the string array
-                sheetNames = vSheetNames;
-            }
-            // Get the name of the active sheet
-            else if (updateCurrent == true)
-            {
-                var sheet = (Sheet)swDraw.GetCurrentSheet();
-
-                sheetNames[0] = (string)sheet.GetName();
-            }
-                
+            // Get the names of the sheet to update
+            string[] sheetNames = GetDrawingSheetName(swDraw, updateCurrent);
 
             for (int i = 0; i < sheetNames.Length; i++)
             {
@@ -102,6 +80,35 @@ namespace CodeWorksLibrary.Macros.Drawings
 
             // Enable update to the graphic view
             modelView.EnableGraphicsUpdate = true;
+        }
+
+        private static string[] GetDrawingSheetName(DrawingDoc swDraw, bool onlyActive)
+        {
+            string[] sheetNames = new string[1];
+
+            // Get the names of all the sheets
+            if (onlyActive == false)
+            {
+                // Get the names of the sheets of the active drawing
+                var vSheetNames = (string[])swDraw.GetSheetNames();
+
+                var sheetCount = vSheetNames.Length;
+
+                // Resize the string array
+                Array.Resize(ref sheetNames, sheetCount);
+
+                // Assign the names of the sheet to the string array
+                sheetNames = vSheetNames;
+            }
+            // Get the name of the active sheet
+            else if (onlyActive == true)
+            {
+                var sheet = (Sheet)swDraw.GetCurrentSheet();
+
+                sheetNames[0] = (string)sheet.GetName();
+            }
+
+            return sheetNames;
         }
 
         /// <summary>
