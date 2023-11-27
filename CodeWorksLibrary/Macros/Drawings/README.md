@@ -2,9 +2,11 @@
 
 A collection of methods for SolidWorks drawings.
 
-## Change format
+## Update format
 
-This VBA macro replaces sheet formats (*.slddrt files) in all sheets of an active drawing document according to specified mapping rules.
+![Update format icon](../../Resources/ChangeFormat.png "Update format")
+
+This method replaces sheet formats (*.slddrt files) in all sheets of an active drawing document according to specified mapping rules.
 
 Configure the map by changing the `REPLACE_MAP` text file defined in `REPLACE_MAP_PATH`. This file contains instructions on replacing the sheets based on the size or sheet format file of the input sheet.
 
@@ -44,9 +46,11 @@ REPLACE_MAP = Array("11|*|D:\Formats\format1.slddrt", "*|D:\OldFormats\oldformat
 
 You can specify as many rules as required. Rules are executed in the specified order. If none of the rules match the input - macro throws an error.
 
-This macro do not update the format if:
+This macro do not update the format if the sheet contains only one view that refers the configuration specified in `FLAT_CONFIGURATION`.
 
-* the sheet contains only one view that refers the configuration specified in `FLAT_CONFIGURATION`
+## Upgrade format
+
+This method is similar to the previous one, but it doesn't change the shett format if the current sheet format name and the new one are the same.
 
 ### Prerequisites
 
