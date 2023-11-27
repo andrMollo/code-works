@@ -2,7 +2,6 @@
 using SolidWorks.Interop.sldworks;
 using System;
 using System.IO;
-using System.Windows.Documents;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
 
 
@@ -12,6 +11,7 @@ namespace CodeWorksLibrary.Macros.Drawings
     {
         /// <summary>
         /// Update the sheet format on all sheets of the active drawings
+        /// Sheets with only one view containing a flat pattern configuration are not updated
         /// </summary>
         public static void UpdateFormat()
         {
@@ -51,6 +51,7 @@ namespace CodeWorksLibrary.Macros.Drawings
                 // Get the i-th sheet
                 var swSheet = swDraw.get_Sheet(sheetNames[i]);
 
+                // Check if the current sheet contains a flat pattern configuration
                 var containsFlatPattern = CheckFlatPattern(swSheet);
 
                 if (containsFlatPattern == false)
