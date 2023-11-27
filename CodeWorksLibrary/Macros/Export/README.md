@@ -1,6 +1,6 @@
 # Export macros
 
-A collection of methodS to export SolidWorks files
+A collection of methods to export SolidWorks files.
 
 ## Export file
 
@@ -8,7 +8,7 @@ Export the open file to different formats. The root output folder is defined in 
 
 If the open file is a drawing it's saved as DWG and PDF, then the referenced model is exported to STEP and it's preview to PNG.
 
-It the open file is a model it' saved to STEP and it's preview to PNG. the method then tries to one a drawing document with the same name as the model in the same folder; if a drawing is found then it's exported as PDF and DWG.
+It the open file is a model it's saved to STEP and it's preview to PNG. the method then tries to one a drawing document with the same name as the model in the same folder; if a drawing is found then it's exported as PDF and DWG.
 
 ### Prerequisites
 
