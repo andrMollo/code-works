@@ -10,6 +10,8 @@ using Xarial.XCad.UI.Commands;
 namespace CodeWorksLibrary
 {
     [System.Runtime.InteropServices.ComVisible(true)]
+    [Title("CodeWorks")]
+    [Description("A collection of macros for SolidWorks")]
     public class AddIn : Xarial.XCad.SolidWorks.SwAddInEx
     {
         #region Enumeration
