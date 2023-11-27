@@ -26,10 +26,11 @@ namespace CodeWorksLibrary
             SetAuthorE,
             [Title("Export file")]
             [Description("Export the current file in different formats")]
-            [Icon(typeof (Resources), nameof(Resources.ExportFile))]
+            [Icon(typeof(Resources), nameof(Resources.ExportFile))]
             ExportFileE,
             [Title("Update sheet format")]
             [Description("Update sheet format for all the sheet of the active document")]
+            [Icon(typeof(Resources), nameof(Resources.ChangeFormat))]
             UpdateFormatE
         }
 

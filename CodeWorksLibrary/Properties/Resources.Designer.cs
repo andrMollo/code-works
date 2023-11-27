@@ -63,6 +63,16 @@ namespace CodeWorksLibrary.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ChangeFormat {
+            get {
+                object obj = ResourceManager.GetObject("ChangeFormat", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ExportFile {
             get {
                 object obj = ResourceManager.GetObject("ExportFile", resourceCulture);
