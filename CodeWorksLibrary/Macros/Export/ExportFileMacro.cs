@@ -22,8 +22,8 @@ namespace CodeWorksLibrary.Macros.Files
         public static void ExportFile()
         {
             #region Validation
-            // Check if there is an open document and if there is it can't be a drawing
 
+            // Check if there is an open document and if there is it can't be a drawing
             var model = Application.ActiveModel;
 
             if (model == null)
@@ -166,7 +166,7 @@ namespace CodeWorksLibrary.Macros.Files
         /// </summary>
         /// <param name="model">The model object for the model</param>
         /// <returns></returns>
-        private static SwDmDocumentType GetDmDocumentType(Model model)
+        public static SwDmDocumentType GetDmDocumentType(Model model)
         {
             // Get the model file extension
             var modelExt = Path.GetExtension(model.FilePath).ToUpper();
