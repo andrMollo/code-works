@@ -68,7 +68,7 @@ namespace CodeWorksLibrary
                     ExportFileMacro.ExportFile();
                     break;
                 case CwCommands_e.UpdateFormatE:
-                    UpdateFormatMacro.UpdateFormat();
+                    UpdateFormatMacro.UpdateFormat(false);
                     break;
             }
         }

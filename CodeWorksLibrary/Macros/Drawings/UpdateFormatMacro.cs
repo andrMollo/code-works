@@ -13,7 +13,8 @@ namespace CodeWorksLibrary.Macros.Drawings
         /// Update the sheet format on all sheets of the active drawings
         /// Sheets with only one view containing a flat pattern configuration are not updated
         /// </summary>
-        public static void UpdateFormat()
+        /// <param name="updateCurrent"> True to update only the current sheet, False to update all the sheet of the drawing</param>
+        public static void UpdateFormat(bool updateCurrent)
         {
             #region Validation
 
@@ -43,8 +44,30 @@ namespace CodeWorksLibrary.Macros.Drawings
 
             DrawingDoc swDraw = model.AsDrawing();
 
-            // Get the names of the sheets of the active drawing
-            string[] sheetNames = model.Drawing.SheetNames();
+            string[] sheetNames = new string[1];
+
+            // Get all names of all the sheets
+            if (updateCurrent == false)
+            {
+                // Get the names of the sheets of the active drawing
+                string[] vSheetNames = model.Drawing.SheetNames();
+
+                var sheetCount = vSheetNames.Length;
+
+                // Resize the string array
+                Array.Resize(ref sheetNames, sheetCount);
+
+                // Assign the names of the sheet to the string array
+                sheetNames = vSheetNames;
+            }
+            // Get the name of the active sheet
+            else if (updateCurrent == true)
+            {
+                var sheet = (Sheet)swDraw.GetCurrentSheet();
+
+                sheetNames[0] = (string)sheet.GetName();
+            }
+                
 
             for (int i = 0; i < sheetNames.Length; i++)
             {
