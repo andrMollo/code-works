@@ -2,6 +2,7 @@
 
 using CADBooster.SolidDna;
 using CodeWorksLibrary.Helpers;
+using CodeWorksLibrary.Macros.Drawings;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using SwDocumentMgr;
@@ -45,8 +46,6 @@ namespace CodeWorksLibrary.Macros.Files
             // Check the type of file open
             if (model.IsDrawing)
             {
-                // TODO Update format
-
                 // Export drawing
                 ExportDrawing(model);
 
@@ -234,6 +233,9 @@ namespace CodeWorksLibrary.Macros.Files
         /// <param name="drwModel">The Model object of the drawing</param>
         public static void ExportDrawing(Model drwModel)
         {
+            // Update format
+            UpdateFormatMacro.UpgradeFormat(false);
+
             // Export to PDF
             ExportDrawingAsPdf(drwModel);
 

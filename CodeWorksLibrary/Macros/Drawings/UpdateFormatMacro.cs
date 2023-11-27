@@ -10,8 +10,9 @@ namespace CodeWorksLibrary.Macros.Drawings
     internal class UpdateFormatMacro
     {
         /// <summary>
-        /// Update the sheet format on all sheets of the active drawings
-        /// Sheets with only one view containing a flat pattern configuration are not updated
+        /// Update the sheet format on all sheets of the active drawings.
+        /// Sheets with only one view containing a flat pattern configuration are not updated.
+        /// The sheet format is updated regardless of the current format name
         /// </summary>
         /// <param name="updateCurrent"> True to update only the current sheet, False to update all the sheet of the drawing</param>
         public static void UpdateFormat(bool updateCurrent)
@@ -79,6 +80,91 @@ namespace CodeWorksLibrary.Macros.Drawings
 
                     // Replace with new one
                     ReplaceSheetFormat(swDraw, swSheet, newSheetFormatPath);                    
+                }
+            }
+
+            // Activate the original sheet
+            swDraw.ActivateSheet(activeSheetName);
+
+            // Enable update to the graphic view
+            modelView.EnableGraphicsUpdate = true;
+        }
+
+        /// <summary>
+        /// Upgrade the sheet format on all sheets of the active drawings only if current and target format name are different.
+        /// Sheets with only one view containing a flat pattern configuration are not updated.
+        /// Use this method if you want to avoid updating the sheet format if there are no changes.
+        /// </summary>
+        /// <param name="updateCurrent"> True to update only the current sheet, False to update all the sheet of the drawing</param>
+        public static void UpgradeFormat(bool updateCurrent)
+        {
+            #region Validation
+
+            // Check if there is an open document and if there is it can't be a drawing
+            var model = Application.ActiveModel;
+
+            if (model == null)
+            {
+                Application.ShowMessageBox("Open a file", SolidWorksMessageBoxIcon.Stop);
+
+                return;
+            }
+
+            // Check if the open file has already been saved
+            if (model.HasBeenSaved == false)
+            {
+                Application.ShowMessageBox("Save the file to run the macro", SolidWorksMessageBoxIcon.Stop);
+
+                return;
+            }
+
+            if (model.IsDrawing != true)
+            {
+                Application.ShowMessageBox("Open a drawing to run the macro", SolidWorksMessageBoxIcon.Stop);
+            }
+            #endregion
+
+            DrawingDoc swDraw = model.AsDrawing();
+
+            // Get the name of the active sheet
+            var sheet = (Sheet)swDraw.GetCurrentSheet();
+            var activeSheetName = sheet.GetName();
+
+            // Disable updates to the graphic view
+            ModelView modelView = (ModelView)model.UnsafeObject.ActiveView;
+            modelView.EnableGraphicsUpdate = false;
+
+            // Get the names of the sheet to update
+            string[] sheetNames = GetDrawingSheetName(swDraw, updateCurrent);
+
+            for (int i = 0; i < sheetNames.Length; i++)
+            {
+                // Get the i-th sheet
+                var swSheet = swDraw.get_Sheet(sheetNames[i]);
+
+                // Check if the current sheet contains a flat pattern configuration
+                var containsFlatPattern = CheckFlatPattern(swSheet);
+
+                if (containsFlatPattern == false)
+                {
+                    // Get the format for the i-th sheet
+                    var currentSheetFormatName = swSheet.GetSheetFormatName();
+
+                    // Get the name of the new format
+                    var newSheetFormatPath = GetReplaceSheetFormat(swSheet);
+
+                    // Get the full path of the current format
+                    var currentSheetFormatPath = swSheet.GetTemplateName();
+
+                    // Change the format if the current full name and the new one are different
+                    if (currentSheetFormatPath != newSheetFormatPath)
+                    {
+                        // Activate i-th sheet
+                        swDraw.ActivateSheet(sheetNames[i]);
+
+                        // Replace with new one
+                        ReplaceSheetFormat(swDraw, swSheet, newSheetFormatPath);
+                    }
                 }
             }
 
