@@ -89,6 +89,12 @@ namespace CodeWorksLibrary.Macros.Drawings
             modelView.EnableGraphicsUpdate = true;
         }
 
+        /// <summary>
+        /// Get the names of the sheets to be updated
+        /// </summary>
+        /// <param name="swDraw">The pointer to the DrawindDoc Model</param>
+        /// <param name="onlyActive">True to get the name of the active sheet only, False to get the names of all the sheets</param>
+        /// <returns>An array of strings with the names of the sheets to be updated</returns>
         private static string[] GetDrawingSheetName(DrawingDoc swDraw, bool onlyActive)
         {
             string[] sheetNames = new string[1];
