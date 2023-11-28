@@ -1,5 +1,6 @@
 ﻿using CADBooster.SolidDna;
 using CodeWorksLibrary.Macros.Drawings;
+using CodeWorksLibrary.Macros.Export;
 using CodeWorksLibrary.Macros.Files;
 using CodeWorksLibrary.Properties;
 using SolidWorks.Interop.sldworks;
@@ -33,7 +34,10 @@ namespace CodeWorksLibrary
             [Title("Update sheet format")]
             [Description("Update sheet format for all the sheet of the active document")]
             [Icon(typeof(Resources), nameof(Resources.ChangeFormat))]
-            UpdateFormatE
+            UpdateFormatE,
+            [Title("Fast print")]
+            [Description("Print the current drawing to the default printer")]
+            FastPrintE
         }
 
         #endregion
@@ -72,6 +76,9 @@ namespace CodeWorksLibrary
                     break;
                 case CwCommands_e.UpdateFormatE:
                     UpdateFormatMacro.UpdateFormat(false);
+                    break;
+                case CwCommands_e.FastPrintE:
+                    FastPrintMacro.FastPrint();
                     break;
             }
         }
