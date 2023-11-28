@@ -41,17 +41,26 @@ For example the below map will:
 * Replace all sheets regardless of the size (\*) with sheet format linked to *D:\OldFormats\oldformat1.slddrt* with the *D:\Formats\format2.slddrt* file
 
 ~~~ vb
-REPLACE_MAP = Array("11|*|D:\Formats\format1.slddrt", "*|D:\OldFormats\oldformat1.slddrt|D:\Formats\format2.slddrt")
+"11|*|D:\Formats\format1.slddrt"
+"*|D:\OldFormats\oldformat1.slddrt|D:\Formats\format2.slddrt"
 ~~~
 
 You can specify as many rules as required. Rules are executed in the specified order. If none of the rules match the input - macro throws an error.
 
 This macro do not update the format if the sheet contains only one view that refers the configuration specified in `FLAT_CONFIGURATION`.
 
+### Update format prerequisites
+
+* A SolidWorks drawing is open and saved.
+
+### References
+
+* [Original macro from CodeStack](https://www.codestack.net/solidworks-api/document/drawing/replace-sheet-format/)
+
 ## Upgrade format
 
-This method is similar to the previous one, but it doesn't change the shett format if the current sheet format name and the new one are the same.
+This method is similar to the previous one, but it doesn't change the sheet format if the current sheet format name and the new one are the same.
 
-### Prerequisites
+### Upgrade format prerequisites
 
 * A SolidWorks drawing is open and saved.
