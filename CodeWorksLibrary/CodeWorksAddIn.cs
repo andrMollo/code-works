@@ -1,14 +1,17 @@
 ﻿using CADBooster.SolidDna;
+using CodeWorksLibrary.Macros.Drawings;
+using CodeWorksLibrary.Macros.Files;
 using CodeWorksLibrary.Properties;
 using SolidWorks.Interop.sldworks;
 using System.ComponentModel;
 using Xarial.XCad.Base.Attributes;
 using Xarial.XCad.UI.Commands;
-using Xarial.XCad.Extensions.Attributes;
 
 namespace CodeWorksLibrary
 {
     [System.Runtime.InteropServices.ComVisible(true)]
+    [Title("CodeWorks")]
+    [Description("A collection of macros for SolidWorks")]
     public class AddIn : Xarial.XCad.SolidWorks.SwAddInEx
     {
         #region Enumeration
@@ -22,7 +25,15 @@ namespace CodeWorksLibrary
             [Title("Set author")]
             [Description("Write the component author in the custom properties")]
             [Icon(typeof(Resources), nameof(Resources.SetAuthor))]
-            SetAuthorE
+            SetAuthorE,
+            [Title("Export file")]
+            [Description("Export the current file in different formats")]
+            [Icon(typeof(Resources), nameof(Resources.ExportFile))]
+            ExportFileE,
+            [Title("Update sheet format")]
+            [Description("Update sheet format for all the sheet of the active document")]
+            [Icon(typeof(Resources), nameof(Resources.ChangeFormat))]
+            UpdateFormatE
         }
 
         #endregion
@@ -55,6 +66,12 @@ namespace CodeWorksLibrary
             {
                 case CwCommands_e.SetAuthorE:
                     SetAuthorMacro.SetAuthor();
+                    break;
+                case CwCommands_e.ExportFileE:
+                    ExportFileMacro.ExportFile();
+                    break;
+                case CwCommands_e.UpdateFormatE:
+                    UpdateFormatMacro.UpdateFormat(false);
                     break;
             }
         }
