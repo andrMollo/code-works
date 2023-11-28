@@ -126,6 +126,7 @@
     </Compile>
     <Compile Include="Macros\Drawings\UpdateFormatMacro.cs" />
     <Compile Include="Macros\Export\ExportFileMacro.cs" />
+    <Compile Include="Macros\Export\FastPrintMacro.cs" />
     <Compile Include="Macros\Properties\SetAuthorMacro.cs" />
     <Compile Include="Private\GlobalConfigPrivate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
