@@ -1,4 +1,5 @@
 ﻿using CADBooster.SolidDna;
+using CodeWorksLibrary.Helpers;
 using SolidWorks.Interop.sldworks;
 using System;
 using System.IO;
@@ -17,31 +18,15 @@ namespace CodeWorksLibrary.Macros.Drawings
         /// <param name="updateCurrent"> True to update only the current sheet, False to update all the sheet of the drawing</param>
         public static void UpdateFormat(bool updateCurrent)
         {
-            #region Validation
-
-            // Check if there is an open document and if there is it can't be a drawing
+            // Check if there is an open document, if the documents has been saved and if it is a drawing
             var model = Application.ActiveModel;
 
-            if (model == null)
-            {
-                Application.ShowMessageBox("Open a file", SolidWorksMessageBoxIcon.Stop);
+            var isDrawingOpen = CwValidation.ModelIsDrawing(model);
 
+            if (isDrawingOpen == false)
+            {
                 return;
             }
-
-            // Check if the open file has already been saved
-            if (model.HasBeenSaved == false)
-            {
-                Application.ShowMessageBox("Save the file to run the macro", SolidWorksMessageBoxIcon.Stop);
-
-                return;
-            }
-
-            if (model.IsDrawing != true)
-            {
-                Application.ShowMessageBox("Open a drawing to run the macro", SolidWorksMessageBoxIcon.Stop);
-            }
-            #endregion
 
             DrawingDoc swDraw = model.AsDrawing();
 
