@@ -18,9 +18,9 @@ namespace CodeWorksLibrary.Macros.Drawings
         /// <param name="updateCurrent"> True to update only the current sheet, False to update all the sheet of the drawing</param>
         public static void UpdateFormat(bool updateCurrent)
         {
-            // Check if there is an open document, if the documents has been saved and if it is a drawing
             var model = Application.ActiveModel;
 
+            // Check if there is an open document, if the documents has been saved and if it is a drawing
             var isDrawingOpen = CwValidation.ModelIsDrawing(model);
 
             if (isDrawingOpen == false)
