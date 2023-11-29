@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CodeWorksLibrary.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,15 @@ namespace CodeWorksLibrary.Macros.Export
         /// </summary>
         public static void FastPrint()
         {
-            Application.ShowMessageBox("Fast print!");
+            var model = Application.ActiveModel;
+
+            // Check if there is an open document, if the documents has been saved and if it is a drawing
+            var isDrawingOpen = CwValidation.ModelIsDrawing(model);
+
+            if (isDrawingOpen == false)
+            {
+                return;
+            }
         }
     }
 }
