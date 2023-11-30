@@ -18,6 +18,11 @@ namespace CodeWorksLibrary
             swCustPrpMgr.Add3(propertyName, (int)swCustomInfoType_e.swCustomInfoText, prpValue, (int)swCustomPropertyAddOption_e.swCustomPropertyReplaceValue);
         }
 
+        /// <summary>
+        /// Set the name of user that print a drawing
+        /// </summary>
+        /// <param name="swModel">The model object that needs the property to be changed</param>
+        /// <returns></returns>
         public bool SetPrintedOnProperty(ModelDoc2 swModel)
         {
             var user = CwPdmManager.GetPdmUserName();

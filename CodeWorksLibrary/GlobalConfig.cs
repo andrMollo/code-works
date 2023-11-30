@@ -38,7 +38,15 @@
         /// </summary>
         public const string PrinterSetupFile = GlobalConfigPrivate.MyPrinterSetupFile;
 
+        /// <summary>
+        /// The name of the property that contains the name of the user that print a drawing
+        /// </summary>
         public const string PrintedBy = "Stampato da";
+
+        /// <summary>
+        /// The name of the property that contains the date when the drawing is printed
+        /// </summary>
+        public const string PrintedOn = "Stampato il";
 
         #endregion
     }
