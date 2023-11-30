@@ -1,5 +1,6 @@
 ﻿using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
+using System;
 
 namespace CodeWorksLibrary
 {
@@ -46,6 +47,10 @@ namespace CodeWorksLibrary
         /// <returns></returns>
         public bool SetPrintedOnProperty(ModelDoc2 swModel)
         {
+            var currentDate = DateTime.Now.ToString(@"MM\/dd\/yyyy h\:mm tt");
+
+            SetCustomProperty(swModel, GlobalConfig.PrintedOn, "");
+            
             return true;
         }
     }
