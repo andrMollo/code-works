@@ -17,5 +17,21 @@ namespace CodeWorksLibrary
 
             swCustPrpMgr.Add3(propertyName, (int)swCustomInfoType_e.swCustomInfoText, prpValue, (int)swCustomPropertyAddOption_e.swCustomPropertyReplaceValue);
         }
+
+        public bool SetPrintedOnProperty(ModelDoc2 swModel)
+        {
+            var user = CwPdmManager.GetPdmUserName();
+
+            if (user != null)
+            {
+                SetCustomProperty(swModel, GlobalConfig.PrintedBy, user);
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

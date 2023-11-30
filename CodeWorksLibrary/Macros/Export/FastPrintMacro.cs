@@ -1,4 +1,5 @@
 ﻿using CodeWorksLibrary.Helpers;
+using SolidWorks.Interop.sldworks;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -28,6 +29,14 @@ namespace CodeWorksLibrary.Macros.Export
 
             // Read replace map
             string[] printerSetup = File.ReadAllLines(GlobalConfig.PrinterSetupFile);
+
+            // Get the SolidWorks model doc
+            ModelDoc2 swModel = model.UnsafeObject;
+
+            // Set the name of the user who is printing
+            var prpManager = new CwPropertyManager();
+
+            var retPrintedOn = prpManager.SetPrintedOnProperty(swModel);
         }
     }
 }
