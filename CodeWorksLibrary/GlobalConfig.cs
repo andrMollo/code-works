@@ -28,6 +28,11 @@
         public const string SheetFormatMapPath = GlobalConfigPrivate.MyReplaceMapPath;
 
         /// <summary>
+        /// The path to the printer setup
+        /// </summary>
+        public const string PrinterSetupFile = GlobalConfigPrivate.MyPrinterSetupFile;
+
+        /// <summary>
         /// The name of the configuration with the flat pattern
         /// </summary>
         public const string FlatPatternConfigurationName = "DefaultSviluppo";

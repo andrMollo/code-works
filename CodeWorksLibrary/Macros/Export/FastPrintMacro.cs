@@ -1,6 +1,7 @@
 ﻿using CodeWorksLibrary.Helpers;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +25,9 @@ namespace CodeWorksLibrary.Macros.Export
             {
                 return;
             }
+
+            // Read replace map
+            string[] printerSetup = File.ReadAllLines(GlobalConfig.PrinterSetupFile);
         }
     }
 }
