@@ -47,7 +47,7 @@ namespace CodeWorksLibrary
         /// <returns></returns>
         public bool SetPrintedOnProperty(ModelDoc2 swModel)
         {
-            var currentDate = DateTime.Now.ToString(@"MM\/dd\/yyyy h\:mm tt");
+            var currentDate = DateTime.Now.ToString(@"MM\/dd\/yyyy HH\:mm\:ss");
 
             SetCustomProperty(swModel, GlobalConfig.PrintedOn, "");
             
