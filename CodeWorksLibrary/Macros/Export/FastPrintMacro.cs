@@ -33,9 +33,12 @@ namespace CodeWorksLibrary.Macros.Export
             // Get the SolidWorks model doc
             ModelDoc2 swModel = model.UnsafeObject;
 
-            // Set the name of the user who is printing
             var prpManager = new CwPropertyManager();
 
+            // Set the name of the user who is printing
+            var retPrintedBy = prpManager.SetPrintedByProperty(swModel);
+
+            // Set the date when the document is printed
             var retPrintedOn = prpManager.SetPrintedOnProperty(swModel);
         }
     }

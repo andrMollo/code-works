@@ -23,7 +23,7 @@ namespace CodeWorksLibrary
         /// </summary>
         /// <param name="swModel">The model object that needs the property to be changed</param>
         /// <returns></returns>
-        public bool SetPrintedOnProperty(ModelDoc2 swModel)
+        public bool SetPrintedByProperty(ModelDoc2 swModel)
         {
             var user = CwPdmManager.GetPdmUserName();
 
@@ -37,6 +37,16 @@ namespace CodeWorksLibrary
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Set the date when the document is printed
+        /// </summary>
+        /// <param name="swModel">The model object that needs the property to be changed</param>
+        /// <returns></returns>
+        public bool SetPrintedOnProperty(ModelDoc2 swModel)
+        {
+            return true;
         }
     }
 }
