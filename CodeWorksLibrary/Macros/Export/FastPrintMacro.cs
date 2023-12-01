@@ -1,4 +1,5 @@
 ﻿using CodeWorksLibrary.Helpers;
+using CodeWorksLibrary.Macros.Drawings;
 using SolidWorks.Interop.sldworks;
 using System;
 using System.Collections.Generic;
@@ -40,6 +41,17 @@ namespace CodeWorksLibrary.Macros.Export
 
             // Set the date when the document is printed
             var retPrintedOn = prpManager.SetPrintedOnProperty(swModel);
+
+            DrawingDoc swDraw = model.AsDrawing();
+
+            // Get sheet names
+            string[] sheetNames = UpdateFormatMacro.GetDrawingSheetNames(swDraw, false);
+
+            // Loop through sheets
+            for (int i = 0; i < sheetNames.Length; i++)
+            {
+
+            }
         }
     }
 }
