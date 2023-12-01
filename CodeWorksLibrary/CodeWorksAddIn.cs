@@ -1,4 +1,6 @@
-﻿using CADBooster.SolidDna;
+﻿// Ignore Spelling: App
+
+using CADBooster.SolidDna;
 using CodeWorksLibrary.Macros.Drawings;
 using CodeWorksLibrary.Macros.Export;
 using CodeWorksLibrary.Macros.Files;
@@ -75,7 +77,7 @@ namespace CodeWorksLibrary
                     ExportFileMacro.ExportFile();
                     break;
                 case CwCommands_e.UpdateFormatE:
-                    UpdateFormatMacro.UpdateFormat(false);
+                    UpdateFormatMacro.UpdateFormatAllSheets();
                     break;
                 case CwCommands_e.FastPrintE:
                     FastPrintMacro.FastPrint();

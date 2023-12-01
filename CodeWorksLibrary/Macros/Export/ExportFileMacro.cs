@@ -1,4 +1,4 @@
-﻿// Ignore Spelling: Pdf Dwg drw
+﻿// Ignore Spelling: Pdf Dwg drw Png Dm
 
 using CADBooster.SolidDna;
 using CodeWorksLibrary.Helpers;
@@ -223,7 +223,7 @@ namespace CodeWorksLibrary.Macros.Files
         public static void ExportDrawing(Model drwModel)
         {
             // Update format
-            UpdateFormatMacro.UpgradeFormat(false);
+            UpdateFormatMacro.UpdateFormatAllSheets();
 
             // Export to PDF
             ExportDrawingAsPdf(drwModel);

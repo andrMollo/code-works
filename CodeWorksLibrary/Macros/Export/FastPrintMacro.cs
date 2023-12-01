@@ -45,7 +45,7 @@ namespace CodeWorksLibrary.Macros.Export
             DrawingDoc swDraw = model.AsDrawing();
 
             // Get sheet names
-            string[] sheetNames = UpdateFormatMacro.GetDrawingSheetNames(swDraw, false);
+            string[] sheetNames = UpdateFormatMacro.GetDrawingSheetNames(swDraw);
 
             // Loop through sheets
             for (int i = 0; i < sheetNames.Length; i++)
