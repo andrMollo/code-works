@@ -16,7 +16,7 @@ namespace CodeWorksLibrary.Macros.Drawings
         /// The sheet format is updated regardless of the current format name
         /// </summary>
         /// <param name="updateCurrent"> True to update only the current sheet, False to update all the sheet of the drawing</param>
-        public static void UpdateFormat(bool updateCurrent)
+        internal static void UpdateFormat(bool updateCurrent)
         {
             var model = Application.ActiveModel;
 
@@ -39,7 +39,7 @@ namespace CodeWorksLibrary.Macros.Drawings
             modelView.EnableGraphicsUpdate = false;
 
             // Get the names of the sheet to update
-            string[] sheetNames = GetDrawingSheetName(swDraw, updateCurrent);
+            string[] sheetNames = GetDrawingSheetNames(swDraw, updateCurrent);
 
             for (int i = 0; i < sheetNames.Length; i++)
             {
@@ -81,33 +81,17 @@ namespace CodeWorksLibrary.Macros.Drawings
         /// Use this method if you want to avoid updating the sheet format if there are no changes.
         /// </summary>
         /// <param name="updateCurrent"> True to update only the current sheet, False to update all the sheet of the drawing</param>
-        public static void UpgradeFormat(bool updateCurrent)
+        internal static void UpgradeFormat(bool updateCurrent)
         {
-            #region Validation
-
-            // Check if there is an open document and if there is it can't be a drawing
             var model = Application.ActiveModel;
 
-            if (model == null)
-            {
-                Application.ShowMessageBox("Open a file", SolidWorksMessageBoxIcon.Stop);
+            // Check if there is an open document, if the documents has been saved and if it is a drawing
+            var isDrawingOpen = CwValidation.ModelIsDrawing(model);
 
+            if (isDrawingOpen == false)
+            {
                 return;
             }
-
-            // Check if the open file has already been saved
-            if (model.HasBeenSaved == false)
-            {
-                Application.ShowMessageBox("Save the file to run the macro", SolidWorksMessageBoxIcon.Stop);
-
-                return;
-            }
-
-            if (model.IsDrawing != true)
-            {
-                Application.ShowMessageBox("Open a drawing to run the macro", SolidWorksMessageBoxIcon.Stop);
-            }
-            #endregion
 
             DrawingDoc swDraw = model.AsDrawing();
 
@@ -120,7 +104,7 @@ namespace CodeWorksLibrary.Macros.Drawings
             modelView.EnableGraphicsUpdate = false;
 
             // Get the names of the sheet to update
-            string[] sheetNames = GetDrawingSheetName(swDraw, updateCurrent);
+            string[] sheetNames = GetDrawingSheetNames(swDraw, updateCurrent);
 
             for (int i = 0; i < sheetNames.Length; i++)
             {
@@ -166,7 +150,7 @@ namespace CodeWorksLibrary.Macros.Drawings
         /// <param name="swDraw">The pointer to the DrawindDoc Model</param>
         /// <param name="onlyActive">True to get the name of the active sheet only, False to get the names of all the sheets</param>
         /// <returns>An array of strings with the names of the sheets to be updated</returns>
-        private static string[] GetDrawingSheetName(DrawingDoc swDraw, bool onlyActive)
+        internal static string[] GetDrawingSheetNames(DrawingDoc swDraw, bool onlyActive)
         {
             string[] sheetNames = new string[1];
 
@@ -200,7 +184,7 @@ namespace CodeWorksLibrary.Macros.Drawings
         /// </summary>
         /// <param name="sheet">The pointer to the current sheet object</param>
         /// <returns>Return true if the current sheet contains the flat pattern view</returns>
-        private static bool CheckFlatPattern(Sheet sheet)
+        internal static bool CheckFlatPattern(Sheet sheet)
         {
             var views = (object[])sheet.GetViews();
 
@@ -228,7 +212,7 @@ namespace CodeWorksLibrary.Macros.Drawings
         /// <param name="swDraw">The instance of the drawing doc</param>
         /// <param name="swSheet">The instance of the current sheet</param>
         /// <param name="newSheetFormatPath">The path to the new sheet format</param>
-        private static void ReplaceSheetFormat(DrawingDoc swDraw, Sheet swSheet, string newSheetFormatPath)
+        internal static void ReplaceSheetFormat(DrawingDoc swDraw, Sheet swSheet, string newSheetFormatPath)
         {
             // Get the properties of the current sheet
             var vProps = (double[])swSheet.GetProperties();
@@ -260,7 +244,7 @@ namespace CodeWorksLibrary.Macros.Drawings
         /// </summary>
         /// <param name="swSheet">The sheet that need a sheet format replace</param>
         /// <returns>The string with path to the new sheet format</returns>
-        private static string GetReplaceSheetFormat(Sheet swSheet)
+        internal static string GetReplaceSheetFormat(Sheet swSheet)
         {
             string targetTemplatePath = "";
 
