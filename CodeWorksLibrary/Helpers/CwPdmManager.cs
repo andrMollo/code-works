@@ -1,4 +1,6 @@
-﻿using EPDM.Interop.epdm;
+﻿// Ignore Spelling: Pdm
+
+using EPDM.Interop.epdm;
 using System;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
 

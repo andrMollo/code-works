@@ -59,6 +59,11 @@
         /// </summary>
         public const string PrintedOn = "Stampato il";
 
+        /// <summary>
+        /// The name of the layer that contains the notes to be shown in the prints
+        /// </summary>
+        public const string PrintNoteLayer = "NOTE STAMPA";
+
         #endregion
     }
 }

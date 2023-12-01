@@ -54,6 +54,8 @@ namespace CodeWorksLibrary.Macros.Export
                 swDraw.ActivateSheet(sheetNames[i]);
 
                 UpdateFormatMacro.UpgradeSheetFormat(swDraw, swSheet);
+
+                var retChangeLayerView = CwLayerManager.ChangeLayerVisibility((ModelDoc2)swDraw, GlobalConfig.PrintNoteLayer);
             }
         }
     }
