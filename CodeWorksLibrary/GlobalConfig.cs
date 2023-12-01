@@ -33,10 +33,21 @@
         public const string FlatPatternConfigurationName = "DefaultSviluppo";
 
         #region Print setup
+
         /// <summary>
-        /// The path to the printer setup
+        /// The name of the default printer as shown in device manager
         /// </summary>
-        public const string PrinterSetupFile = GlobalConfigPrivate.MyPrinterSetupFile;
+        public const string DefaultPrinterName = "TECNICOMONO";
+
+        /// <summary>
+        /// The name of the A4 size for the default printer
+        /// </summary>
+        public const string A4FormatName = "A4 210 x 297 mm";
+
+        /// <summary>
+        /// The name of the A4 size for the default printer
+        /// </summary>
+        public const string A3FormatName = "A3 297 x 420 mm";
 
         /// <summary>
         /// The name of the property that contains the name of the user that print a drawing
