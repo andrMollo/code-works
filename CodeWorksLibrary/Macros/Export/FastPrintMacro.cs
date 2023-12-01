@@ -28,9 +28,6 @@ namespace CodeWorksLibrary.Macros.Export
                 return;
             }
 
-            // Read replace map
-            string[] printerSetup = File.ReadAllLines(GlobalConfig.PrinterSetupFile);
-
             // Get the SolidWorks model doc
             ModelDoc2 swModel = model.UnsafeObject;
 
@@ -50,7 +47,13 @@ namespace CodeWorksLibrary.Macros.Export
             // Loop through sheets
             for (int i = 0; i < sheetNames.Length; i++)
             {
+                // Get the i-th sheet
+                var swSheet = swDraw.get_Sheet(sheetNames[i]);
 
+                // Activate i-th sheet
+                swDraw.ActivateSheet(sheetNames[i]);
+
+                UpdateFormatMacro.UpgradeSheetFormat(swDraw, swSheet);
             }
         }
     }
