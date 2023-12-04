@@ -43,6 +43,15 @@ namespace CodeWorksLibrary.Macros.Export
 
             DrawingDoc swDraw = model.AsDrawing();
 
+            // Get the name of the active sheet
+            // This is require to return to the active sheet at the end of the macro
+            var sheet = (Sheet)swDraw.GetCurrentSheet();
+            var activeSheetName = sheet.GetName();
+
+            // Disable updates to the graphic view
+            ModelView modelView = (ModelView)model.UnsafeObject.ActiveView;
+            modelView.EnableGraphicsUpdate = false;
+
             // Get sheet names
             string[] sheetNames = UpdateFormatMacro.GetDrawingSheetNames(swDraw);
 
@@ -94,6 +103,12 @@ namespace CodeWorksLibrary.Macros.Export
 
                 retChangeLayerView = ChangeLayerVisibility((ModelDoc2)swDraw, noteLayer, false);
             }
+
+            // Activate the original sheet
+            swDraw.ActivateSheet(activeSheetName);
+
+            // Enable update to the graphic view
+            modelView.EnableGraphicsUpdate = true;
         }
 
         /// <summary>
