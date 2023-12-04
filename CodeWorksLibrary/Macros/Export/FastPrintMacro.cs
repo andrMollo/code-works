@@ -60,7 +60,7 @@ namespace CodeWorksLibrary.Macros.Export
 
                 swDraw.ActivateSheet(sheetNames[i]);
 
-                if (UpdateFormatMacro.CheckFlatPattern(swSheet) == true)
+                if (UpdateFormatMacro.CheckFlatPattern(swSheet) == false)
                 {
                     UpgradeSheetFormat(swDraw, swSheet);
 
