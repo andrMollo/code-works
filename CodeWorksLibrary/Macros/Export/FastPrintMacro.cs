@@ -52,9 +52,11 @@ namespace CodeWorksLibrary.Macros.Export
 
                 UpdateFormatMacro.UpgradeSheetFormat(swDraw, swSheet);
 
-                var retChangeLayerView = ChangeLayerVisibility((ModelDoc2)swDraw, noteLayer);
+                var retChangeLayerView = ChangeLayerVisibility((ModelDoc2)swDraw, noteLayer, true);
 
+                // Set print layout
 
+                retChangeLayerView = ChangeLayerVisibility((ModelDoc2)swDraw, noteLayer, false);
             }
         }
     }
