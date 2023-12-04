@@ -1,6 +1,7 @@
 ﻿using CodeWorksLibrary.Helpers;
 using CodeWorksLibrary.Macros.Drawings;
 using SolidWorks.Interop.sldworks;
+using SolidWorks.Interop.swconst;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
 using static CodeWorksLibrary.Helpers.CwLayerManager;
 
@@ -54,7 +55,36 @@ namespace CodeWorksLibrary.Macros.Export
 
                 var retChangeLayerView = ChangeLayerVisibility((ModelDoc2)swDraw, noteLayer, true);
 
-                // Set print layout
+                // Get original print layout
+                var swPageSetup = (PageSetup)swModel.PageSetup;
+
+                var originalPrinter = swModel.Printer;
+                var originalPrinterPaperSize = swPageSetup.PrinterPaperSize;
+                var originalScaleToFit = swPageSetup.ScaleToFit;
+                var originalScale = swPageSetup.Scale2;
+                var originalOrientation = swPageSetup.Orientation;
+                var originalPageSetup = swModel.Extension.UsePageSetup;
+
+                // Set page dimension and printer name
+                var currentSize = swSheet.GetSize(-1, -1);
+
+                var pageDimension = string.Empty;
+
+                // If sheet dimension is A4 the print to A4, otherwise print to A3
+                if (currentSize == (int)swDwgPaperSizes_e.swDwgPaperA4size)
+                {
+                    pageDimension = GlobalConfig.A4FormatName;
+                }
+                else
+                {
+                    pageDimension= GlobalConfig.A3FormatName;
+                }
+
+                var printerName = GlobalConfig.DefaultPrinterName;
+
+                // Set print parameters
+
+                // Revert print setup to original
 
                 retChangeLayerView = ChangeLayerVisibility((ModelDoc2)swDraw, noteLayer, false);
             }

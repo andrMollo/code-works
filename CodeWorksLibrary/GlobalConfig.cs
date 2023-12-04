@@ -1,4 +1,6 @@
-﻿namespace CodeWorksLibrary
+﻿// Ignore Spelling: Dm
+
+namespace CodeWorksLibrary
 {
     internal class GlobalConfig
     {
