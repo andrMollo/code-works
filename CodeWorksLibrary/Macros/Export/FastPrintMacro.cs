@@ -60,67 +60,70 @@ namespace CodeWorksLibrary.Macros.Export
 
                 swDraw.ActivateSheet(sheetNames[i]);
 
-                UpgradeSheetFormat(swDraw, swSheet);
-
-                var retChangeLayerView = ChangeLayerVisibility((ModelDoc2)swDraw, noteLayer, true);
-
-                // Get original print layout
-                var swPageSetup = (PageSetup)swModel.PageSetup;
-
-                var originalPrinter = swModel.Printer;
-                var originalPrinterPaperSize = swPageSetup.PrinterPaperSize;
-                var originalScaleToFit = swPageSetup.ScaleToFit;
-                var originalScale = swPageSetup.Scale2;
-                var originalOrientation = swPageSetup.Orientation;
-                var originalPageSetup = swModel.Extension.UsePageSetup;
-
-                // Get page dimension and printer name
-                var currentSize = swSheet.GetSize(-1, -1);
-
-                var pageDimension = string.Empty;
-
-                // If sheet dimension is A4 the print to A4, otherwise print to A3
-                if (currentSize == (int)swDwgPaperSizes_e.swDwgPaperA4size)
+                if (UpdateFormatMacro.CheckFlatPattern(swSheet) == true)
                 {
-                    pageDimension = GlobalConfig.A4FormatName;
+                    UpgradeSheetFormat(swDraw, swSheet);
+
+                    var retChangeLayerView = ChangeLayerVisibility((ModelDoc2)swDraw, noteLayer, true);
+
+                    // Get original print layout
+                    var swPageSetup = (PageSetup)swModel.PageSetup;
+
+                    var originalPrinter = swModel.Printer;
+                    var originalPrinterPaperSize = swPageSetup.PrinterPaperSize;
+                    var originalScaleToFit = swPageSetup.ScaleToFit;
+                    var originalScale = swPageSetup.Scale2;
+                    var originalOrientation = swPageSetup.Orientation;
+                    var originalPageSetup = swModel.Extension.UsePageSetup;
+
+                    // Get page dimension and printer name
+                    var currentSize = swSheet.GetSize(-1, -1);
+
+                    var pageDimension = string.Empty;
+
+                    // If sheet dimension is A4 the print to A4, otherwise print to A3
+                    if (currentSize == (int)swDwgPaperSizes_e.swDwgPaperA4size)
+                    {
+                        pageDimension = GlobalConfig.A4FormatName;
+                    }
+                    else
+                    {
+                        pageDimension= GlobalConfig.A3FormatName;
+                    }
+
+                    var printerName = GlobalConfig.DefaultPrinterName;
+
+                    // Set print parameters
+                    swModel.Printer = printerName;
+
+                    swPageSetup.PrinterPaperSize = GetPaper(printerName, pageDimension);
+
+                    swPageSetup.ScaleToFit = true;
+
+                    swPageSetup.Orientation = (int)swPageSetupOrientation_e.swPageSetupOrient_Landscape;
+
+                    swModel.Extension.UsePageSetup = (int)swPageSetupInUse_e.swPageSetupInUse_Document;
+
+                    PrintSpecification swPrintSpec = (PrintSpecification)swModel.Extension.GetPrintSpecification();
+
+                    // Get current sheet number
+                    var activeSheetNumber = GetSheetNumber(swDraw, swSheet);
+
+                    // Set the print range
+                    long[] printRangeArray = new long[2];
+
+                    printRangeArray[0] = activeSheetNumber;
+                    printRangeArray[1] = activeSheetNumber;
+
+                    swPrintSpec.PrintRange = printRangeArray;
+
+                    // Print the document
+                    swModel.Extension.PrintOut4(printerName, "", swPrintSpec);
+
+                    // Revert print setup to original
+
+                    retChangeLayerView = ChangeLayerVisibility((ModelDoc2)swDraw, noteLayer, false);
                 }
-                else
-                {
-                    pageDimension= GlobalConfig.A3FormatName;
-                }
-
-                var printerName = GlobalConfig.DefaultPrinterName;
-
-                // Set print parameters
-                swModel.Printer = printerName;
-
-                swPageSetup.PrinterPaperSize = GetPaper(printerName, pageDimension);
-
-                swPageSetup.ScaleToFit = true;
-
-                swPageSetup.Orientation = (int)swPageSetupOrientation_e.swPageSetupOrient_Landscape;
-
-                swModel.Extension.UsePageSetup = (int)swPageSetupInUse_e.swPageSetupInUse_Document;
-
-                PrintSpecification swPrintSpec = (PrintSpecification)swModel.Extension.GetPrintSpecification();
-
-                // Get current sheet number
-                var activeSheetNumber = GetSheetNumber(swDraw, swSheet);
-
-                // Set the print range
-                long[] printRangeArray = new long[2];
-
-                printRangeArray[0] = activeSheetNumber;
-                printRangeArray[1] = activeSheetNumber;
-
-                swPrintSpec.PrintRange = printRangeArray;
-
-                // Print the document
-                swModel.Extension.PrintOut4(printerName, "", swPrintSpec);
-
-                // Revert print setup to original
-
-                retChangeLayerView = ChangeLayerVisibility((ModelDoc2)swDraw, noteLayer, false);
             }
 
             // Activate the original sheet
