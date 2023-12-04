@@ -2,8 +2,11 @@
 using CodeWorksLibrary.Macros.Drawings;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
+using System;
+using System.Drawing.Printing;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
 using static CodeWorksLibrary.Helpers.CwLayerManager;
+using static System.Drawing.Printing.PrinterSettings;
 
 namespace CodeWorksLibrary.Macros.Export
 {
@@ -65,7 +68,7 @@ namespace CodeWorksLibrary.Macros.Export
                 var originalOrientation = swPageSetup.Orientation;
                 var originalPageSetup = swModel.Extension.UsePageSetup;
 
-                // Set page dimension and printer name
+                // Get page dimension and printer name
                 var currentSize = swSheet.GetSize(-1, -1);
 
                 var pageDimension = string.Empty;
@@ -83,11 +86,42 @@ namespace CodeWorksLibrary.Macros.Export
                 var printerName = GlobalConfig.DefaultPrinterName;
 
                 // Set print parameters
+                swModel.Printer = printerName;
+
+                swPageSetup.PrinterPaperSize = GetPaper(printerName, pageDimension);
 
                 // Revert print setup to original
 
                 retChangeLayerView = ChangeLayerVisibility((ModelDoc2)swDraw, noteLayer, false);
             }
+        }
+
+        /// <summary>
+        /// Get the paper parameter for the specified page dimension
+        /// </summary>
+        /// <param name="printerName">The name of the printer</param>
+        /// <param name="pageDimension">The name of the page dimension</param>
+        /// <returns>The code for the paper</returns>
+        /// <exception cref="NotImplementedException"></exception>
+        private static int GetPaper(string printerName, string pageDimension)
+        {
+            PrinterSettings settings = new PrinterSettings();
+
+            settings.PrinterName = printerName;
+
+            PaperSizeCollection paperSizes = settings.PaperSizes;
+
+            foreach (PaperSize paperSize in paperSizes)
+            {
+                if (paperSize.PaperName == pageDimension)
+                {
+                    return paperSize.RawKind;
+                }
+            }
+
+            Application.ShowMessageBox("\"No sizes available for the specified printer", CADBooster.SolidDna.SolidWorksMessageBoxIcon.Stop);
+
+            throw new NotImplementedException();
         }
     }
 }
