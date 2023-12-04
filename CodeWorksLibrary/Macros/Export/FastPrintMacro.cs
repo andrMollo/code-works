@@ -49,10 +49,6 @@ namespace CodeWorksLibrary.Macros.Export
             var sheet = (Sheet)swDraw.GetCurrentSheet();
             var activeSheetName = sheet.GetName();
 
-            // Disable updates to the graphic view
-            ModelView modelView = (ModelView)model.UnsafeObject.ActiveView;
-            modelView.EnableGraphicsUpdate = false;
-
             // Get sheet names
             string[] sheetNames = GetDrawingSheetNames(swDraw);
 
@@ -129,9 +125,6 @@ namespace CodeWorksLibrary.Macros.Export
 
             // Activate the original sheet
             swDraw.ActivateSheet(activeSheetName);
-
-            // Enable update to the graphic view
-            modelView.EnableGraphicsUpdate = true;
         }
 
         /// <summary>
