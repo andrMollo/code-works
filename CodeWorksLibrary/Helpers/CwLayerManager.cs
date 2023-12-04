@@ -70,13 +70,13 @@ namespace CodeWorksLibrary.Helpers
             {
                 if (layerVisibility == true)
                 {
-                    swLayer.Visible = false;
-                    return false;
+                    swLayer.Visible = true;
+                    return true;
                 }
                 else if (layerVisibility == false)
                 {
-                    swLayer.Visible = true;
-                    return true;
+                    swLayer.Visible = false;
+                    return false;
                 }
             }
 
