@@ -99,6 +99,16 @@ namespace CodeWorksLibrary.Macros.Export
 
                 swPageSetup.PrinterPaperSize = GetPaper(printerName, pageDimension);
 
+                swPageSetup.ScaleToFit = true;
+
+                swPageSetup.Orientation = (int)swPageSetupOrientation_e.swPageSetupOrient_Landscape;
+
+                swModel.Extension.UsePageSetup = (int)swPageSetupInUse_e.swPageSetupInUse_Document;
+
+                var swPrintSpec = swModel.Extension.GetPrintSpecification();
+
+                // Get current sheet number
+
                 // Revert print setup to original
 
                 retChangeLayerView = ChangeLayerVisibility((ModelDoc2)swDraw, noteLayer, false);
