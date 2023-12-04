@@ -6,6 +6,7 @@ using System;
 using System.Drawing.Printing;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
 using static CodeWorksLibrary.Helpers.CwLayerManager;
+using static CodeWorksLibrary.Macros.Drawings.UpdateFormatMacro;
 using static System.Drawing.Printing.PrinterSettings;
 
 namespace CodeWorksLibrary.Macros.Export
@@ -53,7 +54,7 @@ namespace CodeWorksLibrary.Macros.Export
             modelView.EnableGraphicsUpdate = false;
 
             // Get sheet names
-            string[] sheetNames = UpdateFormatMacro.GetDrawingSheetNames(swDraw);
+            string[] sheetNames = GetDrawingSheetNames(swDraw);
 
             // Loop through sheets
             for (int i = 0; i < sheetNames.Length; i++)
@@ -63,7 +64,7 @@ namespace CodeWorksLibrary.Macros.Export
 
                 swDraw.ActivateSheet(sheetNames[i]);
 
-                UpdateFormatMacro.UpgradeSheetFormat(swDraw, swSheet);
+                UpgradeSheetFormat(swDraw, swSheet);
 
                 var retChangeLayerView = ChangeLayerVisibility((ModelDoc2)swDraw, noteLayer, true);
 
@@ -108,6 +109,7 @@ namespace CodeWorksLibrary.Macros.Export
                 var swPrintSpec = swModel.Extension.GetPrintSpecification();
 
                 // Get current sheet number
+                var activeSheetNumber = GetSheetNumber(swDraw, swSheet);
 
                 // Revert print setup to original
 
@@ -119,6 +121,31 @@ namespace CodeWorksLibrary.Macros.Export
 
             // Enable update to the graphic view
             modelView.EnableGraphicsUpdate = true;
+        }
+
+        /// <summary>
+        /// Get the number corresponding to the active sheet
+        /// </summary>
+        /// <param name="swDraw">The pointer to the drawing document</param>
+        /// <param name="swSheet">The pointer to the active sheet</param>
+        /// <returns>The integer of the active sheet</returns>
+        private static int GetSheetNumber(DrawingDoc swDraw, Sheet swSheet)
+        {
+            // Get sheet names
+            string[] sheetNames = GetDrawingSheetNames(swDraw);
+
+            int sheetNumber = 0;
+
+            for (int i = 1; i < (sheetNames.Length + 1); i++)
+            {
+                if (swSheet.GetName() == sheetNames[i - 1])
+                {
+                    sheetNumber = i;
+                    break;
+                }
+            }
+
+            return sheetNumber;
         }
 
         /// <summary>
