@@ -49,7 +49,7 @@ namespace CodeWorksLibrary
         {
             var currentDate = DateTime.Now.ToString(@"MM\/dd\/yyyy HH\:mm\:ss");
 
-            SetCustomProperty(swModel, GlobalConfig.PrintedOn, "");
+            SetCustomProperty(swModel, GlobalConfig.PrintedOn, currentDate);
             
             return true;
         }
