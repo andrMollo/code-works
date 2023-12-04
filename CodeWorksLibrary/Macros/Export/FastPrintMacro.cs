@@ -106,10 +106,21 @@ namespace CodeWorksLibrary.Macros.Export
 
                 swModel.Extension.UsePageSetup = (int)swPageSetupInUse_e.swPageSetupInUse_Document;
 
-                var swPrintSpec = swModel.Extension.GetPrintSpecification();
+                PrintSpecification swPrintSpec = (PrintSpecification)swModel.Extension.GetPrintSpecification();
 
                 // Get current sheet number
                 var activeSheetNumber = GetSheetNumber(swDraw, swSheet);
+
+                // Set the print range
+                long[] printRangeArray = new long[2];
+
+                printRangeArray[0] = activeSheetNumber;
+                printRangeArray[1] = activeSheetNumber;
+
+                swPrintSpec.PrintRange = printRangeArray;
+
+                // Print the document
+                swModel.Extension.PrintOut4(printerName, "", swPrintSpec);
 
                 // Revert print setup to original
 
