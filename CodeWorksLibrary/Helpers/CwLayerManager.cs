@@ -1,11 +1,5 @@
-﻿using CADBooster.SolidDna;
-using SolidWorks.Interop.sldworks;
+﻿using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CodeWorksLibrary.Helpers
 {
@@ -15,31 +9,46 @@ namespace CodeWorksLibrary.Helpers
         /// <summary>
         /// Toggle the layer visibility
         /// </summary>
-        /// <param name="swModel"></param>
-        /// <param name="layerName"></param>
-        /// <returns></returns>
+        /// <param name="swModel">The pointer to the model</param>
+        /// <param name="layerName">THe name of the layer to be changed</param>
+        /// <returns>True if the layer is made visible, false if the layer is hidden</returns>
         internal static bool ChangeLayerVisibility(ModelDoc2 swModel, string layerName)
         {
             // Get the model layer manager
             LayerMgr swLayerMgr = (LayerMgr)swModel.GetLayerManager();
 
             // Try to get the layer
-            var swLayer = swLayerMgr.GetLayer(layerName);
+            Layer swLayer = (Layer)swLayerMgr.GetLayer(layerName);
 
             if (swLayer == null)
             {
                 // Create the layer
                 swLayer = CreateLayer(swModel, layerName);
             }
-            
-            // Change layer visibility
 
-            return true;
+            // Change layer visibility
+            if (swLayer != null)
+            {
+                if (swLayer.Visible == true)
+                {
+                    swLayer.Visible = false;
+                    return false;
+                }
+                else
+                {
+                    swLayer.Visible = true;
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         /// <summary>
         /// Create a new layer
         /// </summary>
+        /// <param name="swModel">The pointer to the model</param>
+        /// <param name="layerName">THe name of the layer to be changed</param>
         /// <returns>The pointer to the layer object</returns>
         internal static Layer CreateLayer(ModelDoc2 swModel, string layerName)
         {

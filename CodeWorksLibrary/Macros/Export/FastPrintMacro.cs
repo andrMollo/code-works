@@ -1,13 +1,8 @@
 ﻿using CodeWorksLibrary.Helpers;
 using CodeWorksLibrary.Macros.Drawings;
 using SolidWorks.Interop.sldworks;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
+using static CodeWorksLibrary.Helpers.CwLayerManager;
 
 namespace CodeWorksLibrary.Macros.Export
 {
@@ -27,6 +22,9 @@ namespace CodeWorksLibrary.Macros.Export
             {
                 return;
             }
+
+            // Assign layer name
+            var noteLayer = GlobalConfig.PrintNoteLayer;
 
             // Get the SolidWorks model doc
             ModelDoc2 swModel = model.UnsafeObject;
@@ -50,12 +48,13 @@ namespace CodeWorksLibrary.Macros.Export
                 // Get the i-th sheet
                 var swSheet = swDraw.get_Sheet(sheetNames[i]);
 
-                // Activate i-th sheet
                 swDraw.ActivateSheet(sheetNames[i]);
 
                 UpdateFormatMacro.UpgradeSheetFormat(swDraw, swSheet);
 
-                var retChangeLayerView = CwLayerManager.ChangeLayerVisibility((ModelDoc2)swDraw, GlobalConfig.PrintNoteLayer);
+                var retChangeLayerView = ChangeLayerVisibility((ModelDoc2)swDraw, noteLayer);
+
+
             }
         }
     }
