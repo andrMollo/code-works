@@ -25,7 +25,7 @@ namespace CodeWorksLibrary
         /// <summary>
         /// The name of the Vault database
         /// </summary>
-        public const string MyVaultName = "VAULT_BL";
+        public const string MyVaultName = "YOUR_VAULT_NAME";
 
         /// <summary>
         /// The license key for the Document Manager API
@@ -34,3 +34,11 @@ namespace CodeWorksLibrary
     }
 }
 ```
+
+## Print drawing
+
+Print all the sheet the active drawing.
+
+## Print sheet
+
+Print the active sheet.

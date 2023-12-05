@@ -37,11 +37,11 @@ namespace CodeWorksLibrary
             [Description("Update sheet format for all the sheet of the active document")]
             [Icon(typeof(Resources), nameof(Resources.ChangeFormat))]
             UpdateFormatE,
-            [Title("Fast print")]
-            [Description("Print the current drawing to the default printer")]
+            [Title("Print drawing")]
+            [Description("Print all the sheet of the active drawing")]
             FastPrintE,
-            [Title("Fast print sheet")]
-            [Description("Print the current sheet to the default printer")]
+            [Title("Print sheet")]
+            [Description("Print the current sheet")]
             FastPrintSheetE
         }
 
