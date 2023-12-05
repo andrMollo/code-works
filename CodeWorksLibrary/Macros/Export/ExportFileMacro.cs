@@ -1,4 +1,4 @@
-﻿// Ignore Spelling: Pdf Dwg drw
+﻿// Ignore Spelling: Pdf Dwg drw Png Dm
 
 using CADBooster.SolidDna;
 using CodeWorksLibrary.Helpers;
@@ -22,26 +22,15 @@ namespace CodeWorksLibrary.Macros.Files
         /// </summary>
         public static void ExportFile()
         {
-            #region Validation
-
-            // Check if there is an open document and if there is it can't be a drawing
             var model = Application.ActiveModel;
 
-            if (model == null)
-            {
-                Application.ShowMessageBox("Open a file", SolidWorksMessageBoxIcon.Stop);
+            // Check if there is an open document and if there is it can't be a drawing
+            var isFileOpen = CwValidation.ModelIsOpen(model);
 
+            if (isFileOpen == false)
+            {
                 return;
             }
-
-            // Check if the open file has already been saved
-            if (model.HasBeenSaved == false)
-            {
-                Application.ShowMessageBox("Save the file to run the macro", SolidWorksMessageBoxIcon.Stop);
-
-                return;
-            }
-            #endregion
 
             // Check the type of file open
             if (model.IsDrawing)
@@ -234,7 +223,7 @@ namespace CodeWorksLibrary.Macros.Files
         public static void ExportDrawing(Model drwModel)
         {
             // Update format
-            UpdateFormatMacro.UpgradeFormat(false);
+            UpdateFormatMacro.UpdateFormatAllSheets();
 
             // Export to PDF
             ExportDrawingAsPdf(drwModel);
