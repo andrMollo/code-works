@@ -71,6 +71,44 @@ namespace CodeWorksLibrary.Macros.Export
         }
 
         /// <summary>
+        /// Print the active sheet of the current drawing to the default printer
+        /// </summary>
+        public static void FastPrintSheet()
+        {
+            var model = Application.ActiveModel;
+
+            // Check if there is an open document, if the documents has been saved and if it is a drawing
+            var isDrawingOpen = CwValidation.ModelIsDrawing(model);
+
+            if (isDrawingOpen == false)
+            {
+                return;
+            }
+
+            // Get the SolidWorks model doc
+            ModelDoc2 swModel = model.UnsafeObject;
+
+            var prpManager = new CwPropertyManager();
+
+            // Set the name of the user who is printing
+            var retPrintedBy = prpManager.SetPrintedByProperty(swModel);
+
+            // Set the date when the document is printed
+            var retPrintedOn = prpManager.SetPrintedOnProperty(swModel);
+
+            DrawingDoc swDraw = model.AsDrawing();
+
+            // Get the name of the active sheet
+            // This is require to return to the active sheet at the end of the macro
+            var swSheet = (Sheet)swDraw.GetCurrentSheet();
+            var activeSheetName = swSheet.GetName();
+            
+            UpgradeSheetFormat(swDraw, swSheet);
+
+            PrintDrawingSheet(swModel, swSheet);
+        }
+
+        /// <summary>
         /// Print the active sheet
         /// </summary>
         /// <param name="swModel">The pointer to the model object</param>
