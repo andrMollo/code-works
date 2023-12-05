@@ -64,6 +64,9 @@ namespace CodeWorksLibrary
             swApp = (SldWorks)this.Application.Sw;
         }
 
+        /// <summary>
+        /// Handle the disconnection from SolidWorks
+        /// </summary>
         public override void OnDisconnect()
         {
             AddInIntegration.TearDown();
