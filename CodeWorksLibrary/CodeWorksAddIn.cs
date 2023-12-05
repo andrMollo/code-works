@@ -39,7 +39,10 @@ namespace CodeWorksLibrary
             UpdateFormatE,
             [Title("Fast print")]
             [Description("Print the current drawing to the default printer")]
-            FastPrintE
+            FastPrintE,
+            [Title("Fast print sheet")]
+            [Description("Print the current sheet to the default printer")]
+            FastPrintSheetE
         }
 
         #endregion
@@ -81,6 +84,9 @@ namespace CodeWorksLibrary
                     break;
                 case CwCommands_e.FastPrintE:
                     FastPrintMacro.FastPrint();
+                    break;
+                case CwCommands_e.FastPrintSheetE:
+                    FastPrintMacro.FastPrintSheet();
                     break;
             }
         }
