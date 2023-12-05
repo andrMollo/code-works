@@ -64,6 +64,7 @@ namespace CodeWorksLibrary.Macros.Export
                 {
                     UpgradeSheetFormat(swDraw, swSheet);
 
+                    // Show note layer
                     var retChangeLayerView = ChangeLayerVisibility((ModelDoc2)swDraw, noteLayer, true);
 
                     // Get original print layout
@@ -74,7 +75,7 @@ namespace CodeWorksLibrary.Macros.Export
                     var originalScaleToFit = swPageSetup.ScaleToFit;
                     var originalScale = swPageSetup.Scale2;
                     var originalOrientation = swPageSetup.Orientation;
-                    var originalPageSetup = swModel.Extension.UsePageSetup;
+                    var originalUserPageSetup = swModel.Extension.UsePageSetup;
 
                     // Get page dimension and printer name
                     var currentSize = swSheet.GetSize(-1, -1);
@@ -121,7 +122,14 @@ namespace CodeWorksLibrary.Macros.Export
                     swModel.Extension.PrintOut4(printerName, "", swPrintSpec);
 
                     // Revert print setup to original
+                    swModel.Printer = originalPrinter;
+                    swPageSetup.PrinterPaperSize = originalPrinterPaperSize;
+                    swPageSetup.ScaleToFit = originalScaleToFit;
+                    swPageSetup.Scale2 = originalScale;
+                    swPageSetup.Orientation = originalOrientation;
+                    swModel.Extension.UsePageSetup = originalUserPageSetup;
 
+                    // Hide note layer
                     retChangeLayerView = ChangeLayerVisibility((ModelDoc2)swDraw, noteLayer, false);
                 }
             }
