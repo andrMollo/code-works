@@ -37,6 +37,8 @@ namespace CodeWorksLibrary
 
 ## Print drawing
 
+![Print file icon](../../Resources/FastPrint.png)
+
 Print all the sheet the active drawing. Sheets are printed one at a time simulating simplex setup no matter how the printer is set. The sheet dimension will determine the paper size: A4 sheet are printed on A4 paper, sheets with size of A3 and above are printed on A3 paper.
 
 TThe macro do not print sheets that contain only one view in the configuration `DefaultSviluppo` (flat pattern).
@@ -73,5 +75,7 @@ The macro also upgrades the sheet format. For more information on the format rep
 * [Original macro from CodeStack](https://www.codestack.net/solidworks-api/document/print/)
 
 ## Print sheet
+
+![Print file icon](../../Resources/FastPrintSheet.png)
 
 Simular to the previous one but print the active sheet.
