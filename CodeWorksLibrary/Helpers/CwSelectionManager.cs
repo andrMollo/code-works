@@ -10,7 +10,7 @@ namespace CodeWorksLibrary.Helpers
         /// </summary>
         /// <param name="selectionMgr">The model selection manager object</param>
         /// <returns>A list of Component2</returns>
-        public static List<Component2> GetSelectedComponents(SelectionMgr selectionMgr)
+        internal static List<Component2> GetSelectedComponents(SelectionMgr selectionMgr)
         {
             List<Component2> swCompList = new List<Component2>();
 
@@ -28,7 +28,7 @@ namespace CodeWorksLibrary.Helpers
         /// </summary>
         /// <param name="model">The active ModelDoc2 instance</param>
         /// <returns>The list of selected models</returns>
-        public static List<ModelDoc2> GetSelectedModels(ModelDoc2 model)
+        internal static List<ModelDoc2> GetSelectedModels(ModelDoc2 model)
         {
             // Get the list of selected components
             List<Component2> vComp = new List<Component2>();

@@ -124,6 +124,12 @@
   <data name="ExportFile" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ExportFile.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="FastPrint" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FastPrint.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FastPrintSheet" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FastPrintSheet.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="SetAuthor" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SetAuthor.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

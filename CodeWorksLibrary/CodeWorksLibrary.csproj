@@ -118,14 +118,17 @@
   <ItemGroup>
     <Compile Include="CodeWorksAddIn.cs" />
     <Compile Include="GlobalConfig.cs" />
+    <Compile Include="Helpers\CwLayerManager.cs" />
     <Compile Include="Helpers\CwPdmManager.cs" />
     <Compile Include="Helpers\CwPropertyManager.cs" />
     <Compile Include="Helpers\CwSelectionManager.cs" />
+    <Compile Include="Helpers\CwValidation.cs" />
     <Compile Include="Helpers\PictureDispConverter.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Macros\Drawings\UpdateFormatMacro.cs" />
     <Compile Include="Macros\Export\ExportFileMacro.cs" />
+    <Compile Include="Macros\Export\FastPrintMacro.cs" />
     <Compile Include="Macros\Properties\SetAuthorMacro.cs" />
     <Compile Include="Private\GlobalConfigPrivate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -164,6 +167,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ChangeFormat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FastPrint.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FastPrintSheet.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Xarial.XCad.SolidWorks.0.8.0-beta.4843\build\Xarial.XCad.SolidWorks.targets" Condition="Exists('..\packages\Xarial.XCad.SolidWorks.0.8.0-beta.4843\build\Xarial.XCad.SolidWorks.targets')" />

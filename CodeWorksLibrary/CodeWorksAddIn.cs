@@ -1,5 +1,8 @@
-﻿using CADBooster.SolidDna;
+﻿// Ignore Spelling: App
+
+using CADBooster.SolidDna;
 using CodeWorksLibrary.Macros.Drawings;
+using CodeWorksLibrary.Macros.Export;
 using CodeWorksLibrary.Macros.Files;
 using CodeWorksLibrary.Properties;
 using SolidWorks.Interop.sldworks;
@@ -33,7 +36,15 @@ namespace CodeWorksLibrary
             [Title("Update sheet format")]
             [Description("Update sheet format for all the sheet of the active document")]
             [Icon(typeof(Resources), nameof(Resources.ChangeFormat))]
-            UpdateFormatE
+            UpdateFormatE,
+            [Title("Print drawing")]
+            [Description("Print all the sheet of the active drawing")]
+            [Icon(typeof(Resources), nameof(Resources.FastPrint))]
+            FastPrintE,
+            [Title("Print sheet")]
+            [Description("Print the current sheet")]
+            [Icon(typeof(Resources), nameof(Resources.FastPrintSheet))]
+            FastPrintSheetE
         }
 
         #endregion
@@ -55,6 +66,9 @@ namespace CodeWorksLibrary
             swApp = (SldWorks)this.Application.Sw;
         }
 
+        /// <summary>
+        /// Handle the disconnection from SolidWorks
+        /// </summary>
         public override void OnDisconnect()
         {
             AddInIntegration.TearDown();
@@ -71,7 +85,13 @@ namespace CodeWorksLibrary
                     ExportFileMacro.ExportFile();
                     break;
                 case CwCommands_e.UpdateFormatE:
-                    UpdateFormatMacro.UpdateFormat(false);
+                    UpdateFormatMacro.UpdateFormatAllSheets();
+                    break;
+                case CwCommands_e.FastPrintE:
+                    FastPrintMacro.FastPrint();
+                    break;
+                case CwCommands_e.FastPrintSheetE:
+                    FastPrintMacro.FastPrintSheet();
                     break;
             }
         }
