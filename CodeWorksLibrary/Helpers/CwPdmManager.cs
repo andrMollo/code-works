@@ -12,7 +12,7 @@ namespace CodeWorksLibrary
         /// Get the username from SolidWorks PDM
         /// </summary>
         /// <returns>The string with the UserData of the user connected to the Vault, or the Window username if PDM can't be reached</returns>
-        public static string GetPdmUserName()
+        internal static string GetPdmUserName()
         {
             string userName = string.Empty;
 

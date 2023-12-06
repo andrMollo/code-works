@@ -17,7 +17,7 @@ namespace CodeWorksLibrary.Macros.Export
         /// <summary>
         /// Print all the sheet in the current drawing to the default printer
         /// </summary>
-        public static void FastPrint()
+        internal static void FastPrint()
         {
             var model = Application.ActiveModel;
 
@@ -73,7 +73,7 @@ namespace CodeWorksLibrary.Macros.Export
         /// <summary>
         /// Print the active sheet of the current drawing to the default printer
         /// </summary>
-        public static void FastPrintSheet()
+        internal static void FastPrintSheet()
         {
             var model = Application.ActiveModel;
 
@@ -195,7 +195,7 @@ namespace CodeWorksLibrary.Macros.Export
         /// <param name="swDraw">The pointer to the drawing document</param>
         /// <param name="swSheet">The pointer to the active sheet</param>
         /// <returns>The integer of the active sheet</returns>
-        private static int GetSheetNumber(DrawingDoc swDraw, Sheet swSheet)
+        internal static int GetSheetNumber(DrawingDoc swDraw, Sheet swSheet)
         {
             // Get sheet names
             string[] sheetNames = GetDrawingSheetNames(swDraw);
@@ -221,7 +221,7 @@ namespace CodeWorksLibrary.Macros.Export
         /// <param name="pageDimension">The name of the page dimension</param>
         /// <returns>The code for the paper</returns>
         /// <exception cref="NotImplementedException"></exception>
-        private static int GetPaper(string printerName, string pageDimension)
+        internal static int GetPaper(string printerName, string pageDimension)
         {
             PrinterSettings settings = new PrinterSettings();
 

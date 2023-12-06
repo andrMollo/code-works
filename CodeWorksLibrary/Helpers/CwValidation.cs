@@ -15,7 +15,7 @@ namespace CodeWorksLibrary.Helpers
         /// </summary>
         /// <param name="model">The pointer to the model</param>
         /// <returns>True if there is a file open and saved</returns>
-        public static bool ModelIsOpen(Model model)
+        internal static bool ModelIsOpen(Model model)
         {
             // Check if there is an open document
             if (model == null)
@@ -41,7 +41,7 @@ namespace CodeWorksLibrary.Helpers
         /// </summary>
         /// <param name="model">The pointer to the model</param>
         /// <returns>True if the active file is a drawing</returns>
-        public static bool ModelIsDrawing(Model model)
+        internal static bool ModelIsDrawing(Model model)
         {
             // Check if there is an open document
             if (model == null)

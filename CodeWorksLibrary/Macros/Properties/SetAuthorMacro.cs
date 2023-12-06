@@ -12,7 +12,7 @@ namespace CodeWorksLibrary
         /// <summary>
         /// Write the author in a custom property of the selected components or of the active model if the selection is empty
         /// </summary>
-        public static void SetAuthor()
+        internal static void SetAuthor()
         {
             // The instance to the active model
             ModelDoc2 swModel = (ModelDoc2)AddIn.swApp.ActiveDoc;

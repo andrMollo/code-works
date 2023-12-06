@@ -12,7 +12,7 @@ namespace CodeWorksLibrary
         /// <param name="swModel">The model object that needs the property to be changed</param>
         /// <param name="propertyName">The name of the property to be changed</param>
         /// <param name="prpValue">The value of the property to be changed</param>
-        public void SetCustomProperty(ModelDoc2 swModel, string propertyName, string prpValue)
+        internal void SetCustomProperty(ModelDoc2 swModel, string propertyName, string prpValue)
         {
             CustomPropertyManager swCustPrpMgr = swModel.Extension.get_CustomPropertyManager("");
 
@@ -24,7 +24,7 @@ namespace CodeWorksLibrary
         /// </summary>
         /// <param name="swModel">The model object that needs the property to be changed</param>
         /// <returns></returns>
-        public bool SetPrintedByProperty(ModelDoc2 swModel)
+        internal bool SetPrintedByProperty(ModelDoc2 swModel)
         {
             var user = CwPdmManager.GetPdmUserName();
 
@@ -45,7 +45,7 @@ namespace CodeWorksLibrary
         /// </summary>
         /// <param name="swModel">The model object that needs the property to be changed</param>
         /// <returns></returns>
-        public bool SetPrintedOnProperty(ModelDoc2 swModel)
+        internal bool SetPrintedOnProperty(ModelDoc2 swModel)
         {
             var currentDate = DateTime.Now.ToString(@"MM\/dd\/yyyy HH\:mm\:ss");
 

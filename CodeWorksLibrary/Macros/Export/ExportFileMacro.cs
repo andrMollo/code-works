@@ -20,7 +20,7 @@ namespace CodeWorksLibrary.Macros.Files
         /// <summary>
         /// Export the open file in different format
         /// </summary>
-        public static void ExportFile()
+        internal static void ExportFile()
         {
             var model = Application.ActiveModel;
 
@@ -84,7 +84,7 @@ namespace CodeWorksLibrary.Macros.Files
         /// Export a 3d model to STEP and PNG (with SolidWorks Document Manager API
         /// </summary>
         /// <param name="model"> The model object for the model</param>
-        public static void ExportModel(Model model)
+        internal static void ExportModel(Model model)
         {
             // Export STEP
             ExportModelAsStep(model);
@@ -98,7 +98,7 @@ namespace CodeWorksLibrary.Macros.Files
         /// Export a model to PNG using the Document Manger API
         /// </summary>
         /// <param name="model">The model object for the model</param>
-        public static void ExportModelAsPng(Model model)
+        internal static void ExportModelAsPng(Model model)
         {
             SwDMClassFactory classFactory = Activator.CreateInstance(
                 Type.GetTypeFromProgID("SwDocumentMgr.SwDMClassFactory")) as SwDMClassFactory;
@@ -154,7 +154,7 @@ namespace CodeWorksLibrary.Macros.Files
         /// </summary>
         /// <param name="model">The model object for the model</param>
         /// <returns></returns>
-        public static SwDmDocumentType GetDmDocumentType(Model model)
+        internal static SwDmDocumentType GetDmDocumentType(Model model)
         {
             // Get the model file extension
             var modelExt = Path.GetExtension(model.FilePath).ToUpper();
@@ -184,7 +184,7 @@ namespace CodeWorksLibrary.Macros.Files
         /// Export a model to STEP
         /// </summary>
         /// <param name="model">The model object for the model</param>
-        public static void ExportModelAsStep(Model model)
+        internal static void ExportModelAsStep(Model model)
         {
             // Check that the model is a part or an assembly
             if (model?.IsPart != true && model?.IsAssembly != true)
@@ -220,7 +220,7 @@ namespace CodeWorksLibrary.Macros.Files
         /// Export a drawing to PDF and DWG
         /// </summary>
         /// <param name="drwModel">The Model object of the drawing</param>
-        public static void ExportDrawing(Model drwModel)
+        internal static void ExportDrawing(Model drwModel)
         {
             // Update format
             UpdateFormatMacro.UpdateFormatAllSheets();
@@ -237,7 +237,7 @@ namespace CodeWorksLibrary.Macros.Files
         /// Save the active drawing as PDF in a sub-folder "\PDF\" of GlobalConfig.ExportPath
         /// </summary>
         /// <param name="model">The Model object of the drawing</param>
-        public static void ExportDrawingAsPdf(Model model)
+        internal static void ExportDrawingAsPdf(Model model)
         {
             // Check if the model is a drawing
             if (model?.IsDrawing != true)
@@ -278,7 +278,7 @@ namespace CodeWorksLibrary.Macros.Files
         /// Save the active drawing as DWG in a sub-folder "\DWG\"  of GlobalConfig.ExportPath
         /// </summary>
         /// <param name="model">The Model object of the drawing</param>
-        public static void ExportDrawingAsDwg(Model model)
+        internal static void ExportDrawingAsDwg(Model model)
         {
             // Check if the model is a drawing
             if (model?.IsDrawing != true)
@@ -315,7 +315,7 @@ namespace CodeWorksLibrary.Macros.Files
         /// </summary>
         /// <param name="extension">The file extension to append at the end of the path</param>
         /// <returns>The string corresponding to the full path where the export will be saved</returns>
-        public static string ComposeOutFileName(string extension)
+        internal static string ComposeOutFileName(string extension)
         {
             var swModel = Application.ActiveModel;
 
@@ -350,7 +350,7 @@ namespace CodeWorksLibrary.Macros.Files
         /// <param name="extension">The file extension to append at the end of the path</param>
         /// <param name="subFolder">The name of the sub-folder to use</param>
         /// <returns>The string corresponding to the full path where the export will be saved</returns>
-        public static string ComposeOutFileName(string extension, string subFolder)
+        internal static string ComposeOutFileName(string extension, string subFolder)
         {
             var swModel = Application.ActiveModel;
 
@@ -384,7 +384,7 @@ namespace CodeWorksLibrary.Macros.Files
         /// </summary>
         /// <param name="model">The Model object of the drawing</param>
         /// <returns>The pointer to the Model object</returns>
-        public static Model GetRootModel(Model drawingModel)
+        internal static Model GetRootModel(Model drawingModel)
         {
             // Cast the SolidDNA model to a DrawingDoc object from the SolidWorks API
             DrawingDoc drwModel = drawingModel.AsDrawing();
