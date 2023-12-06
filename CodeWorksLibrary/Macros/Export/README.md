@@ -14,7 +14,7 @@ It the open file is a model it's saved to STEP and it's preview to PNG. the meth
 
 ### Prerequisites
 
-* A SolidWorks file is open and saved.
+* A SolidWorks file is opened and saved.
 * This method uses the SolidWorks Document Manger API. You should create a file in `CodeWorksLibrary\Private\GlobalConfigPrivate` where you define
 
 ```c#
@@ -37,7 +37,7 @@ namespace CodeWorksLibrary
 
 ## Print drawing
 
-Print all the sheet the active drawing. Sheets are printed one at a time simulating simplex setup no matter how the printer is set. The sheet dimension will determine the paper size: A4 sheet are printed on A4 paper, sheets with dimension of A3 and above are printed on A3 paper.
+Print all the sheet the active drawing. Sheets are printed one at a time simulating simplex setup no matter how the printer is set. The sheet dimension will determine the paper size: A4 sheet are printed on A4 paper, sheets with size of A3 and above are printed on A3 paper.
 
 TThe macro do not print sheets that contain only one view in the configuration `DefaultSviluppo` (flat pattern).
 
@@ -60,21 +60,13 @@ public const string A4FormatName = "A4 210 x 297 mm";
 public const string A3FormatName = "A3 297 x 420 mm";
 ```
 
-Before printing, the macro makes visible the layer specified in `GlobalConfig.PrintNoteLayer`, then the layer is hidden again. The macro also set the custom property defined in `GlobalConfig.PrintedBy` with the vault username who printed the file and the custom property set in `GlobalConfig.PrintedOn` with the date the file is printed.
+Before printing, the macro makes visible the layer specified in `GlobalConfig.PrintNoteLayer`, then the layer is hidden again. The macro also set the custom property defined in `GlobalConfig.PrintedBy` with the vault username who printed the file and the custom property set in `GlobalConfig.PrintedOn` with the date the file is printed. See [SetAuthorMacro](../Properties/SetAuthorMacro.cs) for more information on how the macro get the PDM username.
 
-The macro updates the sheet format according the `REPLACE_MAP`, which is read from a text file in `REPLACE_MAP_PATH`.  The sheet format is not updated if a sheet contains one view referencing the configuration defined in `FLAT_CONFIGURATION`, or if it has the same name of the one in the replace map. See [changeSheetFormat macro](/drawings/sheet-format/README.md) for more information on the format replace
-
-*Require PDM access to read the name of the user connected.*
+The macro also upgrades the sheet format. For more information on the format replace see [UpdateFormatMacro](../Drawings/UpdateFormatMacro.cs).
 
 ### Prerequisites
 
 * a drawing is open and active
-* a text file is present in the path specified by `PRINTER_FILE_PATH` with the following format
-
-    1. Description, stil line Will be ignored by the macro
-    2. `"NAME_OF_THE_PRINTER"`
-    3. `Name of the A4 format for the printer`
-    4. `Name of the A3 format for the printer`
 
 ### References
 
@@ -82,4 +74,4 @@ The macro updates the sheet format according the `REPLACE_MAP`, which is read fr
 
 ## Print sheet
 
-Print the active sheet.
+Simular to the previous one but print the active sheet.
