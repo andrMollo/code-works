@@ -83,6 +83,26 @@ namespace CodeWorksLibrary.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap FastPrint {
+            get {
+                object obj = ResourceManager.GetObject("FastPrint", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap FastPrintSheet {
+            get {
+                object obj = ResourceManager.GetObject("FastPrintSheet", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap SetAuthor {
             get {
                 object obj = ResourceManager.GetObject("SetAuthor", resourceCulture);
