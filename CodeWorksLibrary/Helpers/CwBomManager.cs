@@ -68,9 +68,19 @@ namespace CodeWorksLibrary.Helpers
             }
         }
 
+        /// <summary>
+        /// Find the position of a component in the Bil of Material
+        /// </summary>
+        /// <param name="bom">The Bill of Material object</param>
+        /// <param name="swComp">The pointer to the component object</param>
+        /// <returns></returns>
         private static int FindBomPosition(Bom bom, Component2 swComp)
         {
-            throw new NotImplementedException();
+            int findBomPosition = -1;
+
+
+
+            return findBomPosition;
         }
     }
 }
