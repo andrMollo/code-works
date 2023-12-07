@@ -11,8 +11,6 @@ namespace CodeWorksLibrary.Macros.Export
 {
     internal class ExportAssyMacro
     {
-        internal static CwBomManager.Bom Bom { get; set; }
-
         internal static void ExportAssembly()
         {
             #region Validation
@@ -27,7 +25,7 @@ namespace CodeWorksLibrary.Macros.Export
             #endregion
 
             // Get the assembly object
-            var swAssy = (AssemblyDoc)model;
+            var swAssy = (AssemblyDoc)model.UnsafeObject;
 
             // Get the active configuration
             var swConf = model.UnsafeObject.ConfigurationManager.ActiveConfiguration;
@@ -36,8 +34,8 @@ namespace CodeWorksLibrary.Macros.Export
             var rootComp = swConf.GetRootComponent3(true);
 
             // Get the flat bom
-            CwBomManager.GetFlatBOM(Bom);
-
+            CwBomManager.Bom bom = new CwBomManager.Bom();
+            CwBomManager.GetFlatBOM(rootComp, bom);
         }
     }
 }

@@ -14,16 +14,16 @@ namespace CodeWorksLibrary.Helpers
         /// </summary>
         internal class Bom
         {
-            ModelDoc2 model;
+            internal ModelDoc2 model;
 
-            String configuration;
+            internal String configuration;
 
-            double quantity;
+            internal double quantity;
         }
 
-        internal static void GetFlatBOM(Bom Bom)
+        internal static void GetFlatBOM(Component2 swParentComp, Bom bom)
         {
-
+            bom.configuration = "new config";
         }
     }
 }
