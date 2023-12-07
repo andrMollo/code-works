@@ -1,9 +1,8 @@
-﻿using SolidWorks.Interop.sldworks;
+﻿using CADBooster.SolidDna;
+using SolidWorks.Interop.sldworks;
+using SolidWorks.Interop.swconst;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using static CADBooster.SolidDna.SolidWorksEnvironment;
 
 namespace CodeWorksLibrary.Helpers
 {
@@ -34,8 +33,44 @@ namespace CodeWorksLibrary.Helpers
             // Loop through all components
             if (vComps.Length != 0 || vComps != null)
             {
+                for (int i = 0; i < vComps.Length; i++)
+                {
+                    // Get the component
+                    var swComp = vComps[i];
 
+                    // Proceed only if the component is not suppressed or excluded from the Bill of Material
+                    if ((swComp.GetSuppression() != (int)swComponentSuppressionState_e.swComponentSuppressed) && 
+                        (swComp.ExcludeFromBOM == false))
+                    {
+                        ModelDoc2 swRefModel = (ModelDoc2)swComp.GetModelDoc2();
+
+                        // Exit the method if the model isn't loaded
+                        if (swRefModel == null)
+                        {
+                            Application.ShowMessageBox("Modello del componente non caricato", SolidWorksMessageBoxIcon.Stop);
+                            return;
+                        }
+
+                        // Get the configuration of the model
+                        Configuration swRefConfiguration = (Configuration)swRefModel.GetConfigurationByName(swComp.ReferencedConfiguration);
+
+                        // Get the configuration option that handle the visibility of children of the evaluated components
+                        int bomChildType = (int)swRefConfiguration.ChildComponentDisplayInBOM;
+
+                        // If the children are not promoted in this configuration
+                        if (bomChildType != (int)swChildComponentInBOMOption_e.swChildComponent_Promote)
+                        {
+                            // Find the BOM position of this component
+                            int bomPos = FindBomPosition(bom, swComp);
+                        }
+                    } 
+                }
             }
+        }
+
+        private static int FindBomPosition(Bom bom, Component2 swComp)
+        {
+            throw new NotImplementedException();
         }
     }
 }
