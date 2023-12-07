@@ -27,13 +27,16 @@ namespace CodeWorksLibrary.Macros.Export
             // Get the assembly object
             var swAssy = (AssemblyDoc)model.UnsafeObject;
 
+            // Resolve lightweight components
+            var resResolve = swAssy.ResolveAllLightWeightComponents(false);
+
             // Get the active configuration
             var swConf = model.UnsafeObject.ConfigurationManager.ActiveConfiguration;
 
             // Get the root component
             var rootComp = swConf.GetRootComponent3(true);
 
-            // Get the flat bom
+            // Get the flat BOM
             CwBomManager.Bom bom = new CwBomManager.Bom();
             CwBomManager.GetFlatBOM(rootComp, bom);
         }

@@ -21,9 +21,21 @@ namespace CodeWorksLibrary.Helpers
             internal double quantity;
         }
 
+        /// <summary>
+        /// Get the flat Bill of Material
+        /// </summary>
+        /// <param name="swParentComp">The parent component of which to extract the BOM</param>
+        /// <param name="bom">The Bill of Material object</param>
         internal static void GetFlatBOM(Component2 swParentComp, Bom bom)
         {
-            bom.configuration = "new config";
+            // Get a list of component
+            var vComps = (Component2[])swParentComp.GetChildren();
+
+            // Loop through all components
+            if (vComps.Length != 0 || vComps != null)
+            {
+
+            }
         }
     }
 }
