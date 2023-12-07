@@ -83,7 +83,6 @@ namespace CodeWorksLibrary.Helpers
             return false;
         }
 
-
         /// <summary>
         /// Create a new layer
         /// </summary>
