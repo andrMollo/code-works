@@ -26,7 +26,7 @@ namespace CodeWorksLibrary.Helpers
         /// </summary>
         /// <param name="swParentComp">The parent component of which to extract the BOM</param>
         /// <param name="bom">The Bill of Material object</param>
-        internal static void GetFlatBOM(Component2 swParentComp, List<Bom> bom)
+        internal static void ComposeFlatBOM(Component2 swParentComp, List<Bom> bom)
         {
             // Get a list of component
             var vComps = (Component2[])swParentComp.GetChildren();
@@ -63,6 +63,31 @@ namespace CodeWorksLibrary.Helpers
                         {
                             // Find the BOM position of this component
                             int bomPos = FindBomPosition(bom, swComp);
+
+                            // If the component is not found, then the component is added to the bom
+                            if (bomPos == -1)
+                            {
+                                // Add the component to the bom
+                                Bom newBomElement = new Bom();
+
+                                newBomElement.model = swRefModel;
+                                newBomElement.configuration = swComp.ReferencedConfiguration;
+                                newBomElement.quantity = 1;
+
+                                bom.Add(newBomElement);
+                            }
+                            else
+                            {
+                                // Increment the quantity of the BOM element
+                                bom[bomPos].quantity = bom[bomPos].quantity + 1;
+                            }
+                        }
+
+                        // If the children are not promoted in this configuration
+                        if (bomChildType != (int)swChildComponentInBOMOption_e.swChildComponent_Hide)
+                        {
+                            // Call again this method on the component to get its children
+                            ComposeFlatBOM(swComp, bom);
                         }
                     } 
                 }
@@ -74,7 +99,7 @@ namespace CodeWorksLibrary.Helpers
         /// </summary>
         /// <param name="bom">The Bill of Material object</param>
         /// <param name="swComp">The pointer to the component object</param>
-        /// <returns></returns>
+        /// <returns>An integer with the position of the component in the BOM, return -1 if the component is not found</returns>
         private static int FindBomPosition(List<Bom> bom, Component2 comp)
         {
             int findBomPosition = -1;
