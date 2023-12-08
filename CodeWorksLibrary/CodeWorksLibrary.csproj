@@ -118,6 +118,7 @@
   <ItemGroup>
     <Compile Include="CodeWorksAddIn.cs" />
     <Compile Include="GlobalConfig.cs" />
+    <Compile Include="Helpers\CwBomManager.cs" />
     <Compile Include="Helpers\CwLayerManager.cs" />
     <Compile Include="Helpers\CwPdmManager.cs" />
     <Compile Include="Helpers\CwPropertyManager.cs" />
@@ -127,6 +128,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Macros\Drawings\UpdateFormatMacro.cs" />
+    <Compile Include="Macros\Export\ExportAssyMacro.cs" />
     <Compile Include="Macros\Export\ExportFileMacro.cs" />
     <Compile Include="Macros\Export\FastPrintMacro.cs" />
     <Compile Include="Macros\Properties\SetAuthorMacro.cs" />

@@ -33,6 +33,9 @@ namespace CodeWorksLibrary
             [Description("Export the current file in different formats")]
             [Icon(typeof(Resources), nameof(Resources.ExportFile))]
             ExportFileE,
+            [Title("Export assembly")]
+            [Description("Export the current assembly and its components")]
+            ExportAssemblyE,
             [Title("Update sheet format")]
             [Description("Update sheet format for all the sheet of the active document")]
             [Icon(typeof(Resources), nameof(Resources.ChangeFormat))]
@@ -83,6 +86,9 @@ namespace CodeWorksLibrary
                     break;
                 case CwCommands_e.ExportFileE:
                     ExportFileMacro.ExportFile();
+                    break;
+                case CwCommands_e.ExportAssemblyE:
+                    ExportAssyMacro.ExportAssembly();
                     break;
                 case CwCommands_e.UpdateFormatE:
                     UpdateFormatMacro.UpdateFormatAllSheets();
