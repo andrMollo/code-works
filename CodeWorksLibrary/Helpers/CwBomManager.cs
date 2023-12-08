@@ -75,13 +75,28 @@ namespace CodeWorksLibrary.Helpers
         /// <param name="bom">The Bill of Material object</param>
         /// <param name="swComp">The pointer to the component object</param>
         /// <returns></returns>
-        private static int FindBomPosition(List<Bom> bom, Component2 swComp)
+        private static int FindBomPosition(List<Bom> bom, Component2 comp)
         {
             int findBomPosition = -1;
 
             if (bom != null)
             {
+                for (int i = 0; i < bom.Count; i++)
+                {
+                    // Get the full path of the i-th model in the bom
+                    var modelPath = bom[i].model.GetPathName().ToLower();
 
+                    // Get the full path of the analyzed model
+                    var compPath = comp.GetPathName().ToLower();
+
+                    // Compare the i-th path to the analyzed one
+                    // Only path are compared: different configuration of the same component count as one
+                    if (modelPath == compPath)
+                    {
+                        findBomPosition = i;
+                        return findBomPosition;
+                    }
+                }
             }
 
             return findBomPosition;
