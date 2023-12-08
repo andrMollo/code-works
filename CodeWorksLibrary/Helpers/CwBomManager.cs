@@ -2,6 +2,7 @@
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
+using System.Collections.Generic;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
 
 namespace CodeWorksLibrary.Helpers
@@ -25,7 +26,7 @@ namespace CodeWorksLibrary.Helpers
         /// </summary>
         /// <param name="swParentComp">The parent component of which to extract the BOM</param>
         /// <param name="bom">The Bill of Material object</param>
-        internal static void GetFlatBOM(Component2 swParentComp, Bom bom)
+        internal static void GetFlatBOM(Component2 swParentComp, List<Bom> bom)
         {
             // Get a list of component
             var vComps = (Component2[])swParentComp.GetChildren();
@@ -74,11 +75,14 @@ namespace CodeWorksLibrary.Helpers
         /// <param name="bom">The Bill of Material object</param>
         /// <param name="swComp">The pointer to the component object</param>
         /// <returns></returns>
-        private static int FindBomPosition(Bom bom, Component2 swComp)
+        private static int FindBomPosition(List<Bom> bom, Component2 swComp)
         {
             int findBomPosition = -1;
 
+            if (bom != null)
+            {
 
+            }
 
             return findBomPosition;
         }

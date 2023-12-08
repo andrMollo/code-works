@@ -37,7 +37,7 @@ namespace CodeWorksLibrary.Macros.Export
             var rootComp = swConf.GetRootComponent3(true);
 
             // Get the flat BOM
-            CwBomManager.Bom bom = new CwBomManager.Bom();
+            List<CwBomManager.Bom> bom = new List<CwBomManager.Bom>();
             CwBomManager.GetFlatBOM(rootComp, bom);
         }
     }
