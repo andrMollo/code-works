@@ -29,7 +29,7 @@ namespace CodeWorksLibrary.Helpers
         internal static void ComposeFlatBOM(Component2 swParentComp, List<Bom> bom)
         {
             // Get a list of component
-            var vComps = (Component2[])swParentComp.GetChildren();
+            var vComps = (object[])swParentComp.GetChildren();
 
             // Loop through all components
             if (vComps.Length != 0 || vComps != null)
@@ -37,7 +37,7 @@ namespace CodeWorksLibrary.Helpers
                 for (int i = 0; i < vComps.Length; i++)
                 {
                     // Get the component
-                    var swComp = vComps[i];
+                    var swComp = (Component2)vComps[i];
 
                     // Proceed only if the component is not suppressed or excluded from the Bill of Material
                     if ((swComp.GetSuppression() != (int)swComponentSuppressionState_e.swComponentSuppressed) && 

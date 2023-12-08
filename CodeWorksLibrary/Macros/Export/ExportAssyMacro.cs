@@ -1,11 +1,8 @@
-﻿using static CADBooster.SolidDna.SolidWorksEnvironment;
+﻿using CodeWorksLibrary.Helpers;
+using SolidWorks.Interop.sldworks;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CodeWorksLibrary.Helpers;
-using SolidWorks.Interop.sldworks;
+using static CADBooster.SolidDna.SolidWorksEnvironment;
 
 namespace CodeWorksLibrary.Macros.Export
 {
@@ -39,6 +36,22 @@ namespace CodeWorksLibrary.Macros.Export
             // Get the flat BOM
             List<CwBomManager.Bom> bom = new List<CwBomManager.Bom>();
             CwBomManager.ComposeFlatBOM(rootComp, bom);
+
+            // Export all component in the BOM
+            if (bom != null)
+            {
+                ExportAllComponent(bom);
+            }
+        }
+
+        /// <summary>
+        /// Export all components in the BOM
+        /// </summary>
+        /// <param name="bom">The instance of the Bill of Material</param>
+        /// <exception cref="NotImplementedException"></exception>
+        private static void ExportAllComponent(List<CwBomManager.Bom> bom)
+        {
+            throw new NotImplementedException();
         }
     }
 }
