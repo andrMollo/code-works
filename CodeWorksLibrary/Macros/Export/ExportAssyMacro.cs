@@ -77,40 +77,8 @@ namespace CodeWorksLibrary.Macros.Export
                     // It assumes drawing and model have the same name and are in the same folder
                     var drwPath = Path.ChangeExtension(modelPath, "SLDDRW");
 
-                    // Initialize drawing model
-                    Model drwModel = null;
-
-                    // Check if drawing exists
-                    if (File.Exists(drwPath))
-                    {
-                        // Open the drawing model
-                        drwModel = Application.OpenFile(drwPath, options: OpenDocumentOptions.Silent);
-
-                        if (drwModel != null)
-                        {
-                            // Get the list of open model
-                            List<Model> models = Application.OpenDocuments().ToList();
-
-                            // If the drawing model is already open activate it
-                            if (models.Contains(drwModel) != true)
-                            {
-                                int activeErr = 0;
-                                Application.UnsafeObject.IActivateDoc3(Path.GetFileName(drwPath), true, activeErr);
-                            }
-
-                            // Export drawing
-                            ExportFileMacro.ExportDrawing(drwModel);
-
-                            // Get drawing root model
-                            Model rootModel = ExportFileMacro.GetRootModel(drwModel);
-
-                            // Export preview
-                            ExportFileMacro.ExportModelAsPng(rootModel);
-
-                            // Close the model
-                            Application.CloseFile(drwPath);
-                        }
-                    }
+                    // Export drawing and model preview
+                    ExportFileMacro.ExportDrawingAndPreview(drwPath);
                 }
             }
         }
