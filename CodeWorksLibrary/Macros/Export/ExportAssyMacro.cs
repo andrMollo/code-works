@@ -1,4 +1,5 @@
 ﻿using CodeWorksLibrary.Helpers;
+using CodeWorksLibrary.Macros.Properties;
 using CodeWorksLibrary.Models;
 using SolidWorks.Interop.sldworks;
 using System;
@@ -62,6 +63,10 @@ namespace CodeWorksLibrary.Macros.Export
             {
                 for (int i = 0; i < bom.Count; i++)
                 {
+                    // Write quantity
+                    WriteQuantityMacro.WriteQuantity(bom[i].model, bom[i].quantity, assembly.Quantity);
+
+                    // Export
 
                 }
             }
