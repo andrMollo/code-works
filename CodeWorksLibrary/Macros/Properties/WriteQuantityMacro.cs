@@ -107,7 +107,7 @@ namespace CodeWorksLibrary.Macros.Properties
         /// <param name="swModel">The pointer to the model</param>
         /// <param name="quantity">The quantity to be written tin the custom property</param>
         /// <param name="assemblyQty">The quantity of the main assembly</param>
-        private static void WriteQuantity(ModelDoc2 swModel, double quantity, string assemblyQty)
+        internal static void WriteQuantity(ModelDoc2 swModel, double quantity, string assemblyQty)
         {
             var assQty = 0.0;
 

@@ -1,9 +1,13 @@
-﻿using CodeWorksLibrary.Helpers;
+﻿using CADBooster.SolidDna;
+using CodeWorksLibrary.Helpers;
+using CodeWorksLibrary.Macros.Files;
 using CodeWorksLibrary.Macros.Properties;
 using CodeWorksLibrary.Models;
 using SolidWorks.Interop.sldworks;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
 
 namespace CodeWorksLibrary.Macros.Export
@@ -66,8 +70,38 @@ namespace CodeWorksLibrary.Macros.Export
                     // Write quantity
                     WriteQuantityMacro.WriteQuantity(bom[i].model, bom[i].quantity, assembly.Quantity);
 
-                    // Export
+                    // Get model path
+                    var modelPath = bom[i].model.GetPathName();
 
+                    // Get drawing path
+                    // It assumes drawing and model have the same name and are in the same folder
+                    var drwPath = Path.ChangeExtension(modelPath, "SLDDRW");
+
+                    // Check if drawing exists
+                    if (File.Exists(drwPath))
+                    {
+                        // Open the drawing model
+                        var drwModel = Application.OpenFile(drwPath, options: OpenDocumentOptions.Silent);
+
+                        if (drwModel != null)
+                        {
+                            // Get the list of open model
+                            List<Model> models = Application.OpenDocuments().ToList();
+
+                            // If the drawing model is already open activate it
+                            if (models.Contains(drwModel) != true)
+                            {
+                                int activeErr = 0;
+                                Application.UnsafeObject.IActivateDoc3(Path.GetFileName(drwPath), true, activeErr);
+                            }
+
+                            // Export drawing
+                            ExportFileMacro.ExportDrawing(drwModel);
+
+                            // Close the model
+                            Application.CloseFile(drwPath);
+                        }
+                    }
                 }
             }
         }
