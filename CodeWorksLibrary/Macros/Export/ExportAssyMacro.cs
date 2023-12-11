@@ -1,4 +1,5 @@
 ﻿using CodeWorksLibrary.Helpers;
+using CodeWorksLibrary.Models;
 using SolidWorks.Interop.sldworks;
 using System;
 using System.Collections.Generic;
@@ -33,6 +34,13 @@ namespace CodeWorksLibrary.Macros.Export
             // Get the root component
             var rootComp = swConf.GetRootComponent3(true);
 
+            // Get the assembly quantity
+            AssemblyModel assemblyModel = new AssemblyModel();
+            assemblyModel.Model = model.UnsafeObject;
+
+            var prpManager = new CwPropertyManager();
+            assemblyModel.Quantity = prpManager.GetCustomProperty(model.UnsafeObject, GlobalConfig.QuantityProperty);
+
             // Get the flat BOM
             List<CwBomManager.Bom> bom = new List<CwBomManager.Bom>();
             CwBomManager.ComposeFlatBOM(rootComp, bom);
@@ -40,7 +48,7 @@ namespace CodeWorksLibrary.Macros.Export
             // Export all component in the BOM
             if (bom != null)
             {
-                ExportAllComponent(bom);
+                ExportAllComponent(bom, assemblyModel);
             }
         }
 
@@ -48,10 +56,15 @@ namespace CodeWorksLibrary.Macros.Export
         /// Export all components in the BOM
         /// </summary>
         /// <param name="bom">The instance of the Bill of Material</param>
-        /// <exception cref="NotImplementedException"></exception>
-        private static void ExportAllComponent(List<CwBomManager.Bom> bom)
+        private static void ExportAllComponent(List<CwBomManager.Bom> bom, AssemblyModel assembly)
         {
-            throw new NotImplementedException();
+            if (bom != null)
+            {
+                for (int i = 0; i < bom.Count; i++)
+                {
+
+                }
+            }
         }
     }
 }

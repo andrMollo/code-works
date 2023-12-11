@@ -12,6 +12,9 @@ namespace CodeWorksLibrary.Macros.Properties
 {
     internal class WriteQuantityMacro
     {
+        /// <summary>
+        /// Write the quantity to all the components in the flat bom
+        /// </summary>
         internal static void WriteComponentsQuantity()
         {
             #region Validation
