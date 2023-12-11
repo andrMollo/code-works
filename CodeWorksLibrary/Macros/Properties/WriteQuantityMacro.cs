@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
+using static CodeWorksLibrary.Helpers.CwBomManager;
 
 namespace CodeWorksLibrary.Macros.Properties
 {
@@ -45,16 +46,15 @@ namespace CodeWorksLibrary.Macros.Properties
             var assemblyQty = prpManager.GetCustomProperty(model.UnsafeObject, GlobalConfig.QuantityProperty);
 
             // Write quantity to components
-            WriteQuantity(bom, assemblyQty);
+            WriteQuantityAllComponents(bom, assemblyQty);
         }
 
         /// <summary>
-        /// Write the quantity to the components in the flat bom
+        /// Write the quantity to all the components in the flat bom
         /// </summary>
         /// <param name="bom">A BOM instance with the components for the quantities to be updated</param>
         /// <param name="assemblyQty">The quantity of the main assembly</param>
-        /// <exception cref="NotImplementedException"></exception>
-        private static void WriteQuantity(List<CwBomManager.Bom> bom, string assemblyQty)
+        private static void WriteQuantityAllComponents(List<CwBomManager.Bom> bom, string assemblyQty)
         {
             var assQty = 0.0;
 
@@ -88,6 +88,46 @@ namespace CodeWorksLibrary.Macros.Properties
                         propertyMgr.SetCustomProperty(bom[i].model, GlobalConfig.QuantityProperty, prpQtyValue);
                     }
                 }   
+            }
+            else
+            {
+                Application.ShowMessageBox("Assembly quantity must be greater than 0", CADBooster.SolidDna.SolidWorksMessageBoxIcon.Stop);
+            }
+
+        finally_:
+            return;
+        }
+
+        /// <summary>
+        /// Write the quantity to a single component in the flat bom
+        /// </summary>
+        /// <param name="swModel">The pointer to the model</param>
+        /// <param name="quantity">The quantity to be written tin the custom property</param>
+        /// <param name="assemblyQty">The quantity of the main assembly</param>
+        private static void WriteQuantity(ModelDoc2 swModel, double quantity, string assemblyQty)
+        {
+            var assQty = 0.0;
+
+            // Try to convert the assembly quantity to a double
+            try
+            {
+                assQty = Convert.ToDouble(assemblyQty);
+            }
+            catch (Exception ex)
+            {
+                Application.ShowMessageBox("Assembly quantity can't be converted to a number " + ex.Message, CADBooster.SolidDna.SolidWorksMessageBoxIcon.Stop);
+                goto finally_;
+            }
+
+            if (assQty > 0)
+            {
+                var componentQty = quantity * assQty;
+
+                var prpQtyValue = componentQty.ToString();
+
+                // Write the in the custom properties
+                var propertyMgr = new CwPropertyManager();
+                propertyMgr.SetCustomProperty(swModel, GlobalConfig.QuantityProperty, prpQtyValue);
             }
             else
             {
