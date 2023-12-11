@@ -4,6 +4,7 @@ using CADBooster.SolidDna;
 using CodeWorksLibrary.Macros.Drawings;
 using CodeWorksLibrary.Macros.Export;
 using CodeWorksLibrary.Macros.Files;
+using CodeWorksLibrary.Macros.Properties;
 using CodeWorksLibrary.Properties;
 using SolidWorks.Interop.sldworks;
 using System.ComponentModel;
@@ -36,10 +37,6 @@ namespace CodeWorksLibrary
             [Title("Export assembly")]
             [Description("Export the current assembly and its components")]
             ExportAssemblyE,
-            [Title("Update sheet format")]
-            [Description("Update sheet format for all the sheet of the active document")]
-            [Icon(typeof(Resources), nameof(Resources.ChangeFormat))]
-            UpdateFormatE,
             [Title("Print drawing")]
             [Description("Print all the sheet of the active drawing")]
             [Icon(typeof(Resources), nameof(Resources.FastPrint))]
@@ -47,7 +44,14 @@ namespace CodeWorksLibrary
             [Title("Print sheet")]
             [Description("Print the current sheet")]
             [Icon(typeof(Resources), nameof(Resources.FastPrintSheet))]
-            FastPrintSheetE
+            FastPrintSheetE,
+            [Title("Update sheet format")]
+            [Description("Update sheet format for all the sheet of the active document")]
+            [Icon(typeof(Resources), nameof(Resources.ChangeFormat))]
+            UpdateFormatE,
+            [Title("Write quantity to components")]
+            [Description("Write the quantity custom property in all components of the open assembly")]
+            WriteQuantityE
         }
 
         #endregion
@@ -98,6 +102,9 @@ namespace CodeWorksLibrary
                     break;
                 case CwCommands_e.FastPrintSheetE:
                     FastPrintMacro.FastPrintSheet();
+                    break;
+                case CwCommands_e.WriteQuantityE:
+                    WriteQuantityMacro.WriteComponentsQuantity();
                     break;
             }
         }
