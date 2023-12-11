@@ -56,26 +56,46 @@ namespace CodeWorksLibrary.Macros.Properties
         /// <exception cref="NotImplementedException"></exception>
         private static void WriteQuantity(List<CwBomManager.Bom> bom, string assemblyQty)
         {
+            var assQty = 0.0;
+
             // Try to convert the assembly quantity to a double
-            var assQty = Convert.ToDouble(assemblyQty);
-
-            if (bom != null)
+            try
             {
-                for (int i = 0; i < bom.Count; i++)
-                {
-                    // Get the quantity saved in the BOM
-                    var bomQty = bom[i].quantity;
-
-                    // Compose the component quantity multiplying the bom quantity for the assembly one
-                    var componentQty = bomQty * assQty;
-
-                    var prpQtyValue = componentQty.ToString();
-
-                    // Write the in the custom properties
-                    var propertyMgr = new CwPropertyManager();
-                    propertyMgr.SetCustomProperty(bom[i].model, GlobalConfig.QuantityProperty, prpQtyValue);
-                }
+                assQty = Convert.ToDouble(assemblyQty);
             }
+            catch (Exception ex)
+            {
+                Application.ShowMessageBox("Assembly quantity can't be converted to a number " + ex.Message, CADBooster.SolidDna.SolidWorksMessageBoxIcon.Stop);
+                goto finally_;
+            }
+
+            if (assQty > 0)
+            {
+                if (bom != null)
+                {
+                    for (int i = 0; i < bom.Count; i++)
+                    {
+                        // Get the quantity saved in the BOM
+                        var bomQty = bom[i].quantity;
+
+                        // Compose the component quantity multiplying the bom quantity for the assembly one
+                        var componentQty = bomQty * assQty;
+
+                        var prpQtyValue = componentQty.ToString();
+
+                        // Write the in the custom properties
+                        var propertyMgr = new CwPropertyManager();
+                        propertyMgr.SetCustomProperty(bom[i].model, GlobalConfig.QuantityProperty, prpQtyValue);
+                    }
+                }   
+            }
+            else
+            {
+                Application.ShowMessageBox("Assembly quantity must be greater than 0", CADBooster.SolidDna.SolidWorksMessageBoxIcon.Stop);
+            }
+
+        finally_:
+            return;
         }
     }
 }
