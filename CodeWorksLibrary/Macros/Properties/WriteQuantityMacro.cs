@@ -43,6 +43,39 @@ namespace CodeWorksLibrary.Macros.Properties
             // Get the assembly quantity
             var prpManager = new CwPropertyManager();
             var assemblyQty = prpManager.GetCustomProperty(model.UnsafeObject, GlobalConfig.QuantityProperty);
+
+            // Write quantity to components
+            WriteQuantity(bom, assemblyQty);
+        }
+
+        /// <summary>
+        /// Write the quantity to the components in the flat bom
+        /// </summary>
+        /// <param name="bom">A BOM instance with the components for the quantities to be updated</param>
+        /// <param name="assemblyQty">The quantity of the main assembly</param>
+        /// <exception cref="NotImplementedException"></exception>
+        private static void WriteQuantity(List<CwBomManager.Bom> bom, string assemblyQty)
+        {
+            // Try to convert the assembly quantity to a double
+            var assQty = Convert.ToDouble(assemblyQty);
+
+            if (bom != null)
+            {
+                for (int i = 0; i < bom.Count; i++)
+                {
+                    // Get the quantity saved in the BOM
+                    var bomQty = bom[i].quantity;
+
+                    // Compose the component quantity multiplying the bom quantity for the assembly one
+                    var componentQty = bomQty * assQty;
+
+                    var prpQtyValue = componentQty.ToString();
+
+                    // Write the in the custom properties
+                    var propertyMgr = new CwPropertyManager();
+                    propertyMgr.SetCustomProperty(bom[i].model, GlobalConfig.QuantityProperty, prpQtyValue);
+                }
+            }
         }
     }
 }
