@@ -3,12 +3,7 @@
 namespace CodeWorksLibrary
 {
     internal class GlobalConfig
-    {
-        /// <summary>
-        /// The name of the Vault database
-        /// </summary>
-        internal const string VaultName = GlobalConfigPrivate.MyVaultName;
-
+    {       
         /// <summary>
         /// The name of the custom property that contains the author of the file
         /// </summary>
@@ -20,6 +15,22 @@ namespace CodeWorksLibrary
         internal const string ExportPath = @"C:\_Export";
 
         /// <summary>
+        /// The name of the configuration with the flat pattern
+        /// </summary>
+        internal const string FlatPatternConfigurationName = "DefaultSviluppo";
+
+        /// <summary>
+        /// The name of the custom property that contains the component quantity
+        /// </summary>
+        internal const string QuantityProperty = "Quantità";
+
+        #region Private constants
+        /// <summary>
+        /// The name of the Vault database
+        /// </summary>
+        internal const string VaultName = GlobalConfigPrivate.MyVaultName;
+
+        /// <summary>
         /// The license key for the Document Manager API
         /// </summary>
         internal const string DmKey = GlobalConfigPrivate.MyDmLicense;
@@ -29,10 +40,7 @@ namespace CodeWorksLibrary
         /// </summary>
         internal const string SheetFormatMapPath = GlobalConfigPrivate.MyReplaceMapPath;
 
-        /// <summary>
-        /// The name of the configuration with the flat pattern
-        /// </summary>
-        internal const string FlatPatternConfigurationName = "DefaultSviluppo";
+        #endregion        
 
         #region Print setup
 
