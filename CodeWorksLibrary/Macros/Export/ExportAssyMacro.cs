@@ -77,11 +77,14 @@ namespace CodeWorksLibrary.Macros.Export
                     // It assumes drawing and model have the same name and are in the same folder
                     var drwPath = Path.ChangeExtension(modelPath, "SLDDRW");
 
+                    // Initialize drawing model
+                    Model drwModel = null;
+
                     // Check if drawing exists
                     if (File.Exists(drwPath))
                     {
                         // Open the drawing model
-                        var drwModel = Application.OpenFile(drwPath, options: OpenDocumentOptions.Silent);
+                        drwModel = Application.OpenFile(drwPath, options: OpenDocumentOptions.Silent);
 
                         if (drwModel != null)
                         {
@@ -97,6 +100,12 @@ namespace CodeWorksLibrary.Macros.Export
 
                             // Export drawing
                             ExportFileMacro.ExportDrawing(drwModel);
+
+                            // Get drawing root model
+                            Model rootModel = ExportFileMacro.GetRootModel(drwModel);
+
+                            // Export preview
+                            ExportFileMacro.ExportModelAsPng(rootModel);
 
                             // Close the model
                             Application.CloseFile(drwPath);
