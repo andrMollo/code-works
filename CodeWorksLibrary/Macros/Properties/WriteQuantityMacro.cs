@@ -39,6 +39,10 @@ namespace CodeWorksLibrary.Macros.Properties
             // Get the flat BOM
             List<CwBomManager.Bom> bom = new List<CwBomManager.Bom>();
             CwBomManager.ComposeFlatBOM(rootComp, bom);
+
+            // Get the assembly quantity
+            var prpManager = new CwPropertyManager();
+            var assemblyQty = prpManager.GetCustomProperty(model.UnsafeObject, GlobalConfig.QuantityProperty);
         }
     }
 }
