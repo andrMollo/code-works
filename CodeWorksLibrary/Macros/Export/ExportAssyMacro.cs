@@ -27,6 +27,9 @@ namespace CodeWorksLibrary.Macros.Export
             }
             #endregion
 
+            // Try to show user-form
+            var winFormPopupWnd = AddIn.CreatePopupWindow<CodeWorksUI.ExportAssemblyForm>();
+
             // Get the assembly object
             var swAssy = (AssemblyDoc)model.UnsafeObject;
 
