@@ -3,11 +3,15 @@ using CodeWorksLibrary.Helpers;
 using CodeWorksLibrary.Macros.Files;
 using CodeWorksLibrary.Macros.Properties;
 using CodeWorksLibrary.Models;
+using CodeWorksLibrary.UI.ExportAssembly;
 using SolidWorks.Interop.sldworks;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Xarial.XCad.Extensions;
+using Xarial.XCad.SolidWorks;
+using CodeWorksLibrary;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
 
 namespace CodeWorksLibrary.Macros.Export
@@ -28,7 +32,9 @@ namespace CodeWorksLibrary.Macros.Export
             #endregion
 
             // Try to show user-form
-            var winFormPopupWnd = AddIn.CreatePopupWindow<CodeWorksUI.ExportAssemblyForm>();
+            var activeDoc = AddIn.Application.Documents.Active;
+
+            var winFormPopupWnd = XExtensionExtension.CreatePopupWindow<ExportAssemblyForm>(activeDoc);
 
             // Get the assembly object
             var swAssy = (AssemblyDoc)model.UnsafeObject;
