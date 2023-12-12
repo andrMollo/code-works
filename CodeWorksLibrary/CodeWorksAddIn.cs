@@ -45,9 +45,6 @@ namespace CodeWorksLibrary
             [Description("Print the current sheet")]
             [Icon(typeof(Resources), nameof(Resources.FastPrintSheet))]
             FastPrintSheetE,
-            [Title("Print to PDF")]
-            [Description("Print the current drawing to PDF")]
-            PrintToPdfE,
             [Title("Update sheet format")]
             [Description("Update sheet format for all the sheet of the active document")]
             [Icon(typeof(Resources), nameof(Resources.ChangeFormat))]
@@ -108,9 +105,6 @@ namespace CodeWorksLibrary
                     break;
                 case CwCommands_e.WriteQuantityE:
                     WriteQuantityMacro.WriteComponentsQuantity();
-                    break;
-                case CwCommands_e.PrintToPdfE:
-                    FastPrintMacro.PrintToPdf();
                     break;
             }
         }

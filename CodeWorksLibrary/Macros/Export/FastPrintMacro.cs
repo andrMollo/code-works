@@ -109,34 +109,6 @@ namespace CodeWorksLibrary.Macros.Export
             PrintDrawingSheet(swModel, swSheet);
         }
 
-        internal static void PrintToPdf()
-        {
-            var model = Application.ActiveModel;
-
-            // Check if there is an open document, if the documents has been saved and if it is a drawing
-            var isDrawingOpen = CwValidation.ModelIsDrawing(model);
-
-            if (isDrawingOpen == false)
-            {
-                return;
-            }
-
-            var exportPath = ExportFileMacro.ComposeOutFileName("PDF");
-
-            PrintDocument doc = new PrintDocument()
-            {
-                PrinterSettings = new PrinterSettings()
-                {
-                    PrinterName = "Microsoft Print to PDF",
-                    PrintToFile = true,
-                    PrintFileName = exportPath
-                }
-            };
-
-            doc.Print();
-
-        }
-
         /// <summary>
         /// Print the active sheet
         /// </summary>
