@@ -2,11 +2,9 @@
 using CodeWorksLibrary.Macros.Files;
 using CodeWorksLibrary.Macros.Properties;
 using CodeWorksLibrary.Models;
-using CodeWorksLibrary.UI.ExportAssembly;
 using SolidWorks.Interop.sldworks;
 using System.Collections.Generic;
 using System.IO;
-using Xarial.XCad.Extensions;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
 
 namespace CodeWorksLibrary.Macros.Export
@@ -28,6 +26,11 @@ namespace CodeWorksLibrary.Macros.Export
                 return;
             }
             #endregion
+
+            // Show export assembly form
+            var expAsmForm = new CodeWorksUI.ExportAssemblyForm();
+
+            var expAsmFormRes = expAsmForm.ShowDialog();
 
             // Get the assembly object
             var swAssy = (AssemblyDoc)model.UnsafeObject;
