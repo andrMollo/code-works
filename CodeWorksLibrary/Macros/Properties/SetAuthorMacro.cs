@@ -15,7 +15,7 @@ namespace CodeWorksLibrary
         internal static void SetAuthor()
         {
             // The instance to the active model
-            ModelDoc2 swModel = (ModelDoc2)AddIn.swApp.ActiveDoc;
+            ModelDoc2 swModel = (ModelDoc2)AddIn.SwApp.ActiveDoc;
 
             #region Validation
             // Check if there is an open document and if there is it can't be a drawing
