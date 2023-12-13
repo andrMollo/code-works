@@ -1,7 +1,5 @@
-﻿using CADBooster.SolidDna;
-using CodeWorksLibrary.Helpers;
+﻿using CodeWorksLibrary.Helpers;
 using CodeWorksLibrary.Macros.Drawings;
-using CodeWorksLibrary.Macros.Files;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
@@ -22,13 +20,15 @@ namespace CodeWorksLibrary.Macros.Export
         {
             var model = Application.ActiveModel;
 
+            #region Validation
             // Check if there is an open document, if the documents has been saved and if it is a drawing
-            var isDrawingOpen = CwValidation.ModelIsDrawing(model);
+            var isDrawingOpen = CwValidation.DrawingIsOpen(model);
 
             if (isDrawingOpen == false)
             {
                 return;
-            }         
+            }
+            #endregion
 
             // Get the SolidWorks model doc
             ModelDoc2 swModel = model.UnsafeObject;
@@ -79,7 +79,7 @@ namespace CodeWorksLibrary.Macros.Export
             var model = Application.ActiveModel;
 
             // Check if there is an open document, if the documents has been saved and if it is a drawing
-            var isDrawingOpen = CwValidation.ModelIsDrawing(model);
+            var isDrawingOpen = CwValidation.DrawingIsOpen(model);
 
             if (isDrawingOpen == false)
             {
