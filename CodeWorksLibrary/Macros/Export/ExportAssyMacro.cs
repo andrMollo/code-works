@@ -32,9 +32,9 @@ namespace CodeWorksLibrary.Macros.Export
             #endregion
 
             // Try to show user-form
-            var activeDoc = AddIn.Application.Documents.Active;
+            var activeDoc = AddIn.App.Documents.Active;
 
-            var winFormPopupWnd = XExtensionExtension.CreatePopupWindow<ExportAssemblyForm>(activeDoc);
+            var winFormPopupWnd = AddIn.App.CreatePopupWindow<ExportAssemblyForm>();
 
             // Get the assembly object
             var swAssy = (AssemblyDoc)model.UnsafeObject;
