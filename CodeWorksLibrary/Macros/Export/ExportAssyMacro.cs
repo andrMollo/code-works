@@ -29,9 +29,6 @@ namespace CodeWorksLibrary.Macros.Export
             }
             #endregion
 
-            // Try to show user-form
-            var activeDoc = AddIn.App.Documents.Active;
-
             // Get the assembly object
             var swAssy = (AssemblyDoc)model.UnsafeObject;
 
