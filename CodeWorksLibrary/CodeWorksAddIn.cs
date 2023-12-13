@@ -58,8 +58,15 @@ namespace CodeWorksLibrary
         #endregion
 
         #region Public properties
+        
+        /// <summary>
+        /// The SolidWorks application
+        /// </summary>
         public static SldWorks SwApp {  get; set; }
 
+        /// <summary>
+        /// The application for xCAD
+        /// </summary>
         public static ISwApplication App { get; set; }
 
         #endregion
