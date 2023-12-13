@@ -1,28 +1,26 @@
-﻿using CADBooster.SolidDna;
-using CodeWorksLibrary.Helpers;
+﻿using CodeWorksLibrary.Helpers;
 using CodeWorksLibrary.Macros.Files;
 using CodeWorksLibrary.Macros.Properties;
 using CodeWorksLibrary.Models;
 using CodeWorksLibrary.UI.ExportAssembly;
 using SolidWorks.Interop.sldworks;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using Xarial.XCad.Extensions;
-using Xarial.XCad.SolidWorks;
-using CodeWorksLibrary;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
 
 namespace CodeWorksLibrary.Macros.Export
 {
     internal class ExportAssyMacro
     {
+        /// <summary>
+        /// Export the assembly and all its components
+        /// </summary>
         internal static void ExportAssembly()
         {
-            #region Validation
             var model = Application.ActiveModel;
-
+            #region Validation
+            // Check if there is an open assembly
             var isAssemblyOpen = CwValidation.AssemblyIsOpen(model);
 
             if (isAssemblyOpen == false)
@@ -33,8 +31,6 @@ namespace CodeWorksLibrary.Macros.Export
 
             // Try to show user-form
             var activeDoc = AddIn.App.Documents.Active;
-
-            var winFormPopupWnd = AddIn.App.CreatePopupWindow<ExportAssemblyForm>();
 
             // Get the assembly object
             var swAssy = (AssemblyDoc)model.UnsafeObject;
