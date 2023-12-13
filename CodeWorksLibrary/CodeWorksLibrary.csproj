@@ -178,7 +178,12 @@
   <ItemGroup>
     <None Include="Resources\FastPrintSheet.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\CodeWorksUI\CodeWorksUI.csproj">
+      <Project>{1dd82b69-97c1-4285-a2f3-9b698e015bdb}</Project>
+      <Name>CodeWorksUI</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Xarial.XCad.SolidWorks.0.8.0-beta.4843\build\Xarial.XCad.SolidWorks.targets" Condition="Exists('..\packages\Xarial.XCad.SolidWorks.0.8.0-beta.4843\build\Xarial.XCad.SolidWorks.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
