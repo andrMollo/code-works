@@ -24,6 +24,7 @@ namespace CodeWorksLibrary.Macros.Files
         {
             var model = Application.ActiveModel;
 
+            #region Validation
             // Check if there is an open document and if there is it can't be a drawing
             var isFileOpen = CwValidation.ModelIsOpen(model);
 
@@ -31,6 +32,7 @@ namespace CodeWorksLibrary.Macros.Files
             {
                 return;
             }
+            #endregion
 
             // Check the type of file open
             if (model.IsDrawing)
