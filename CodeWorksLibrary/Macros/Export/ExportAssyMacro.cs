@@ -27,11 +27,6 @@ namespace CodeWorksLibrary.Macros.Export
             }
             #endregion
 
-            // Show export assembly form
-            var expAsmForm = new CodeWorksUI.ExportAssemblyForm();
-
-            var expAsmFormRes = expAsmForm.ShowDialog();
-
             // Get the assembly object
             var swAssy = (AssemblyDoc)model.UnsafeObject;
 
@@ -50,6 +45,10 @@ namespace CodeWorksLibrary.Macros.Export
 
             var prpManager = new CwPropertyManager();
             assemblyModel.Quantity = prpManager.GetCustomProperty(model.UnsafeObject, GlobalConfig.QuantityProperty);
+
+            // Show export assembly form
+            var expAsmForm = new CodeWorksUI.ExportAssemblyForm();
+            var expAsmFormRes = expAsmForm.ShowDialog();
 
             // Get the flat BOM
             List<CwBomManager.Bom> bom = new List<CwBomManager.Bom>();
