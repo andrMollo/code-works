@@ -70,7 +70,7 @@ namespace CodeWorksLibrary.Macros.Export
                 // Export all component in the BOM
                 if (bom != null)
                 {
-                    ExportAllComponent(bom, assemblyModel);
+                    ExportAllComponent(bom, assemblyModel, userSel);
                 }
             }
             else if (expAsmFormRes == DialogResult.Cancel)
@@ -85,7 +85,8 @@ namespace CodeWorksLibrary.Macros.Export
         /// </summary>
         /// <param name="bom">The instance of the Bill of Material</param>
         /// <param name="assembly">The assembly model object</param>
-        private static void ExportAllComponent(List<CwBomManager.Bom> bom, AssemblyModel assembly)
+        /// <param name="userSelection">The model with the option the user selected</param>
+        private static void ExportAllComponent(List<CwBomManager.Bom> bom, AssemblyModel assembly, UserSelectionModel userSelection)
         {
             if (bom != null)
             {
