@@ -55,6 +55,9 @@ namespace CodeWorksLibrary.Macros.Export
             // Check button click
             if (expAsmFormRes == DialogResult.OK)
             {
+                // An instance of user selection
+                var userSel = new UserSelectionModel();
+
                 // Get the flat BOM
                 List<CwBomManager.Bom> bom = new List<CwBomManager.Bom>();
                 CwBomManager.ComposeFlatBOM(rootComp, bom);
@@ -76,6 +79,7 @@ namespace CodeWorksLibrary.Macros.Export
         /// Export all components in the BOM
         /// </summary>
         /// <param name="bom">The instance of the Bill of Material</param>
+        /// <param name="assembly">The assembly model object</param>
         private static void ExportAllComponent(List<CwBomManager.Bom> bom, AssemblyModel assembly)
         {
             if (bom != null)
