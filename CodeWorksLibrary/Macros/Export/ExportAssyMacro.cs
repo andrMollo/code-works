@@ -1,10 +1,12 @@
-﻿using CodeWorksLibrary.Helpers;
+﻿using CADBooster.SolidDna;
+using CodeWorksLibrary.Helpers;
 using CodeWorksLibrary.Macros.Files;
 using CodeWorksLibrary.Macros.Properties;
 using CodeWorksLibrary.Models;
 using SolidWorks.Interop.sldworks;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows.Forms;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
 
 namespace CodeWorksLibrary.Macros.Export
@@ -16,7 +18,7 @@ namespace CodeWorksLibrary.Macros.Export
         /// </summary>
         internal static void ExportAssembly()
         {
-            var model = Application.ActiveModel;
+            var model = SolidWorksEnvironment.Application.ActiveModel;
             #region Validation
             // Check if there is an open assembly
             var isAssemblyOpen = CwValidation.AssemblyIsOpen(model);
@@ -50,15 +52,24 @@ namespace CodeWorksLibrary.Macros.Export
             var expAsmForm = new CodeWorksUI.ExportAssemblyForm();
             var expAsmFormRes = expAsmForm.ShowDialog();
 
-            // Get the flat BOM
-            List<CwBomManager.Bom> bom = new List<CwBomManager.Bom>();
-            CwBomManager.ComposeFlatBOM(rootComp, bom);
-
-            // Export all component in the BOM
-            if (bom != null)
+            // Check button click
+            if (expAsmFormRes == DialogResult.OK)
             {
-                ExportAllComponent(bom, assemblyModel);
+                // Get the flat BOM
+                List<CwBomManager.Bom> bom = new List<CwBomManager.Bom>();
+                CwBomManager.ComposeFlatBOM(rootComp, bom);
+
+                // Export all component in the BOM
+                if (bom != null)
+                {
+                    ExportAllComponent(bom, assemblyModel);
+                }
             }
+            else if (expAsmFormRes == DialogResult.Cancel)
+            {
+                SolidWorksEnvironment.Application.ShowMessageBox("Macro terminated", SolidWorksMessageBoxIcon.Stop);
+            }
+
         }
 
         /// <summary>
