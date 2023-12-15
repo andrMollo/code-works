@@ -58,6 +58,11 @@ namespace CodeWorksLibrary.Macros.Export
                 // An instance of user selection
                 var userSel = new UserSelectionModel();
 
+                // Compile user selection based on form selection
+                userSel.Export = expAsmForm.ExportCheck;
+                userSel.Print = expAsmForm.PrintCheck;
+                userSel.QtyUpdate = expAsmForm.QuantityCheck;
+
                 // Get the flat BOM
                 List<CwBomManager.Bom> bom = new List<CwBomManager.Bom>();
                 CwBomManager.ComposeFlatBOM(rootComp, bom);

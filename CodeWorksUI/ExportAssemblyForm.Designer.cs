@@ -32,11 +32,11 @@
             this.exportCheckBox = new System.Windows.Forms.CheckBox();
             this.printCheckBox = new System.Windows.Forms.CheckBox();
             this.quantityGroupBox = new System.Windows.Forms.GroupBox();
+            this.compQtyCheckBox = new System.Windows.Forms.CheckBox();
             this.assemblyQtyTextBox = new System.Windows.Forms.TextBox();
             this.assemblyQtyLabel = new System.Windows.Forms.Label();
             this.okButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
-            this.compQtyCheckBox = new System.Windows.Forms.CheckBox();
             this.jobNbrLabel = new System.Windows.Forms.Label();
             this.jobNbrTextBox = new System.Windows.Forms.TextBox();
             this.exportPresentGroupBox = new System.Windows.Forms.GroupBox();
@@ -52,17 +52,19 @@
             this.titleLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(158)))), ((int)(((byte)(223)))));
             this.titleLabel.Location = new System.Drawing.Point(12, 9);
             this.titleLabel.Name = "titleLabel";
-            this.titleLabel.Size = new System.Drawing.Size(866, 149);
+            this.titleLabel.Size = new System.Drawing.Size(618, 106);
             this.titleLabel.TabIndex = 0;
             this.titleLabel.Text = "Export assembly";
             // 
             // exportCheckBox
             // 
             this.exportCheckBox.AutoSize = true;
+            this.exportCheckBox.Checked = true;
+            this.exportCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.exportCheckBox.Font = new System.Drawing.Font("Segoe UI", 15.85714F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.exportCheckBox.Location = new System.Drawing.Point(37, 215);
             this.exportCheckBox.Name = "exportCheckBox";
-            this.exportCheckBox.Size = new System.Drawing.Size(416, 54);
+            this.exportCheckBox.Size = new System.Drawing.Size(304, 41);
             this.exportCheckBox.TabIndex = 1;
             this.exportCheckBox.Text = "Export all components";
             this.exportCheckBox.UseVisualStyleBackColor = true;
@@ -73,7 +75,7 @@
             this.printCheckBox.Font = new System.Drawing.Font("Segoe UI", 15.85714F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.printCheckBox.Location = new System.Drawing.Point(491, 215);
             this.printCheckBox.Name = "printCheckBox";
-            this.printCheckBox.Size = new System.Drawing.Size(387, 54);
+            this.printCheckBox.Size = new System.Drawing.Size(283, 41);
             this.printCheckBox.TabIndex = 2;
             this.printCheckBox.Text = "Print all components";
             this.printCheckBox.UseVisualStyleBackColor = true;
@@ -92,11 +94,24 @@
             this.quantityGroupBox.TabStop = false;
             this.quantityGroupBox.Text = "Component quantity";
             // 
+            // compQtyCheckBox
+            // 
+            this.compQtyCheckBox.AutoSize = true;
+            this.compQtyCheckBox.Checked = true;
+            this.compQtyCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.compQtyCheckBox.ForeColor = System.Drawing.Color.Black;
+            this.compQtyCheckBox.Location = new System.Drawing.Point(49, 182);
+            this.compQtyCheckBox.Name = "compQtyCheckBox";
+            this.compQtyCheckBox.Size = new System.Drawing.Size(386, 41);
+            this.compQtyCheckBox.TabIndex = 2;
+            this.compQtyCheckBox.Text = "Update components quantity";
+            this.compQtyCheckBox.UseVisualStyleBackColor = true;
+            // 
             // assemblyQtyTextBox
             // 
             this.assemblyQtyTextBox.Location = new System.Drawing.Point(400, 81);
             this.assemblyQtyTextBox.Name = "assemblyQtyTextBox";
-            this.assemblyQtyTextBox.Size = new System.Drawing.Size(242, 57);
+            this.assemblyQtyTextBox.Size = new System.Drawing.Size(242, 43);
             this.assemblyQtyTextBox.TabIndex = 1;
             // 
             // assemblyQtyLabel
@@ -105,7 +120,7 @@
             this.assemblyQtyLabel.ForeColor = System.Drawing.Color.Black;
             this.assemblyQtyLabel.Location = new System.Drawing.Point(40, 84);
             this.assemblyQtyLabel.Name = "assemblyQtyLabel";
-            this.assemblyQtyLabel.Size = new System.Drawing.Size(332, 50);
+            this.assemblyQtyLabel.Size = new System.Drawing.Size(240, 37);
             this.assemblyQtyLabel.TabIndex = 0;
             this.assemblyQtyLabel.Text = "Assembly quantity:";
             // 
@@ -134,24 +149,13 @@
             this.cancelButton.UseVisualStyleBackColor = false;
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
-            // compQtyCheckBox
-            // 
-            this.compQtyCheckBox.AutoSize = true;
-            this.compQtyCheckBox.ForeColor = System.Drawing.Color.Black;
-            this.compQtyCheckBox.Location = new System.Drawing.Point(49, 182);
-            this.compQtyCheckBox.Name = "compQtyCheckBox";
-            this.compQtyCheckBox.Size = new System.Drawing.Size(529, 54);
-            this.compQtyCheckBox.TabIndex = 2;
-            this.compQtyCheckBox.Text = "Update components quantity";
-            this.compQtyCheckBox.UseVisualStyleBackColor = true;
-            // 
             // jobNbrLabel
             // 
             this.jobNbrLabel.AutoSize = true;
             this.jobNbrLabel.Font = new System.Drawing.Font("Segoe UI", 15.85714F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.jobNbrLabel.Location = new System.Drawing.Point(37, 302);
             this.jobNbrLabel.Name = "jobNbrLabel";
-            this.jobNbrLabel.Size = new System.Drawing.Size(434, 50);
+            this.jobNbrLabel.Size = new System.Drawing.Size(314, 37);
             this.jobNbrLabel.TabIndex = 6;
             this.jobNbrLabel.Text = "Job number \\ Sub-folder:";
             // 
@@ -160,7 +164,7 @@
             this.jobNbrTextBox.Font = new System.Drawing.Font("Segoe UI", 15.85714F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.jobNbrTextBox.Location = new System.Drawing.Point(491, 295);
             this.jobNbrTextBox.Name = "jobNbrTextBox";
-            this.jobNbrTextBox.Size = new System.Drawing.Size(387, 57);
+            this.jobNbrTextBox.Size = new System.Drawing.Size(387, 43);
             this.jobNbrTextBox.TabIndex = 7;
             // 
             // exportPresentGroupBox
@@ -179,14 +183,14 @@
             this.newExportCheckBox.AutoSize = true;
             this.newExportCheckBox.Location = new System.Drawing.Point(49, 69);
             this.newExportCheckBox.Name = "newExportCheckBox";
-            this.newExportCheckBox.Size = new System.Drawing.Size(516, 54);
+            this.newExportCheckBox.Size = new System.Drawing.Size(377, 41);
             this.newExportCheckBox.TabIndex = 0;
             this.newExportCheckBox.Text = "Export again all components";
             this.newExportCheckBox.UseVisualStyleBackColor = true;
             // 
             // ExportAssemblyForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(15F, 38F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 28F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(917, 1004);
