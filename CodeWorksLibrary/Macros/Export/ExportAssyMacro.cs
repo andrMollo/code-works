@@ -106,17 +106,33 @@ namespace CodeWorksLibrary.Macros.Export
                     // It assumes drawing and model have the same name and are in the same folder
                     var drwPath = Path.ChangeExtension(modelPath, "SLDDRW");
 
-                    // Export the component drawing and preview if the user selected the option
-                    if (userSelection.Export == true)
+                    if (File.Exists(drwPath) == false)
                     {
-                        // Export drawing and model preview
-                        ExportFileMacro.ExportDrawingAndPreview(drwPath);
+                        return;
                     }
 
-                    // Print the drawing if the user selected the option
-                    if (userSelection.Print == true)
+                    // If one between print and export option is selected open the drawing
+                    if (userSelection.Export == true || userSelection.Print == true)
                     {
+                        var drwModel = SolidWorksEnvironment.Application.OpenFile(drwPath, options: OpenDocumentOptions.Silent);
 
+                        if (drwModel == null)
+                        {
+                            return;
+                        }
+
+                        // Export the component drawing and preview if the user selected the option
+                        if (userSelection.Export == true)
+                        {
+                            // Export drawing and model preview
+                            ExportFileMacro.ExportDrawingAndPreview(drwModel);
+                        }
+
+                        // Print the drawing if the user selected the option
+                        if (userSelection.Print == true)
+                        {
+
+                        }
                     }
                 }
             }
