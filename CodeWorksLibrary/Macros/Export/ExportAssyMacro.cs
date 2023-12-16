@@ -92,8 +92,11 @@ namespace CodeWorksLibrary.Macros.Export
             {
                 foreach (var comp in bom)
                 {
-                    // Write quantity
-                    WriteQuantityMacro.WriteQuantity(comp.model, comp.quantity, assembly.Quantity);
+                    if (userSelection.QtyUpdate == true)
+                    {
+                        // Write quantity
+                        WriteQuantityMacro.WriteQuantity(comp.model, comp.quantity, assembly.Quantity);
+                    }
 
                     // Get model path
                     var modelPath = comp.model.GetPathName();
@@ -102,8 +105,11 @@ namespace CodeWorksLibrary.Macros.Export
                     // It assumes drawing and model have the same name and are in the same folder
                     var drwPath = Path.ChangeExtension(modelPath, "SLDDRW");
 
-                    // Export drawing and model preview
-                    ExportFileMacro.ExportDrawingAndPreview(drwPath);
+                    if (userSelection.Export == true)
+                    {
+                        // Export drawing and model preview
+                        ExportFileMacro.ExportDrawingAndPreview(drwPath);
+                    }
                 }
             }
         }
