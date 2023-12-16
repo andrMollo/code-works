@@ -90,13 +90,13 @@ namespace CodeWorksLibrary.Macros.Export
         {
             if (bom != null)
             {
-                for (int i = 0; i < bom.Count; i++)
+                foreach (var comp in bom)
                 {
                     // Write quantity
-                    WriteQuantityMacro.WriteQuantity(bom[i].model, bom[i].quantity, assembly.Quantity);
+                    WriteQuantityMacro.WriteQuantity(comp.model, comp.quantity, assembly.Quantity);
 
                     // Get model path
-                    var modelPath = bom[i].model.GetPathName();
+                    var modelPath = comp.model.GetPathName();
 
                     // Get drawing path
                     // It assumes drawing and model have the same name and are in the same folder
