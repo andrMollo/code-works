@@ -4,21 +4,23 @@ using CodeWorksLibrary.Macros.Files;
 using CodeWorksLibrary.Macros.Properties;
 using CodeWorksLibrary.Models;
 using SolidWorks.Interop.sldworks;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using System.Windows.Forms;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
 
 namespace CodeWorksLibrary.Macros.Export
 {
     internal class ExportAssyMacro
     {
+        /// <summary>
+        /// Export the assembly and all its components
+        /// </summary>
         internal static void ExportAssembly()
         {
+            var model = SolidWorksEnvironment.Application.ActiveModel;
             #region Validation
-            var model = Application.ActiveModel;
-
+            // Check if there is an open assembly
             var isAssemblyOpen = CwValidation.AssemblyIsOpen(model);
 
             if (isAssemblyOpen == false)
@@ -46,39 +48,92 @@ namespace CodeWorksLibrary.Macros.Export
             var prpManager = new CwPropertyManager();
             assemblyModel.Quantity = prpManager.GetCustomProperty(model.UnsafeObject, GlobalConfig.QuantityProperty);
 
-            // Get the flat BOM
-            List<CwBomManager.Bom> bom = new List<CwBomManager.Bom>();
-            CwBomManager.ComposeFlatBOM(rootComp, bom);
+            // Show export assembly form
+            var expAsmForm = new CodeWorksUI.ExportAssemblyForm();
+            var expAsmFormRes = expAsmForm.ShowDialog();
 
-            // Export all component in the BOM
-            if (bom != null)
+            // Check button click
+            if (expAsmFormRes == DialogResult.OK)
             {
-                ExportAllComponent(bom, assemblyModel);
+                // An instance of user selection
+                var userSel = new UserSelectionModel();
+
+                // Compile user selection based on form selection
+                userSel.Export = expAsmForm.ExportCheck;
+                userSel.Print = expAsmForm.PrintCheck;
+                userSel.QtyUpdate = expAsmForm.QuantityCheck;
+
+                // Get the flat BOM
+                List<CwBomManager.Bom> bom = new List<CwBomManager.Bom>();
+                CwBomManager.ComposeFlatBOM(rootComp, bom);
+
+                // Export all component in the BOM
+                if (bom != null)
+                {
+                    ExportAllComponent(bom, assemblyModel, userSel);
+                }
             }
+            else if (expAsmFormRes == DialogResult.Cancel)
+            {
+                SolidWorksEnvironment.Application.ShowMessageBox("Macro terminated", SolidWorksMessageBoxIcon.Stop);
+            }
+
         }
 
         /// <summary>
         /// Export all components in the BOM
         /// </summary>
         /// <param name="bom">The instance of the Bill of Material</param>
-        private static void ExportAllComponent(List<CwBomManager.Bom> bom, AssemblyModel assembly)
+        /// <param name="assembly">The assembly model object</param>
+        /// <param name="userSelection">The model with the option the user selected</param>
+        private static void ExportAllComponent(List<CwBomManager.Bom> bom, AssemblyModel assembly, UserSelectionModel userSelection)
         {
             if (bom != null)
             {
-                for (int i = 0; i < bom.Count; i++)
+                foreach (var comp in bom)
                 {
-                    // Write quantity
-                    WriteQuantityMacro.WriteQuantity(bom[i].model, bom[i].quantity, assembly.Quantity);
+                    // Update the components quantity is the user selected the option
+                    if (userSelection.QtyUpdate == true)
+                    {
+                        // Write quantity
+                        WriteQuantityMacro.WriteQuantity(comp.model, comp.quantity, assembly.Quantity);
+                    }
 
                     // Get model path
-                    var modelPath = bom[i].model.GetPathName();
+                    var modelPath = comp.model.GetPathName();
 
                     // Get drawing path
                     // It assumes drawing and model have the same name and are in the same folder
                     var drwPath = Path.ChangeExtension(modelPath, "SLDDRW");
 
-                    // Export drawing and model preview
-                    ExportFileMacro.ExportDrawingAndPreview(drwPath);
+                    if (File.Exists(drwPath) == false)
+                    {
+                        return;
+                    }
+
+                    // If one between print and export option is selected open the drawing
+                    if (userSelection.Export == true || userSelection.Print == true)
+                    {
+                        var drwModel = SolidWorksEnvironment.Application.OpenFile(drwPath, options: OpenDocumentOptions.Silent);
+
+                        if (drwModel == null)
+                        {
+                            return;
+                        }
+
+                        // Export the component drawing and preview if the user selected the option
+                        if (userSelection.Export == true)
+                        {
+                            // Export drawing and model preview
+                            ExportFileMacro.ExportDrawingAndPreview(drwModel);
+                        }
+
+                        // Print the drawing if the user selected the option
+                        if (userSelection.Print == true)
+                        {
+
+                        }
+                    }
                 }
             }
         }

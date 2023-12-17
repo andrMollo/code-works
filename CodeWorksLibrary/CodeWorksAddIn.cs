@@ -9,6 +9,7 @@ using CodeWorksLibrary.Properties;
 using SolidWorks.Interop.sldworks;
 using System.ComponentModel;
 using Xarial.XCad.Base.Attributes;
+using Xarial.XCad.SolidWorks;
 using Xarial.XCad.UI.Commands;
 
 namespace CodeWorksLibrary
@@ -57,7 +58,16 @@ namespace CodeWorksLibrary
         #endregion
 
         #region Public properties
-        public static SldWorks swApp {  get; set; }
+        
+        /// <summary>
+        /// The SolidWorks application
+        /// </summary>
+        public static SldWorks SwApp {  get; set; }
+
+        /// <summary>
+        /// The application for xCAD
+        /// </summary>
+        public static ISwApplication App { get; set; }
 
         #endregion
 
@@ -70,7 +80,9 @@ namespace CodeWorksLibrary
 
             CommandManager.AddCommandGroup<CwCommands_e>().CommandClick += OnCommandClick;
 
-            swApp = (SldWorks)this.Application.Sw;
+            SwApp = (SldWorks)this.Application.Sw;
+
+            App = this.Application;
         }
 
         /// <summary>

@@ -1,7 +1,5 @@
-﻿using CADBooster.SolidDna;
-using CodeWorksLibrary.Helpers;
+﻿using CodeWorksLibrary.Helpers;
 using SolidWorks.Interop.sldworks;
-using SolidWorks.Interop.swconst;
 using System.Collections.Generic;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
 
@@ -15,21 +13,19 @@ namespace CodeWorksLibrary
         internal static void SetAuthor()
         {
             // The instance to the active model
-            ModelDoc2 swModel = (ModelDoc2)AddIn.swApp.ActiveDoc;
+            var model = Application.ActiveModel;
 
             #region Validation
             // Check if there is an open document and if there is it can't be a drawing
-            if (swModel is null)
+            var isModelOpen = CwValidation.Model3dIsOpen(model);
+
+            if (isModelOpen == false)
             {
-                Application.ShowMessageBox("Open a document to set the author",SolidWorksMessageBoxIcon.Stop);
-                return;
-            }
-            if (swModel.GetType() == (int)swDocumentTypes_e.swDocDRAWING)
-            {
-                Application.ShowMessageBox("Open a part or an assembly to set the author", SolidWorksMessageBoxIcon.Stop);
                 return;
             }
             #endregion
+
+            ModelDoc2 swModel = model.UnsafeObject;
 
             // Get the list of selected models
             // If nothing is selected add the active model to the list of model object
