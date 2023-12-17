@@ -131,7 +131,7 @@ namespace CodeWorksLibrary.Macros.Export
                         // Print the drawing if the user selected the option
                         if (userSelection.Print == true)
                         {
-
+                            FastPrintMacro.PrintFile(drwModel);
                         }
                     }
                 }

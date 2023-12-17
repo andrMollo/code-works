@@ -1,4 +1,5 @@
-﻿using CodeWorksLibrary.Helpers;
+﻿using CADBooster.SolidDna;
+using CodeWorksLibrary.Helpers;
 using CodeWorksLibrary.Macros.Drawings;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
@@ -30,6 +31,15 @@ namespace CodeWorksLibrary.Macros.Export
             }
             #endregion
 
+            PrintFile(model);            
+        }
+
+        /// <summary>
+        /// Print the model
+        /// </summary>
+        /// <param name="model">Th pointer to the model object</param>
+        internal static void PrintFile(Model model)
+        {
             // Get the SolidWorks model doc
             ModelDoc2 swModel = model.UnsafeObject;
 
@@ -63,7 +73,7 @@ namespace CodeWorksLibrary.Macros.Export
                 {
                     UpgradeSheetFormat(swDraw, swSheet);
 
-                    PrintDrawingSheet(swModel, swSheet);                    
+                    PrintDrawingSheet(swModel, swSheet);
                 }
             }
 
