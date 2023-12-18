@@ -6,10 +6,8 @@ using CodeWorksLibrary.Models;
 using SolidWorks.Interop.sldworks;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
 using System.Windows.Forms;
-using static CADBooster.SolidDna.SolidWorksEnvironment;
 
 namespace CodeWorksLibrary.Macros.Export
 {
