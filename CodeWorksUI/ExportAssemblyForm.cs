@@ -36,10 +36,23 @@ namespace CodeWorksUI
         {
             get { return compQtyCheckBox.Checked; }
         }
+        
+        /// <summary>
+        /// The quantity property of the open assembly
+        /// </summary>
         public string AssemblyQty
         {
             get { return assemblyQtyTextBox.Text; }
             set { assemblyQtyTextBox.Text = value; }
+        }
+
+        /// <summary>
+        /// The job number \ sub-folder for the export
+        /// </summary>
+        public string JobNumber
+        {
+            get { return jobNbrTextBox.Text; }
+            set { jobNbrTextBox.Text = value; }
         }
         #endregion
         public ExportAssemblyForm()
