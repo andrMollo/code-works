@@ -70,7 +70,7 @@ namespace CodeWorksLibrary.Macros.Export
                 assemblyModel.Quantity = expAsmForm.AssemblyQty;
 
                 // Get the flat BOM
-                List<CwBomManager.Bom> bom = new List<CwBomManager.Bom>();
+                List<BomModel> bom = new List<BomModel>();
                 CwBomManager.ComposeFlatBOM(rootComp, bom);
 
                 // Export all component in the BOM
@@ -94,7 +94,7 @@ namespace CodeWorksLibrary.Macros.Export
         /// <param name="bom">The instance of the Bill of Material</param>
         /// <param name="assembly">The assembly model object</param>
         /// <param name="userSelection">The model with the option the user selected</param>
-        private static void ExportAllComponent(List<CwBomManager.Bom> bom, AssemblyModel assembly, UserSelectionModel userSelection)
+        private static void ExportAllComponent(List<BomModel> bom, AssemblyModel assembly, UserSelectionModel userSelection)
         {
             if (bom != null)
             {
@@ -104,11 +104,11 @@ namespace CodeWorksLibrary.Macros.Export
                     if (userSelection.QtyUpdate == true)
                     {
                         // Write quantity
-                        WriteQuantityMacro.WriteQuantity(comp.model, comp.quantity, assembly.Quantity);
+                        WriteQuantityMacro.WriteQuantity(comp.Model, comp.Quantity, assembly.Quantity);
                     }
 
                     // Get model path
-                    var modelPath = comp.model.GetPathName();
+                    var modelPath = comp.Model.GetPathName();
 
                     // Get drawing path
                     // It assumes drawing and model have the same name and are in the same folder

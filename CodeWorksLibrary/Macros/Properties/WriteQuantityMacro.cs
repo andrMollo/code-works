@@ -1,4 +1,5 @@
 ﻿using CodeWorksLibrary.Helpers;
+using CodeWorksLibrary.Models;
 using SolidWorks.Interop.sldworks;
 using System;
 using System.Collections.Generic;
@@ -41,7 +42,7 @@ namespace CodeWorksLibrary.Macros.Properties
             var rootComp = swConf.GetRootComponent3(true);
 
             // Get the flat BOM
-            List<CwBomManager.Bom> bom = new List<CwBomManager.Bom>();
+            List<BomModel> bom = new List<BomModel>();
             CwBomManager.ComposeFlatBOM(rootComp, bom);
 
             // Get the assembly quantity
@@ -57,7 +58,7 @@ namespace CodeWorksLibrary.Macros.Properties
         /// </summary>
         /// <param name="bom">A BOM instance with the components for the quantities to be updated</param>
         /// <param name="assemblyQty">The quantity of the main assembly</param>
-        private static void WriteQuantityAllComponents(List<CwBomManager.Bom> bom, string assemblyQty)
+        private static void WriteQuantityAllComponents(List<BomModel> bom, string assemblyQty)
         {
             var assQty = 0.0;
 
@@ -79,7 +80,7 @@ namespace CodeWorksLibrary.Macros.Properties
                     for (int i = 0; i < bom.Count; i++)
                     {
                         // Get the quantity saved in the BOM
-                        var bomQty = bom[i].quantity;
+                        var bomQty = bom[i].Quantity;
 
                         // Compose the component quantity multiplying the bom quantity for the assembly one
                         var componentQty = bomQty * assQty;
@@ -88,7 +89,7 @@ namespace CodeWorksLibrary.Macros.Properties
 
                         // Write the in the custom properties
                         var propertyMgr = new CwPropertyManager();
-                        propertyMgr.SetCustomProperty(bom[i].model, GlobalConfig.QuantityProperty, prpQtyValue);
+                        propertyMgr.SetCustomProperty(bom[i].Model, GlobalConfig.QuantityProperty, prpQtyValue);
                     }
                 }   
             }
