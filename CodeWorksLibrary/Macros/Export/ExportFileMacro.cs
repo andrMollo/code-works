@@ -15,8 +15,15 @@ using static CADBooster.SolidDna.SolidWorksEnvironment;
 
 namespace CodeWorksLibrary.Macros.Files
 {
-    internal class ExportFileMacro
+    internal static class ExportFileMacro
     {
+        #region Public properties
+        /// <summary>
+        /// The export folder
+        /// </summary>
+        public static string ExportFolder { get; set; }
+        #endregion
+
         /// <summary>
         /// Export the open file in different format
         /// </summary>
@@ -33,6 +40,8 @@ namespace CodeWorksLibrary.Macros.Files
                 return;
             }
             #endregion
+
+            ExportFileMacro.ExportFolder = GlobalConfig.ExportPath;
 
             // Check the type of file open
             if (model.IsDrawing)
@@ -349,7 +358,7 @@ namespace CodeWorksLibrary.Macros.Files
             var fileName = Path.GetFileNameWithoutExtension(modelPath);
 
             // Compose the path to the folder
-            var folderPath = Path.Combine(GlobalConfig.ExportPath, extension);
+            var folderPath = Path.Combine(ExportFolder, extension);
 
             // Check if output path exists, if not create it
             if (!Directory.Exists(folderPath))
@@ -384,7 +393,7 @@ namespace CodeWorksLibrary.Macros.Files
             var fileName = Path.GetFileNameWithoutExtension(modelPath);
 
             // Compose the path to the folder
-            var folderPath = Path.Combine(GlobalConfig.ExportPath, subFolder);
+            var folderPath = Path.Combine(ExportFolder, subFolder);
 
             // Check if output path exists, if not create it
             if (!Directory.Exists(folderPath))

@@ -14,12 +14,20 @@ namespace CodeWorksLibrary.Macros.Export
 {
     internal class ExportAssyMacro
     {
+        #region Public properties
+        /// <summary>
+        /// The job number
+        /// </summary>
+        public static string JobNumber { get; set; }
+        #endregion
+
         /// <summary>
         /// Export the assembly and all its components
         /// </summary>
         internal static void ExportAssembly()
         {
             var model = SolidWorksEnvironment.Application.ActiveModel;
+
             #region Validation
             // Check if there is an open assembly
             var isAssemblyOpen = CwValidation.AssemblyIsOpen(model);
@@ -74,6 +82,12 @@ namespace CodeWorksLibrary.Macros.Export
                 // Get the assembly quantity back from the winform
                 assemblyModel.Quantity = expAsmForm.AssemblyQty;
 
+                // Get the job number
+                JobNumber = expAsmForm.JobNumber;
+
+                // Compose set the export path
+                ExportFileMacro.ExportFolder = Path.Combine(GlobalConfig.ExportPath, JobNumber);
+
                 // Get the flat BOM
                 List<BomModel> bom = new List<BomModel>();
                 CwBomManager.ComposeFlatBOM(rootComp, bom);
@@ -112,7 +126,7 @@ namespace CodeWorksLibrary.Macros.Export
 
                 // Set the log path
                 asmLog.LogFolderPath = GlobalConfig.LogPath;
-                asmLog.LogFileName = @"log.txt";
+                asmLog.LogFileName = $"log_{JobNumber}.txt";
 
                 // Write log first life
                 asmLog.WirteLog("File processati al " + DateTime.Now);
