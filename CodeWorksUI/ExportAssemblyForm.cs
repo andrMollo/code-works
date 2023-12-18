@@ -62,16 +62,7 @@ namespace CodeWorksUI
         #endregion
         public ExportAssemblyForm()
         {
-            InitializeComponent();
-
-            if (LogExist)
-            {
-                exportPresentGroupBox.Visible = true;
-            }
-            else
-            {
-                exportPresentGroupBox.Visible = false;
-            }
+            InitializeComponent();            
         }
 
         private void okButton_Click(object sender, EventArgs e)
@@ -82,6 +73,18 @@ namespace CodeWorksUI
         private void cancelButton_Click(object sender, EventArgs e)
         {
             this .DialogResult = DialogResult.Cancel;
+        }
+
+        private void ExportAssemblyForm_Shown(object sender, EventArgs e)
+        {
+            if (LogExist)
+            {
+                exportPresentGroupBox.Visible = true;
+            }
+            else
+            {
+                exportPresentGroupBox.Visible = false;
+            }
         }
     }
 }

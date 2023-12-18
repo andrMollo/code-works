@@ -207,6 +207,7 @@
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "ExportAssemblyForm";
             this.Text = "Export assembly";
+            this.Shown += new System.EventHandler(this.ExportAssemblyForm_Shown);
             this.quantityGroupBox.ResumeLayout(false);
             this.quantityGroupBox.PerformLayout();
             this.exportPresentGroupBox.ResumeLayout(false);
