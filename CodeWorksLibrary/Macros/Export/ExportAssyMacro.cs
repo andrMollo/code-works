@@ -5,6 +5,7 @@ using CodeWorksLibrary.Macros.Properties;
 using CodeWorksLibrary.Models;
 using SolidWorks.Interop.sldworks;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Windows.Forms;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
@@ -98,6 +99,12 @@ namespace CodeWorksLibrary.Macros.Export
         {
             if (bom != null)
             {
+                // Initiate a log model
+                var asmLog = new Helpers.Logger();
+
+                // Set the log path
+                asmLog.LogPath = GlobalConfig.LogPath + @"log.txt";
+
                 foreach (var comp in bom)
                 {
                     // Update the components quantity is the user selected the option
@@ -141,6 +148,8 @@ namespace CodeWorksLibrary.Macros.Export
                         {
                             FastPrintMacro.PrintFile(drwModel);
                         }
+
+                        asmLog.WirteLogWithDate(modelPath);
                     }
                 }
             }

@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CodeWorksLibrary.Helpers
 {
@@ -31,7 +27,7 @@ namespace CodeWorksLibrary.Helpers
         /// <summary>
         /// Write a massage to the log file followed by the current date
         /// </summary>
-        /// <param name="message">The string to be written int the lgo</param>
+        /// <param name="message">The string to be written int the log</param>
         internal void WirteLogWithDate(string message)
         {
             string logPath = LogPath;
