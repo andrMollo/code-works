@@ -66,6 +66,9 @@ namespace CodeWorksLibrary.Macros.Export
                 userSel.Print = expAsmForm.PrintCheck;
                 userSel.QtyUpdate = expAsmForm.QuantityCheck;
 
+                // Get the assembly quantity back from the winform
+                assemblyModel.Quantity = expAsmForm.AssemblyQty;
+
                 // Get the flat BOM
                 List<CwBomManager.Bom> bom = new List<CwBomManager.Bom>();
                 CwBomManager.ComposeFlatBOM(rootComp, bom);
