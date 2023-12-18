@@ -123,7 +123,7 @@ namespace CodeWorksLibrary.Macros.Export
 
                     if (File.Exists(drwPath) == false)
                     {
-                        return;
+                        continue;
                     }
 
                     // If one between print and export option is selected open the drawing
@@ -133,7 +133,7 @@ namespace CodeWorksLibrary.Macros.Export
 
                         if (drwModel == null)
                         {
-                            return;
+                            continue;
                         }
 
                         // Export the component drawing and preview if the user selected the option
