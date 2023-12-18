@@ -19,6 +19,8 @@ namespace CodeWorksLibrary.Macros.Export
         /// The job number
         /// </summary>
         public static string JobNumber { get; set; }
+
+        public static Helpers.Logger AssExpLog { get; set; }
         #endregion
 
         /// <summary>
@@ -132,7 +134,7 @@ namespace CodeWorksLibrary.Macros.Export
                 asmLog.LogFileName = $"log_{JobNumber}.txt";
 
                 // Write log first life
-                asmLog.WirteLog("File processati al " + DateTime.Now);
+                asmLog.WriteLog("File processati al " + DateTime.Now);
 
                 foreach (var comp in bom)
                 {
@@ -178,7 +180,7 @@ namespace CodeWorksLibrary.Macros.Export
                             FastPrintMacro.PrintFile(drwModel);
                         }
 
-                        asmLog.WirteLogWithDate(modelPath);
+                        asmLog.WriteLogWithDate(modelPath);
                     }
                 }
             }

@@ -24,7 +24,7 @@ namespace CodeWorksLibrary.Helpers
         /// Write a message to file
         /// </summary>
         /// <param name="message">The string to be written in the log</param>
-        internal void WirteLog(string message)
+        internal void WriteLog(string message)
         {
             string logFolder = LogFolderPath;
 
@@ -47,7 +47,7 @@ namespace CodeWorksLibrary.Helpers
         /// Write a massage to the log file followed by the current date
         /// </summary>
         /// <param name="message">The string to be written int the log</param>
-        internal void WirteLogWithDate(string message)
+        internal void WriteLogWithDate(string message)
         {
             string logFolder = LogFolderPath;
 
@@ -64,6 +64,38 @@ namespace CodeWorksLibrary.Helpers
             {
                 sw.WriteLine($"{message}; {DateTime.Now}");
             }
+        }
+
+        /// <summary>
+        /// Compose the log fill path
+        /// </summary>
+        /// <param name="token">The job number / sub folder</param>
+        /// <returns>The full path to the log file</returns>
+        internal static string ComposeLogPath(string token)
+        {
+            // The folder of the log file
+            string logFolder = GlobalConfig.LogPath;
+
+            // Create the log folder if doesn't exists
+            if (!Directory.Exists(logFolder))
+            {
+                Directory.CreateDirectory(logFolder);
+            }
+
+            // Resolve the token to compose the log name
+            string logName = $"log_{token}.txt";
+
+            return Path.Combine(logFolder, logName);
+        }
+
+        /// <summary>
+        /// Check if a log file exist
+        /// </summary>
+        /// <param name="logPath">The path to the log file</param>
+        /// <returns>True if the log file exists</returns>
+        internal static bool CheckLogExist(string logPath)
+        {
+            return false;
         }
     }
 }
