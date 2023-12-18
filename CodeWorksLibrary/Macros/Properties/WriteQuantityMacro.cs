@@ -51,6 +51,8 @@ namespace CodeWorksLibrary.Macros.Properties
 
             // Write quantity to components
             WriteQuantityAllComponents(bom, assemblyQty);
+
+            Application.ShowMessageBox("Macro terminated", CADBooster.SolidDna.SolidWorksMessageBoxIcon.Information);
         }
 
         /// <summary>
