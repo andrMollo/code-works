@@ -24,7 +24,7 @@ namespace CodeWorksLibrary.Macros.Export
         /// <summary>
         /// The log object for the assembly export
         /// </summary>
-        public static Helpers.Logger AssExpLog { get; set; }
+        public static Logger AssExpLog { get; set; }
         #endregion
 
         /// <summary>
@@ -64,10 +64,16 @@ namespace CodeWorksLibrary.Macros.Export
             assemblyModel.Quantity = prpManager.GetCustomProperty(model.UnsafeObject, GlobalConfig.QuantityProperty);
 
             // Compose the full path to the logger
+            AssExpLog = new Logger();
             AssExpLog.LogPath = Logger.ComposeLogPath(string.Empty);
 
-            // Show assembly quantity in the form
+            // Initiate form
             var expAsmForm = new CodeWorksUI.ExportAssemblyForm();
+
+            // Check if log file already exists
+            expAsmForm.LogExist = File.Exists(AssExpLog.LogPath);
+
+            // Show assembly quantity in the form
             expAsmForm.AssemblyQty = assemblyModel.Quantity;
 
             // Show export assembly form

@@ -54,10 +54,24 @@ namespace CodeWorksUI
             get { return jobNbrTextBox.Text; }
             set { jobNbrTextBox.Text = value; }
         }
+
+        /// <summary>
+        /// True if the log file exist
+        /// </summary>
+        public bool LogExist { get; set; } 
         #endregion
         public ExportAssemblyForm()
         {
             InitializeComponent();
+
+            if (LogExist)
+            {
+                exportPresentGroupBox.Visible = true;
+            }
+            else
+            {
+                exportPresentGroupBox.Visible = false;
+            }
         }
 
         private void okButton_Click(object sender, EventArgs e)
