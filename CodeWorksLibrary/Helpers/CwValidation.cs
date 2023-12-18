@@ -1,4 +1,5 @@
 ﻿using CADBooster.SolidDna;
+using System.IO;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
 
 namespace CodeWorksLibrary.Helpers
@@ -130,6 +131,11 @@ namespace CodeWorksLibrary.Helpers
             }
 
             return true;
+        }
+
+        internal static string RemoveInvalidChars(string filename)
+        {
+            return string.Concat(filename.Split(Path.GetInvalidPathChars()));
         }
     }
 }

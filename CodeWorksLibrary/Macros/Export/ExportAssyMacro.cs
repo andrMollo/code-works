@@ -85,6 +85,9 @@ namespace CodeWorksLibrary.Macros.Export
                 // Get the job number
                 JobNumber = expAsmForm.JobNumber;
 
+                // Validate job number
+                JobNumber = CwValidation.RemoveInvalidChars(JobNumber);
+
                 // Compose set the export path
                 ExportFileMacro.ExportFolder = Path.Combine(GlobalConfig.ExportPath, JobNumber);
 
