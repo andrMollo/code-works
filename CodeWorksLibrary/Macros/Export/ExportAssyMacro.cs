@@ -103,7 +103,8 @@ namespace CodeWorksLibrary.Macros.Export
                 var asmLog = new Helpers.Logger();
 
                 // Set the log path
-                asmLog.LogPath = GlobalConfig.LogPath + @"log.txt";
+                asmLog.LogFolderPath = GlobalConfig.LogPath;
+                asmLog.LogFileName = @"log.txt";
 
                 foreach (var comp in bom)
                 {
