@@ -48,8 +48,11 @@ namespace CodeWorksLibrary.Macros.Export
             var prpManager = new CwPropertyManager();
             assemblyModel.Quantity = prpManager.GetCustomProperty(model.UnsafeObject, GlobalConfig.QuantityProperty);
 
-            // Show export assembly form
+            // Show assembly quantity in the form
             var expAsmForm = new CodeWorksUI.ExportAssemblyForm();
+            expAsmForm.AssemblyQty = assemblyModel.Quantity;
+
+            // Show export assembly form
             var expAsmFormRes = expAsmForm.ShowDialog();
 
             // Check button click

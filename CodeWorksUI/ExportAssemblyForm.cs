@@ -36,6 +36,11 @@ namespace CodeWorksUI
         {
             get { return compQtyCheckBox.Checked; }
         }
+        public string AssemblyQty
+        {
+            get { return assemblyQtyTextBox.Text; }
+            set { assemblyQtyTextBox.Text = value; }
+        }
         #endregion
         public ExportAssemblyForm()
         {
