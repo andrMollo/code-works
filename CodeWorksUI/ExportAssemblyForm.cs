@@ -75,6 +75,11 @@ namespace CodeWorksUI
             this .DialogResult = DialogResult.Cancel;
         }
 
+        /// <summary>
+        /// Fired when the form is shown
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ExportAssemblyForm_Shown(object sender, EventArgs e)
         {
             if (LogExist)
@@ -85,6 +90,16 @@ namespace CodeWorksUI
             {
                 exportPresentGroupBox.Visible = false;
             }
+        }
+
+        /// <summary>
+        /// Fired when the text box is changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void jobNbrTextBox_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

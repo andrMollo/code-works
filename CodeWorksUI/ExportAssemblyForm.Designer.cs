@@ -166,6 +166,7 @@
             this.jobNbrTextBox.Name = "jobNbrTextBox";
             this.jobNbrTextBox.Size = new System.Drawing.Size(387, 43);
             this.jobNbrTextBox.TabIndex = 7;
+            this.jobNbrTextBox.TextChanged += new System.EventHandler(this.jobNbrTextBox_TextChanged);
             // 
             // exportPresentGroupBox
             // 
