@@ -133,6 +133,11 @@ namespace CodeWorksLibrary.Helpers
             return true;
         }
 
+        /// <summary>
+        /// Remove invalid path characters
+        /// </summary>
+        /// <param name="filename">The string to be checked</param>
+        /// <returns>The input string with the invalid characters removed</returns>
         internal static string RemoveInvalidChars(string filename)
         {
             return string.Concat(filename.Split(Path.GetInvalidPathChars()));
