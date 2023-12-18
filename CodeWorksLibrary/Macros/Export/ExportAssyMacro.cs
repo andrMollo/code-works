@@ -4,10 +4,10 @@ using CodeWorksLibrary.Macros.Files;
 using CodeWorksLibrary.Macros.Properties;
 using CodeWorksLibrary.Models;
 using SolidWorks.Interop.sldworks;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
-using static CADBooster.SolidDna.SolidWorksEnvironment;
 
 namespace CodeWorksLibrary.Macros.Export
 {
@@ -98,6 +98,16 @@ namespace CodeWorksLibrary.Macros.Export
         {
             if (bom != null)
             {
+                // Initiate a log model
+                var asmLog = new Helpers.Logger();
+
+                // Set the log path
+                asmLog.LogFolderPath = GlobalConfig.LogPath;
+                asmLog.LogFileName = @"log.txt";
+
+                // Write log first life
+                asmLog.WirteLog("File processati al " + DateTime.Now);
+
                 foreach (var comp in bom)
                 {
                     // Update the components quantity is the user selected the option
@@ -116,7 +126,7 @@ namespace CodeWorksLibrary.Macros.Export
 
                     if (File.Exists(drwPath) == false)
                     {
-                        return;
+                        continue;
                     }
 
                     // If one between print and export option is selected open the drawing
@@ -126,7 +136,7 @@ namespace CodeWorksLibrary.Macros.Export
 
                         if (drwModel == null)
                         {
-                            return;
+                            continue;
                         }
 
                         // Export the component drawing and preview if the user selected the option
@@ -141,6 +151,8 @@ namespace CodeWorksLibrary.Macros.Export
                         {
                             FastPrintMacro.PrintFile(drwModel);
                         }
+
+                        asmLog.WirteLogWithDate(modelPath);
                     }
                 }
             }

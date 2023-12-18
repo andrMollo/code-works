@@ -15,6 +15,11 @@ namespace CodeWorksLibrary
         internal const string ExportPath = @"C:\_Export";
 
         /// <summary>
+        /// The folder for the log file
+        /// </summary>
+        internal const string LogPath = @"C:\_Export\.log\";
+
+        /// <summary>
         /// The name of the configuration with the flat pattern
         /// </summary>
         internal const string FlatPatternConfigurationName = "DefaultSviluppo";
