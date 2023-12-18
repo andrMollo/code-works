@@ -6,6 +6,7 @@ using CodeWorksLibrary.Models;
 using SolidWorks.Interop.sldworks;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 
@@ -58,6 +59,10 @@ namespace CodeWorksLibrary.Macros.Export
             // Check button click
             if (expAsmFormRes == DialogResult.OK)
             {
+                // Start timer
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
+                
                 // An instance of user selection
                 var userSel = new UserSelectionModel();
 
@@ -79,7 +84,11 @@ namespace CodeWorksLibrary.Macros.Export
                     ExportAllComponent(bom, assemblyModel, userSel);
                 }
 
-                SolidWorksEnvironment.Application.ShowMessageBox("Macro complete", SolidWorksMessageBoxIcon.Information);
+                // Stop the timer
+                stopwatch.Stop();
+                TimeSpan st = stopwatch.Elapsed;
+
+                SolidWorksEnvironment.Application.ShowMessageBox($"Macro completed in {st.Minutes}:{st.Seconds} minutes", SolidWorksMessageBoxIcon.Information);
             }
             else if (expAsmFormRes == DialogResult.Cancel)
             {
