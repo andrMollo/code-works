@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
+using Logger = CodeWorksLibrary.Helpers.Logger;
 
 namespace CodeWorksLibrary.Macros.Export
 {
@@ -20,6 +21,9 @@ namespace CodeWorksLibrary.Macros.Export
         /// </summary>
         public static string JobNumber { get; set; }
 
+        /// <summary>
+        /// The log object for the assembly export
+        /// </summary>
         public static Helpers.Logger AssExpLog { get; set; }
         #endregion
 
@@ -58,6 +62,9 @@ namespace CodeWorksLibrary.Macros.Export
 
             var prpManager = new CwPropertyManager();
             assemblyModel.Quantity = prpManager.GetCustomProperty(model.UnsafeObject, GlobalConfig.QuantityProperty);
+
+            // Compose the full path to the logger
+            AssExpLog.LogPath = Logger.ComposeLogPath(string.Empty);
 
             // Show assembly quantity in the form
             var expAsmForm = new CodeWorksUI.ExportAssemblyForm();

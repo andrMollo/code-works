@@ -87,15 +87,5 @@ namespace CodeWorksLibrary.Helpers
 
             return Path.Combine(logFolder, logName);
         }
-
-        /// <summary>
-        /// Check if a log file exist
-        /// </summary>
-        /// <param name="logPath">The path to the log file</param>
-        /// <returns>True if the log file exists</returns>
-        internal static bool CheckLogExist(string logPath)
-        {
-            return false;
-        }
     }
 }
