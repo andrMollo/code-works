@@ -4,6 +4,7 @@ using CodeWorksLibrary.Macros.Files;
 using CodeWorksLibrary.Macros.Properties;
 using CodeWorksLibrary.Models;
 using SolidWorks.Interop.sldworks;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
@@ -105,6 +106,9 @@ namespace CodeWorksLibrary.Macros.Export
                 // Set the log path
                 asmLog.LogFolderPath = GlobalConfig.LogPath;
                 asmLog.LogFileName = @"log.txt";
+
+                // Write log first life
+                asmLog.WirteLog("File processati al " + DateTime.Now);
 
                 foreach (var comp in bom)
                 {
