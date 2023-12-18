@@ -75,6 +75,8 @@ namespace CodeWorksLibrary.Macros.Export
                 {
                     ExportAllComponent(bom, assemblyModel, userSel);
                 }
+
+                SolidWorksEnvironment.Application.ShowMessageBox("Macro complete", SolidWorksMessageBoxIcon.Information);
             }
             else if (expAsmFormRes == DialogResult.Cancel)
             {
