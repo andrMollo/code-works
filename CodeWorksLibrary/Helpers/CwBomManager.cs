@@ -16,7 +16,7 @@ namespace CodeWorksLibrary.Helpers
         {
             internal ModelDoc2 model;
 
-            internal String configuration;
+            internal string configuration;
 
             internal double quantity;
         }
