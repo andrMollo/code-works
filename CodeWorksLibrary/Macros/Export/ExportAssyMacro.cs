@@ -101,6 +101,9 @@ namespace CodeWorksLibrary.Macros.Export
                 // Get the job number
                 JobNumber = expAsmForm.JobNumber;
 
+                // Get the new log path
+                AssExpLog.LogPath = expAsmForm.LogFilePath;
+
                 // Validate job number
                 JobNumber = CwValidation.RemoveInvalidChars(JobNumber);
 
@@ -109,7 +112,8 @@ namespace CodeWorksLibrary.Macros.Export
 
                 // Get the flat BOM
                 List<BomModel> bom = new List<BomModel>();
-                CwBomManager.ComposeFlatBOM(rootComp, bom);
+
+                bom = GetBomToExport(rootComp, bom, userSel.ExportAgain);                
 
                 // Export all component in the BOM
                 if (bom != null)
@@ -128,6 +132,33 @@ namespace CodeWorksLibrary.Macros.Export
                 SolidWorksEnvironment.Application.ShowMessageBox("Macro terminated", SolidWorksMessageBoxIcon.Stop);
             }
 
+        }
+
+        /// <summary>
+        /// Get the Bill of Material to be processed
+        /// </summary>
+        /// <param name="rootComp">The parent component of which to extract the BOM</param>
+        /// <param name="bom">The Bill of Material object</param>
+        /// <param name="exportAgain">True to export again the whole Bill of material</param>
+        /// <returns>The Bill of Material to be processed</returns>
+        private static List<BomModel> GetBomToExport(Component2 rootComp, List<BomModel> bom, bool exportAgain)
+        {
+            CwBomManager.ComposeFlatBOM(rootComp, bom);
+
+            if (exportAgain == true)
+            {
+                return bom;
+            }
+            else
+            {
+                // Read log file
+                List<string> logList = Logger.ReadLogFile(AssExpLog.LogPath);
+
+                // Get the list of path
+                // Filter the bom with the list from the log
+            }
+
+            return bom;
         }
 
         /// <summary>
