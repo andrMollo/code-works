@@ -60,6 +60,14 @@ namespace CodeWorksUI
         /// The path to the log file
         /// </summary>
         public string LogFilePath { get; set; } 
+
+        /// <summary>
+        /// Check to export again all components
+        /// </summary>
+        public bool ExportAgain
+        {
+            get { return newExportCheckBox.Checked; }
+        }
         #endregion
         public ExportAssemblyForm()
         {
