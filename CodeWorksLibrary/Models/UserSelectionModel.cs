@@ -25,5 +25,10 @@ namespace CodeWorksLibrary.Models
         /// True to enable quantity update
         /// </summary>
         internal bool QtyUpdate { get; set; }
+
+        /// <summary>
+        /// True to export again all components
+        /// </summary>
+        internal bool ExportAgain { get; set; }
     }
 }

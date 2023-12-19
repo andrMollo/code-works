@@ -93,6 +93,7 @@ namespace CodeWorksLibrary.Macros.Export
                 userSel.Export = expAsmForm.ExportCheck;
                 userSel.Print = expAsmForm.PrintCheck;
                 userSel.QtyUpdate = expAsmForm.QuantityCheck;
+                userSel.ExportAgain = expAsmForm.ExportAgain;
 
                 // Get the assembly quantity back from the winform
                 assemblyModel.Quantity = expAsmForm.AssemblyQty;
