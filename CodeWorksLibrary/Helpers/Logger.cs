@@ -97,6 +97,7 @@ namespace CodeWorksLibrary.Helpers
             List<string> logList = File.ReadAllLines(path).ToList();
 
             // Delete the first line
+            logList.RemoveAt(0);
 
             return logList;
             
