@@ -62,6 +62,7 @@ namespace CodeWorksLibrary.Helpers
                                 newBomElement.Model = swRefModel;
                                 newBomElement.Configuration = swComp.ReferencedConfiguration;
                                 newBomElement.Quantity = 1;
+                                newBomElement.Path = swRefModel.GetPathName();
 
                                 bom.Add(newBomElement);
                             }
