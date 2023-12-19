@@ -152,9 +152,8 @@ namespace CodeWorksLibrary.Macros.Export
             else
             {
                 // Read log file
-                List<string> logList = Logger.ReadLogFile(AssExpLog.LogPath);
+                List<string> pathList = Logger.ReadLogFile(AssExpLog.LogPath);
 
-                // Get the list of path
                 // Filter the bom with the list from the log
             }
 
