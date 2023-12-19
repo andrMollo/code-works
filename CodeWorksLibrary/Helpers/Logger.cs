@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace CodeWorksLibrary.Helpers
 {
     internal class Logger
     {
+        #region Public properties
         /// <summary>
         /// The full path to the log file
         /// </summary>
@@ -19,6 +22,7 @@ namespace CodeWorksLibrary.Helpers
         /// The path to the log folder
         /// </summary>
         internal string LogFolderPath { get; set; }
+        #endregion
 
         /// <summary>
         /// Write a message to file
@@ -86,6 +90,16 @@ namespace CodeWorksLibrary.Helpers
             string logName = $"log_{token}.txt";
 
             return Path.Combine(logFolder, logName);
+        }
+
+        internal static List<string> ReadLogFile(string path)
+        {
+            List<string> logList = File.ReadAllLines(path).ToList();
+
+            // Delete the first line
+
+            return logList;
+            
         }
     }
 }
