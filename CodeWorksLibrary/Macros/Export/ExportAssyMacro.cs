@@ -71,7 +71,7 @@ namespace CodeWorksLibrary.Macros.Export
             var expAsmForm = new CodeWorksUI.ExportAssemblyForm();
 
             // Check if log file already exists
-            expAsmForm.LogExist = File.Exists(AssExpLog.LogPath);
+            expAsmForm.LogFilePath = AssExpLog.LogPath;
 
             // Show assembly quantity in the form
             expAsmForm.AssemblyQty = assemblyModel.Quantity;

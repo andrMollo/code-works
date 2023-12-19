@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -56,9 +57,9 @@ namespace CodeWorksUI
         }
 
         /// <summary>
-        /// True if the log file exist
+        /// The path to the log file
         /// </summary>
-        public bool LogExist { get; set; } 
+        public string LogFilePath { get; set; } 
         #endregion
         public ExportAssemblyForm()
         {
@@ -82,14 +83,7 @@ namespace CodeWorksUI
         /// <param name="e"></param>
         private void ExportAssemblyForm_Shown(object sender, EventArgs e)
         {
-            if (LogExist)
-            {
-                exportPresentGroupBox.Visible = true;
-            }
-            else
-            {
-                exportPresentGroupBox.Visible = false;
-            }
+            exportPresentGroupBox.Visible = File.Exists(LogFilePath);
         }
 
         /// <summary>
@@ -99,7 +93,15 @@ namespace CodeWorksUI
         /// <param name="e"></param>
         private void jobNbrTextBox_TextChanged(object sender, EventArgs e)
         {
+            // TODO Move this in a method
 
+            var logRootFolder = @"C:\_Export\.log\";
+
+            var logFileName = $"log_{JobNumber}.txt";
+
+            LogFilePath = Path.Combine(logRootFolder, logFileName);
+
+            exportPresentGroupBox.Visible = File.Exists(LogFilePath);
         }
     }
 }
