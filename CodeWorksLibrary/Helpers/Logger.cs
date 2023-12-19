@@ -92,6 +92,11 @@ namespace CodeWorksLibrary.Helpers
             return Path.Combine(logFolder, logName);
         }
 
+        /// <summary>
+        /// Read the log file without the first line
+        /// </summary>
+        /// <param name="path">The full path to the log file</param>
+        /// <returns>A list of string with the log content without the fist line</returns>
         internal static List<string> ReadLogFile(string path)
         {
             List<string> logList = File.ReadAllLines(path).ToList();
