@@ -112,8 +112,7 @@ namespace CodeWorksLibrary.Macros.Export
 
                 // Get the flat BOM
                 List<BomModel> bom = new List<BomModel>();
-
-                bom = GetBomToExport(rootComp, bom, userSel.ExportAgain);                
+                bom = GetBomToExport(rootComp, bom, userSel.ExportAgain);            
 
                 // Export all component in the BOM
                 if (bom != null)
@@ -145,7 +144,7 @@ namespace CodeWorksLibrary.Macros.Export
         {
             CwBomManager.ComposeFlatBOM(rootComp, bom);
 
-            if (exportAgain == true)
+            if (exportAgain == true || File.Exists(AssExpLog.LogPath) == false)
             {
                 return bom;
             }

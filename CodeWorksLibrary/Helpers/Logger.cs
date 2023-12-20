@@ -104,7 +104,18 @@ namespace CodeWorksLibrary.Helpers
             // Delete the first line
             logList.RemoveAt(0);
 
-            return logList;
+            // Split each line to get only the file path
+            List<string> pathList = new List<string>();
+            try
+            {
+                pathList = logList.Select(list => list.Substring(0, list.IndexOf(';'))).ToList();
+            }
+            catch
+            {
+                throw new Exception("Unable to extract a list of path from the log file");
+            }
+
+            return pathList;
             
         }
     }
