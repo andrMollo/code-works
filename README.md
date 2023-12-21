@@ -14,6 +14,33 @@ CodeWorks can help you in different areas:
 
 At the moment CodeWorks comes without an installer. To use CodeWorks you will have to clone this repository and compile the solution on your PC. xCAD.NET will automatically register the add-in for you.
 
+You also create a file `Private\GlobalConfigPrivate.cs`:
+
+```cs
+namespace CodeWorksLibrary
+{
+    internal class GlobalConfigPrivate
+    {
+        /// <summary>
+        /// The name of the Vault database
+        /// </summary>
+        public const string MyVaultName = "YOUR_VAULT_NAME";
+
+        /// <summary>
+        /// The license key for the Document Manager API
+        /// </summary>
+        public const string MyDmLicense = "YOUR-DOCUMENT-MANAGER-LICENSE-KEY";
+
+        /// <summary>
+        /// The path to my map for the new sheet format
+        /// </summary>
+        public const string MyReplaceMapPath = @"FULL_PATH_TO_REPLACE_MAP.txt";
+    }
+}
+```
+
+See also [update sheet format](/CodeWorksLibrary/Macros/Drawings/README.md) for more details on the format for the replace map text file.
+
 ## References
 
 * [Implementing SOLIDWORKS® Top Ten List Ideas 2020 from scratch using xCAD.NET](https://www.youtube.com/watch?v=BuiFfv7-Qig): how to implement a SolidWorks add-in with [xCAD.NET](https://xcad.xarial.com/) framework.
