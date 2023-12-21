@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace CodeWorksLibrary
 {
@@ -25,6 +26,11 @@ namespace CodeWorksLibrary
         #endregion
 
         #region Private fields
+        /// <summary>
+        /// The SolidDNA Model object of the active model
+        /// </summary>
+        static Model _model;
+
         /// <summary>
         /// The name of the file without the extension
         /// </summary>
@@ -52,8 +58,27 @@ namespace CodeWorksLibrary
             }
             #endregion
 
+            // Set the active model
+            _model = model;
+
             // Set the job folder as empty string to export the document without any sub-folder
             JobNumber = string.Empty;
+
+            // Export the document
+            ExportModelDocument(_model);
+        }
+
+        #endregion
+
+        #region Private methods
+        /// <summary>
+        /// Export the model to different format
+        /// </summary>
+        /// <param name="model">The pointer to the active SolidDNA.Model object</param>
+        private static void ExportModelDocument(Model model)
+        {
+            // Get the model name without extension       
+            _modelNameNoExt = Path.GetFileNameWithoutExtension(model.FilePath);
 
 
         }
