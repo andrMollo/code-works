@@ -108,17 +108,16 @@ namespace CodeWorksLibrary
             int activeSheetNumber = sheetNames.IndexOf(activeSheetName) +1 ;
 
             // Loop through sheets
-            // TODO Fix this loop
             for (int i = 0; i < sheetNames.Count; i++)
             {
                 /*
                  * Offset require to start the loop from the active sheet
                  */
-                int loopOffset = i + activeSheetNumber - 1;
+                int loopOffset = i + activeSheetNumber;
 
-                if (loopOffset >= sheetNames.Count + 1)
+                if ((activeSheetNumber + i) >= sheetNames.Count)
                 {
-                    loopOffset = loopOffset - sheetNames.Count - 1;
+                    loopOffset = activeSheetNumber + i - sheetNames.Count;
                 }
 
                 // Activate sheet
