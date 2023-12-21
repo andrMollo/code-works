@@ -47,21 +47,22 @@ namespace CodeWorksLibrary.Macros.Export
             // Get the assembly object
             var swAssy = (AssemblyDoc)model.UnsafeObject;
 
+            // Get the AssemblyModel
+            AssemblyModel assemblyModel = new AssemblyModel();
+            assemblyModel.Model = assemblyModel.Model;
+
             // Resolve lightweight components
             var resResolve = swAssy.ResolveAllLightWeightComponents(false);
 
             // Get the active configuration
-            var swConf = model.UnsafeObject.ConfigurationManager.ActiveConfiguration;
+            var swConf = assemblyModel.Model.ConfigurationManager.ActiveConfiguration;
 
             // Get the root component
             var rootComp = swConf.GetRootComponent3(true);
 
             // Get the assembly quantity
-            AssemblyModel assemblyModel = new AssemblyModel();
-            assemblyModel.Model = model.UnsafeObject;
-
             var prpManager = new CwPropertyManager();
-            assemblyModel.Quantity = prpManager.GetCustomProperty(model.UnsafeObject, GlobalConfig.QuantityProperty);
+            assemblyModel.Quantity = prpManager.GetCustomProperty(assemblyModel.Model, GlobalConfig.QuantityProperty);
 
             // Compose the full path to the logger
             AssExpLog = new Logger();
@@ -87,7 +88,7 @@ namespace CodeWorksLibrary.Macros.Export
                 stopwatch.Start();
 
                 // Rebuild assembly an all components
-                var asmRebuildRet = model.UnsafeObject.ForceRebuild3(false);
+                var asmRebuildRet = assemblyModel.Model.ForceRebuild3(false);
                 
                 // An instance of user selection
                 var userSel = new UserSelectionModel();
@@ -103,7 +104,7 @@ namespace CodeWorksLibrary.Macros.Export
 
                 // Write the assembly quantity back to the SolidWorks file
                 // to update it in case it have been changed by the user
-                prpManager.SetCustomProperty(model.UnsafeObject, GlobalConfig.QuantityProperty, assemblyModel.Quantity);
+                prpManager.SetCustomProperty(assemblyModel.Model, GlobalConfig.QuantityProperty, assemblyModel.Quantity);
 
                 // Get the job number
                 JobNumber = expAsmForm.JobNumber;
