@@ -177,8 +177,11 @@ namespace CodeWorksLibrary.Macros.Export
                 asmLog.LogFolderPath = GlobalConfig.LogPath;
                 asmLog.LogFileName = $"log_{JobNumber}.txt";
 
-                // Write log first life
-                asmLog.WriteLog("File processati al " + DateTime.Now);
+                // Write log first life only if the log file doesn't exist already
+                if (!File.Exists(AssExpLog.LogPath) )
+                {
+                    asmLog.WriteLog("File processati al " + DateTime.Now);
+                }
 
                 foreach (var comp in bom)
                 {
