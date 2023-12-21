@@ -151,18 +151,10 @@ namespace CodeWorksLibrary.Macros.Export
             else
             {
                 // Read log file
-                List<string> pathList = Logger.ReadLogFile(AssExpLog.LogPath);
-
-                // Initialize a list of BoM type with the same size of the log content
-                List<BomModel> logBom = new List<BomModel>(new BomModel[pathList.Count]);
-
-                // Assign the content of the log file to a list of BoM type
-                for (int i = 0; i < pathList.Count; i++)
-                {
-                    logBom[i].Path = pathList[i];
-                }
+                List<string> pathList = Logger.ReadLogFile(AssExpLog.LogPath);               
 
                 // Filter the bom with the list from the log
+                bom.RemoveAll(bomList => pathList.Contains(bomList.Path));
             }
 
             return bom;
