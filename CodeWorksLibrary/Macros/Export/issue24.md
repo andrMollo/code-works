@@ -6,13 +6,13 @@ Pseudo code to export a SolidWorks model.
 
 ## Private
 
-- [ ] ModelNameNoExt
-- [ ] ExportPath string
+- [x] ModelNameNoExt
+- [x] ExportPath string
 
 ## Public
 
-- [ ] JobNumber string
-- [ ] PrintSelection bool
+- [x] JobNumber string
+- [x] PrintSelection bool
 
 ## M: Export document macro
 
