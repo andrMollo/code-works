@@ -14,12 +14,12 @@ Pseudo code to export a SolidWorks model.
 - [x] JobNumber string
 - [x] PrintSelection bool
 
-## M: Export document macro
+## PM: Export document macro
 
-- [ ] Validation
-  - [ ] file is open
-  - [ ] file is saved
-- [ ] Set job folder as empty string
+- [x] Validation
+  - [x] file is open
+  - [x] file is saved
+- [x] Set job folder as empty string
 
 ### M: Export Document
 
@@ -27,7 +27,7 @@ Pseudo code to export a SolidWorks model.
 - [ ] M: validate job number
 - [ ] set export path: GlobalConfig + jobNumber
 - [ ] if open file is drawing
-  - [ ] **M: export drawing and preview**
+  - [ ] **MP: export drawing and preview**
     - [ ] sheet loop
       - [ ] **M: ExportSheet**
       - [ ] ? is sheet NOT flat config ?
@@ -48,7 +48,7 @@ Pseudo code to export a SolidWorks model.
   - [ ] open drawing
   - [ ] M: export drawing and preview
 
-## M: Export and print document macro
+## PM: Export and print document macro
 
 - [ ] Validation
   - [ ] file is open
