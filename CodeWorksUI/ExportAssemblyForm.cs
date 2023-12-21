@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -54,10 +55,23 @@ namespace CodeWorksUI
             get { return jobNbrTextBox.Text; }
             set { jobNbrTextBox.Text = value; }
         }
+
+        /// <summary>
+        /// The path to the log file
+        /// </summary>
+        public string LogFilePath { get; set; } 
+
+        /// <summary>
+        /// Check to export again all components
+        /// </summary>
+        public bool ExportAgain
+        {
+            get { return newExportCheckBox.Checked; }
+        }
         #endregion
         public ExportAssemblyForm()
         {
-            InitializeComponent();
+            InitializeComponent();            
         }
 
         private void okButton_Click(object sender, EventArgs e)
@@ -68,6 +82,34 @@ namespace CodeWorksUI
         private void cancelButton_Click(object sender, EventArgs e)
         {
             this .DialogResult = DialogResult.Cancel;
+        }
+
+        /// <summary>
+        /// Fired when the form is shown
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ExportAssemblyForm_Shown(object sender, EventArgs e)
+        {
+            exportPresentGroupBox.Visible = File.Exists(LogFilePath);
+        }
+
+        /// <summary>
+        /// Fired when the text box is changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void jobNbrTextBox_TextChanged(object sender, EventArgs e)
+        {
+            // TODO Move this in a method
+
+            var logRootFolder = @"C:\_Export\.log\";
+
+            var logFileName = $"log_{JobNumber}.txt";
+
+            LogFilePath = Path.Combine(logRootFolder, logFileName);
+
+            exportPresentGroupBox.Visible = File.Exists(LogFilePath);
         }
     }
 }

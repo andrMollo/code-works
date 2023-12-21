@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
+using Logger = CodeWorksLibrary.Helpers.Logger;
 
 namespace CodeWorksLibrary.Macros.Export
 {
@@ -19,6 +20,11 @@ namespace CodeWorksLibrary.Macros.Export
         /// The job number
         /// </summary>
         public static string JobNumber { get; set; }
+
+        /// <summary>
+        /// The log object for the assembly export
+        /// </summary>
+        public static Logger AssExpLog { get; set; }
         #endregion
 
         /// <summary>
@@ -57,8 +63,17 @@ namespace CodeWorksLibrary.Macros.Export
             var prpManager = new CwPropertyManager();
             assemblyModel.Quantity = prpManager.GetCustomProperty(model.UnsafeObject, GlobalConfig.QuantityProperty);
 
-            // Show assembly quantity in the form
+            // Compose the full path to the logger
+            AssExpLog = new Logger();
+            AssExpLog.LogPath = Logger.ComposeLogPath(string.Empty);
+
+            // Initiate form
             var expAsmForm = new CodeWorksUI.ExportAssemblyForm();
+
+            // Check if log file already exists
+            expAsmForm.LogFilePath = AssExpLog.LogPath;
+
+            // Show assembly quantity in the form
             expAsmForm.AssemblyQty = assemblyModel.Quantity;
 
             // Show export assembly form
@@ -78,12 +93,16 @@ namespace CodeWorksLibrary.Macros.Export
                 userSel.Export = expAsmForm.ExportCheck;
                 userSel.Print = expAsmForm.PrintCheck;
                 userSel.QtyUpdate = expAsmForm.QuantityCheck;
+                userSel.ExportAgain = expAsmForm.ExportAgain;
 
                 // Get the assembly quantity back from the winform
                 assemblyModel.Quantity = expAsmForm.AssemblyQty;
 
                 // Get the job number
                 JobNumber = expAsmForm.JobNumber;
+
+                // Get the new log path
+                AssExpLog.LogPath = expAsmForm.LogFilePath;
 
                 // Validate job number
                 JobNumber = CwValidation.RemoveInvalidChars(JobNumber);
@@ -93,7 +112,7 @@ namespace CodeWorksLibrary.Macros.Export
 
                 // Get the flat BOM
                 List<BomModel> bom = new List<BomModel>();
-                CwBomManager.ComposeFlatBOM(rootComp, bom);
+                bom = GetBomToExport(rootComp, bom, userSel.ExportAgain);            
 
                 // Export all component in the BOM
                 if (bom != null)
@@ -115,6 +134,33 @@ namespace CodeWorksLibrary.Macros.Export
         }
 
         /// <summary>
+        /// Get the Bill of Material to be processed
+        /// </summary>
+        /// <param name="rootComp">The parent component of which to extract the BOM</param>
+        /// <param name="bom">The Bill of Material object</param>
+        /// <param name="exportAgain">True to export again the whole Bill of material</param>
+        /// <returns>The Bill of Material to be processed</returns>
+        private static List<BomModel> GetBomToExport(Component2 rootComp, List<BomModel> bom, bool exportAgain)
+        {
+            CwBomManager.ComposeFlatBOM(rootComp, bom);
+
+            if (exportAgain == true || File.Exists(AssExpLog.LogPath) == false)
+            {
+                return bom;
+            }
+            else
+            {
+                // Read log file
+                List<string> pathList = Logger.ReadLogFile(AssExpLog.LogPath);               
+
+                // Filter the bom with the list from the log
+                bom.RemoveAll(bomList => pathList.Contains(bomList.Path));
+            }
+
+            return bom;
+        }
+
+        /// <summary>
         /// Export all components in the BOM
         /// </summary>
         /// <param name="bom">The instance of the Bill of Material</param>
@@ -131,8 +177,11 @@ namespace CodeWorksLibrary.Macros.Export
                 asmLog.LogFolderPath = GlobalConfig.LogPath;
                 asmLog.LogFileName = $"log_{JobNumber}.txt";
 
-                // Write log first life
-                asmLog.WirteLog("File processati al " + DateTime.Now);
+                // Write log first life only if the log file doesn't exist already
+                if (!File.Exists(AssExpLog.LogPath) )
+                {
+                    asmLog.WriteLog("File processati al " + DateTime.Now);
+                }
 
                 foreach (var comp in bom)
                 {
@@ -178,7 +227,7 @@ namespace CodeWorksLibrary.Macros.Export
                             FastPrintMacro.PrintFile(drwModel);
                         }
 
-                        asmLog.WirteLogWithDate(modelPath);
+                        asmLog.WriteLogWithDate(modelPath);
                     }
                 }
             }
