@@ -31,6 +31,7 @@ Pseudo code to export a SolidWorks model.
   - [x] **MP: export drawing and preview**
     - [x] Get all the sheet
     - [ ] sheet loop from the active sheet
+      - [ ] Activate sheet if necessary
       - [ ] **M: ExportSheet**
       - [ ] ? is sheet NOT flat config ?
         - [ ] M: update format

@@ -78,6 +78,20 @@ namespace CodeWorksLibrary
         /// <exception cref="NotImplementedException"></exception>
         internal static void ExportDrawingAndPreview()
         {
+            // Export the drawing
+            ExportDrawingDocument();       
+
+        }
+
+        #endregion
+
+        #region Private methods
+        /// <summary>
+        /// Export the active drawing one sheet at a time
+        /// </summary>
+        /// <exception cref="NotImplementedException"></exception>
+        private static void ExportDrawingDocument()
+        {
             // Get the drawing model
             DrawingDocument drawingModel = _model.Drawing;
 
@@ -85,11 +99,35 @@ namespace CodeWorksLibrary
             List<string> sheetNames = drawingModel.SheetNames().ToList<string>();
 
             // Get the name if the active sheet
+            string activeSheetName = drawingModel.CurrentActiveSheet();
 
+            /* Get the active sheet number
+             * this allow the loop to start from the active one
+             * and save a change of sheet
+             */
+            int activeSheetNumber = sheetNames.IndexOf(activeSheetName) +1 ;
+
+            // Loop through sheets
+            // TODO Fix this loop
+            for (int i = 0; i < sheetNames.Count; i++)
+            {
+                /*
+                 * Offset require to start the loop from the active sheet
+                 */
+                int loopOffset = i + activeSheetNumber - 1;
+
+                if (loopOffset >= sheetNames.Count + 1)
+                {
+                    loopOffset = loopOffset - sheetNames.Count - 1;
+                }
+
+                // Activate sheet
+                drawingModel.ActivateSheet(sheetNames[loopOffset]);
+
+                Application.ShowMessageBox(sheetNames[loopOffset]);                
+            }
         }
-        #endregion
 
-        #region Private methods
         /// <summary>
         /// Export the model to different format
         /// </summary>
