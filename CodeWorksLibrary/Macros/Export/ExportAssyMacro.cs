@@ -85,6 +85,9 @@ namespace CodeWorksLibrary.Macros.Export
                 // Start timer
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
+
+                // Rebuild assembly an all components
+                var asmRebuildRet = model.UnsafeObject.ForceRebuild3(false);
                 
                 // An instance of user selection
                 var userSel = new UserSelectionModel();
