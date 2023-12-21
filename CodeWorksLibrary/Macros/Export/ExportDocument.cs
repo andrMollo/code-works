@@ -80,7 +80,22 @@ namespace CodeWorksLibrary
             // Get the model name without extension       
             _modelNameNoExt = Path.GetFileNameWithoutExtension(model.FilePath);
 
+            // Set the export folder by combining the main export folder and the job number
+            ComposeExportFolderPath();
+        }
 
+        /// <summary>
+        /// Compose the folder name by combining the main export folder and the job number
+        /// </summary>
+        private static void ComposeExportFolderPath()
+        {
+            // Remove invalid characters form the job number string
+            if (JobNumber != string.Empty)
+            {
+                JobNumber = CwValidation.RemoveInvalidChars(JobNumber);
+            }
+
+            _exportFolderPath = Path.Combine(GlobalConfig.ExportPath, JobNumber);            
         }
         #endregion
     }
