@@ -26,9 +26,10 @@ Pseudo code to export a SolidWorks model.
 - [x] get file name without extension
 - [x] M: validate job number
 - [x] set export path: GlobalConfig + jobNumber
-- [ ] if open file is drawing
-  - [ ] **MP: export drawing and preview**
-    - [ ] sheet loop
+- [x] if open file is drawing
+  - [x] **MP: export drawing and preview**
+    - [x] Get all the sheet
+    - [ ] sheet loop from the active sheet
       - [ ] **M: ExportSheet**
       - [ ] ? is sheet NOT flat config ?
         - [ ] M: update format
@@ -40,6 +41,7 @@ Pseudo code to export a SolidWorks model.
           - [ ] M: change layer visibility
           - [ ] M: print sheet
           - [ ] M: change layer visibility
+    - [ ] Return to active sheet
     - [ ] M: export preview
   - [ ] M: get parent model
   - [ ] M: export parent model

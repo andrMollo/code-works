@@ -138,6 +138,7 @@
     </Compile>
     <Compile Include="Macros\Drawings\UpdateFormatMacro.cs" />
     <Compile Include="Macros\Export\ExportAssyMacro.cs" />
+    <Compile Include="Macros\Export\ExportDocument.cs" />
     <Compile Include="Macros\Export\ExportFileMacro.cs" />
     <Compile Include="Macros\Export\FastPrintMacro.cs" />
     <Compile Include="Macros\Properties\SetAuthorMacro.cs" />

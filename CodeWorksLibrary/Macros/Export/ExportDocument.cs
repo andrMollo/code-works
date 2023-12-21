@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Security.Policy;
 
 namespace CodeWorksLibrary
 {
@@ -68,6 +69,19 @@ namespace CodeWorksLibrary
             ExportModelDocument(_model);
         }
 
+        /// <summary>
+        /// Export the drawing and the model preview
+        /// </summary>
+        /// <exception cref="NotImplementedException"></exception>
+        internal static void ExportDrawingAndPreview()
+        {
+            // Get the drawing mode
+            DrawingDocument drawingModel = (DrawingDocument)_model.AsDrawing();
+
+            // Get all the sheet names
+            List<string> sheetNames = drawingModel.SheetNames().ToList<string>();
+
+        }
         #endregion
 
         #region Private methods
@@ -82,6 +96,16 @@ namespace CodeWorksLibrary
 
             // Set the export folder by combining the main export folder and the job number
             ComposeExportFolderPath();
+
+            // Check model type
+            if (_model.IsDrawing)
+            {
+                ExportDrawingAndPreview();
+            }
+            else
+            {
+
+            }
         }
 
         /// <summary>
