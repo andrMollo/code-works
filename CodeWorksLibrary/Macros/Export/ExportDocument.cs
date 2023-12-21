@@ -65,6 +65,9 @@ namespace CodeWorksLibrary
             // Set the job folder as empty string to export the document without any sub-folder
             JobNumber = string.Empty;
 
+            // Set the selection to not print the document
+            PrintSelection = false;
+
             // Export the document
             ExportModelDocument(_model);
         }
@@ -75,11 +78,13 @@ namespace CodeWorksLibrary
         /// <exception cref="NotImplementedException"></exception>
         internal static void ExportDrawingAndPreview()
         {
-            // Get the drawing mode
+            // Get the drawing model
             DrawingDocument drawingModel = _model.Drawing;
 
             // Get all the sheet names
             List<string> sheetNames = drawingModel.SheetNames().ToList<string>();
+
+            // Get the name if the active sheet
 
         }
         #endregion

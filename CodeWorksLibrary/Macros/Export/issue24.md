@@ -26,6 +26,7 @@ Pseudo code to export a SolidWorks model.
 - [x] get file name without extension
 - [x] M: validate job number
 - [x] set export path: GlobalConfig + jobNumber
+- [x] Set print to false
 - [x] if open file is drawing
   - [x] **MP: export drawing and preview**
     - [x] Get all the sheet
