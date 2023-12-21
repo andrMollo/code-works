@@ -49,7 +49,7 @@ namespace CodeWorksLibrary.Macros.Export
 
             // Get the AssemblyModel
             AssemblyModel assemblyModel = new AssemblyModel();
-            assemblyModel.Model = assemblyModel.Model;
+            assemblyModel.Model = model.UnsafeObject;
 
             // Resolve lightweight components
             var resResolve = swAssy.ResolveAllLightWeightComponents(false);
@@ -141,13 +141,40 @@ namespace CodeWorksLibrary.Macros.Export
                 stopwatch.Stop();
                 TimeSpan st = stopwatch.Elapsed;
 
-                SolidWorksEnvironment.Application.ShowMessageBox($"Macro completed in {st.Minutes}:{st.Seconds} minutes", SolidWorksMessageBoxIcon.Information);
+                // Compose elapsed time
+                string elapsedTIme = ComposeElepsedTime(st);
+
+                SolidWorksEnvironment.Application.ShowMessageBox($"Macro completed in {elapsedTIme}", SolidWorksMessageBoxIcon.Information);
             }
             else if (expAsmFormRes == DialogResult.Cancel)
             {
                 SolidWorksEnvironment.Application.ShowMessageBox("Macro terminated", SolidWorksMessageBoxIcon.Stop);
             }
 
+        }
+
+        /// <summary>
+        /// Compose a string with the elapsed time in seconds or minutes and seconds
+        /// </summary>
+        /// <param name="ts">The TimeSpan object</param>
+        /// <returns>A string with elapsed message</returns>
+        private static string ComposeElepsedTime(TimeSpan ts)
+        {
+            string elapsed = string.Empty;
+
+            if (ts != null)
+            {
+                if (ts.TotalSeconds < 60)
+                {
+                    elapsed = string.Format("{0:0} seconds", ts.TotalSeconds);
+                }
+                else
+                {
+                    elapsed = string.Format("{0} minutes and {0:0} seconds", (int)ts.TotalMinutes, ts.Seconds);
+                }
+            }
+
+            return elapsed;
         }
 
         /// <summary>
