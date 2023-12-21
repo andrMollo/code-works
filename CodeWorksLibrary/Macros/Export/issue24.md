@@ -30,8 +30,8 @@ Pseudo code to export a SolidWorks model.
 - [x] if open file is drawing
   - [x] **MP: export drawing and preview**
     - [x] Get all the sheet
-    - [ ] sheet loop from the active sheet
-      - [ ] Activate sheet if necessary
+    - [x] sheet loop from the active sheet
+      - [x] Activate sheet if necessary
       - [ ] **M: ExportSheet**
       - [ ] ? is sheet NOT flat config ?
         - [ ] M: update format
@@ -43,7 +43,7 @@ Pseudo code to export a SolidWorks model.
           - [ ] M: change layer visibility
           - [ ] M: print sheet
           - [ ] M: change layer visibility
-    - [ ] Return to active sheet
+    - [x] Return to active sheet
     - [ ] M: export preview
   - [ ] M: get parent model
   - [ ] M: export parent model

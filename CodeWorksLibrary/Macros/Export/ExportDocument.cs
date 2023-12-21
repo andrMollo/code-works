@@ -123,7 +123,7 @@ namespace CodeWorksLibrary
                 // Activate sheet
                 drawingModel.ActivateSheet(sheetNames[loopOffset]);
 
-                Application.ShowMessageBox(sheetNames[loopOffset]);                
+
             }
         }
 
