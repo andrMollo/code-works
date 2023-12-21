@@ -142,7 +142,7 @@ namespace CodeWorksLibrary.Macros.Export
                 TimeSpan st = stopwatch.Elapsed;
 
                 // Compose elapsed time
-                string elapsedTIme = ComposeElepsedTime(st);
+                string elapsedTIme = ComposeElapsedTime(st);
 
                 SolidWorksEnvironment.Application.ShowMessageBox($"Macro completed in {elapsedTIme}", SolidWorksMessageBoxIcon.Information);
             }
@@ -158,7 +158,7 @@ namespace CodeWorksLibrary.Macros.Export
         /// </summary>
         /// <param name="ts">The TimeSpan object</param>
         /// <returns>A string with elapsed message</returns>
-        private static string ComposeElepsedTime(TimeSpan ts)
+        private static string ComposeElapsedTime(TimeSpan ts)
         {
             string elapsed = string.Empty;
 
