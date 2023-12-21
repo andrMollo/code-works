@@ -4,9 +4,14 @@ Pseudo code to export a SolidWorks model.
 
 ## Properties
 
+## Private
+
 - [ ] ModelNameNoExt
-- [ ] JobNumber string
 - [ ] ExportPath string
+
+## Public
+
+- [ ] JobNumber string
 - [ ] PrintSelection bool
 
 ## M: Export document macro
