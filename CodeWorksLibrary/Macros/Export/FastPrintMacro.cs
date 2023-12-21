@@ -4,6 +4,7 @@ using CodeWorksLibrary.Macros.Drawings;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
+using System.Collections.Generic;
 using System.Drawing.Printing;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
 using static CodeWorksLibrary.Helpers.CwLayerManager;
@@ -59,15 +60,15 @@ namespace CodeWorksLibrary.Macros.Export
             var activeSheetName = sheet.GetName();
 
             // Get sheet names
-            string[] sheetNames = GetDrawingSheetNames(swDraw);
+            List<string> sheetNames = GetDrawingSheetNames(swDraw);
 
             // Loop through sheets
-            for (int i = 0; i < sheetNames.Length; i++)
+            foreach (string sheetName in sheetNames)
             {
                 // Get the i-th sheet
-                var swSheet = swDraw.get_Sheet(sheetNames[i]);
+                var swSheet = swDraw.get_Sheet(sheetName);
 
-                swDraw.ActivateSheet(sheetNames[i]);
+                swDraw.ActivateSheet(sheetName);
 
                 if (UpdateFormatMacro.CheckFlatPattern(swSheet) == false)
                 {
@@ -209,18 +210,9 @@ namespace CodeWorksLibrary.Macros.Export
         internal static int GetSheetNumber(DrawingDoc swDraw, Sheet swSheet)
         {
             // Get sheet names
-            string[] sheetNames = GetDrawingSheetNames(swDraw);
+            List<string> sheetNames = GetDrawingSheetNames(swDraw);
 
-            int sheetNumber = 0;
-
-            for (int i = 1; i < (sheetNames.Length + 1); i++)
-            {
-                if (swSheet.GetName() == sheetNames[i - 1])
-                {
-                    sheetNumber = i;
-                    break;
-                }
-            }
+            int sheetNumber = sheetNames.IndexOf(swSheet.GetName());
 
             return sheetNumber;
         }
