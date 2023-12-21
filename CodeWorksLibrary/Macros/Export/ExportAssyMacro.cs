@@ -198,8 +198,9 @@ namespace CodeWorksLibrary.Macros.Export
 
                 foreach (var comp in bom)
                 {
-                    // Update the components quantity is the user selected the option
-                    if (userSelection.QtyUpdate == true)
+                    // Update the component quantity is the user selected the option
+                    // and if the component is not the assembly
+                    if (userSelection.QtyUpdate == true && comp.Path != assembly.Model.GetPathName())
                     {
                         // Write quantity
                         WriteQuantityMacro.WriteQuantity(comp.Model, comp.Quantity, assembly.Quantity);
