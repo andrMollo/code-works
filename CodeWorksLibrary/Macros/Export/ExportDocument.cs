@@ -53,7 +53,7 @@ namespace CodeWorksLibrary
 
             #region Validation
             // Check if there is an open document and if there is it can't be a drawing
-            if (CwValidation.ModelIsOpen(model))
+            if (!CwValidation.ModelIsOpen(model))
             {
                 return;
             }
@@ -76,7 +76,7 @@ namespace CodeWorksLibrary
         internal static void ExportDrawingAndPreview()
         {
             // Get the drawing mode
-            DrawingDocument drawingModel = (DrawingDocument)_model.AsDrawing();
+            DrawingDocument drawingModel = _model.Drawing;
 
             // Get all the sheet names
             List<string> sheetNames = drawingModel.SheetNames().ToList<string>();
