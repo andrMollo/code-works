@@ -37,6 +37,7 @@ namespace CodeWorksLibrary
             ExportFileE,
             [Title("Export assembly")]
             [Description("Export the current assembly and its components")]
+            [Icon(typeof(Resources), nameof(Resources.ExportAssy))]
             ExportAssemblyE,
             [Title("Print drawing")]
             [Description("Print all the sheet of the active drawing")]
@@ -52,6 +53,7 @@ namespace CodeWorksLibrary
             UpdateFormatE,
             [Title("Write quantity")]
             [Description("Write the quantity custom property in all components of the open assembly")]
+            [Icon(typeof(Resources), nameof(Resources.WriteQuantity))]
             WriteQuantityE
         }
 
