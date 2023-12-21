@@ -101,6 +101,10 @@ namespace CodeWorksLibrary.Macros.Export
                 // Get the assembly quantity back from the winform
                 assemblyModel.Quantity = expAsmForm.AssemblyQty;
 
+                // Write the assembly quantity back to the SolidWorks file
+                // to update it in case it have been changed by the user
+                prpManager.SetCustomProperty(model.UnsafeObject, GlobalConfig.QuantityProperty, assemblyModel.Quantity);
+
                 // Get the job number
                 JobNumber = expAsmForm.JobNumber;
 
