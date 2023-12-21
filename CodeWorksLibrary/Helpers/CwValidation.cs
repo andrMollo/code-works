@@ -1,9 +1,5 @@
 ﻿using CADBooster.SolidDna;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
 
 namespace CodeWorksLibrary.Helpers
@@ -11,7 +7,7 @@ namespace CodeWorksLibrary.Helpers
     internal class CwValidation
     {
         /// <summary>
-        /// Check is there is an open 
+        /// Check is there is a open document: part, assembly or drawing
         /// </summary>
         /// <param name="model">The pointer to the model</param>
         /// <returns>True if there is a file open and saved</returns>
@@ -37,11 +33,78 @@ namespace CodeWorksLibrary.Helpers
         }
 
         /// <summary>
-        /// Check if there is an open model and if it is a saved drawing
+        /// Check is there is an open assembly
         /// </summary>
         /// <param name="model">The pointer to the model</param>
-        /// <returns>True if the active file is a drawing</returns>
-        internal static bool ModelIsDrawing(Model model)
+        /// <returns>True if there is an assembly open and saved</returns>
+        internal static bool AssemblyIsOpen(Model model)
+        {
+            // Check if there is an open document
+            if (model == null)
+            {
+                Application.ShowMessageBox("Open a file", SolidWorksMessageBoxIcon.Stop);
+
+                return false;
+            }
+
+            // Check if the open file has already been saved
+            if (model.HasBeenSaved == false)
+            {
+                Application.ShowMessageBox("Save the file to run the macro", SolidWorksMessageBoxIcon.Stop);
+
+                return false;
+            }
+
+            if (model.IsAssembly != true)
+            {
+                Application.ShowMessageBox("Open an assembly to run the macro", SolidWorksMessageBoxIcon.Stop);
+
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Check if there is an open drawing
+        /// </summary>
+        /// <param name="model">The pointer to the model</param>
+        /// <returns>True if there is a drawing open and saved</returns>
+        internal static bool DrawingIsOpen(Model model)
+        {
+            // Check if there is an open document
+            if (model == null)
+            {
+                Application.ShowMessageBox("Open a file", SolidWorksMessageBoxIcon.Stop);
+
+                return false;
+            }
+
+            // Check if the open file has already been saved
+            if (model.HasBeenSaved == false)
+            {
+                Application.ShowMessageBox("Save the file to run the macro", SolidWorksMessageBoxIcon.Stop);
+
+                return false;
+            }
+
+            // Check if the open file is not a drawing
+            if (model.IsDrawing != true)
+            {
+                Application.ShowMessageBox("Open a drawing to run the macro", SolidWorksMessageBoxIcon.Stop);
+
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Check if there is an open part o assembly
+        /// </summary>
+        /// <param name="model">The pointer to the model</param>
+        /// <returns>True if there is a part or assembly open and saved</returns>
+        internal static bool Model3dIsOpen(Model model)
         {
             // Check if there is an open document
             if (model == null)
@@ -60,14 +123,24 @@ namespace CodeWorksLibrary.Helpers
             }
 
             // Check if the open file is a drawing
-            if (model.IsDrawing != true)
+            if (model.IsDrawing == true)
             {
-                Application.ShowMessageBox("Open a drawing to run the macro", SolidWorksMessageBoxIcon.Stop);
+                Application.ShowMessageBox("Open a part or assembly to run the macro", SolidWorksMessageBoxIcon.Stop);
 
                 return false;
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Remove invalid path characters
+        /// </summary>
+        /// <param name="filename">The string to be checked</param>
+        /// <returns>The input string with the invalid characters removed</returns>
+        internal static string RemoveInvalidChars(string filename)
+        {
+            return string.Concat(filename.Split(Path.GetInvalidPathChars()));
         }
     }
 }

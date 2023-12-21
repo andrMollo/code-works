@@ -2,6 +2,28 @@
 
 A collection of methods to export SolidWorks files.
 
+## Export assembly
+
+![Export assembly](../../Resources/ExportAssy.png)
+
+Export the open assembly and all ist components to different format.
+
+A form ask the user if components need to be exported, printed or both. The user can also decide to print all the drawing and to update the quantity custom properties.
+
+The user can also specify a `Job Number` which will be used to create a sub-folder in the root output folder is defined in `GlobalConfig.ExportPath`.
+
+For more information see the notes on:
+
+* [Export file](#export-file)
+* [Write componente quantities](../Properties/README.md/#write-quantities)
+* [Print file](#print-drawing)
+* [Upgrade sheet format](..//Drawings/README.md/#upgrade-format)
+* [Set the file author](../Properties/README.md/#set-author)
+
+### Prerequisites
+
+* A SolidWorks file is opened and saved.
+
 ## Export file
 
 ![Export file icon](../../Resources/ExportFile.png "Export file")

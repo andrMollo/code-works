@@ -21,14 +21,25 @@ namespace CodeWorksLibrary.Macros.Export
         {
             var model = Application.ActiveModel;
 
+            #region Validation
             // Check if there is an open document, if the documents has been saved and if it is a drawing
-            var isDrawingOpen = CwValidation.ModelIsDrawing(model);
+            var isDrawingOpen = CwValidation.DrawingIsOpen(model);
 
             if (isDrawingOpen == false)
             {
                 return;
-            }            
+            }
+            #endregion
 
+            PrintFile(model);            
+        }
+
+        /// <summary>
+        /// Print the model
+        /// </summary>
+        /// <param name="model">Th pointer to the model object</param>
+        internal static void PrintFile(Model model)
+        {
             // Get the SolidWorks model doc
             ModelDoc2 swModel = model.UnsafeObject;
 
@@ -62,7 +73,7 @@ namespace CodeWorksLibrary.Macros.Export
                 {
                     UpgradeSheetFormat(swDraw, swSheet);
 
-                    PrintDrawingSheet(swModel, swSheet);                    
+                    PrintDrawingSheet(swModel, swSheet);
                 }
             }
 
@@ -78,7 +89,7 @@ namespace CodeWorksLibrary.Macros.Export
             var model = Application.ActiveModel;
 
             // Check if there is an open document, if the documents has been saved and if it is a drawing
-            var isDrawingOpen = CwValidation.ModelIsDrawing(model);
+            var isDrawingOpen = CwValidation.DrawingIsOpen(model);
 
             if (isDrawingOpen == false)
             {

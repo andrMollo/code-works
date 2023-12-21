@@ -15,8 +15,15 @@ using static CADBooster.SolidDna.SolidWorksEnvironment;
 
 namespace CodeWorksLibrary.Macros.Files
 {
-    internal class ExportFileMacro
+    internal static class ExportFileMacro
     {
+        #region Public properties
+        /// <summary>
+        /// The export folder
+        /// </summary>
+        public static string ExportFolder { get; set; }
+        #endregion
+
         /// <summary>
         /// Export the open file in different format
         /// </summary>
@@ -24,6 +31,7 @@ namespace CodeWorksLibrary.Macros.Files
         {
             var model = Application.ActiveModel;
 
+            #region Validation
             // Check if there is an open document and if there is it can't be a drawing
             var isFileOpen = CwValidation.ModelIsOpen(model);
 
@@ -31,6 +39,9 @@ namespace CodeWorksLibrary.Macros.Files
             {
                 return;
             }
+            #endregion
+
+            ExportFileMacro.ExportFolder = GlobalConfig.ExportPath;
 
             // Check the type of file open
             if (model.IsDrawing)
@@ -48,35 +59,56 @@ namespace CodeWorksLibrary.Macros.Files
             {
                 // Export model
                 ExportModel(model);
+                ExportModelAsStep(model);
 
                 // Assumes drawing has the same name of the model and is in the same folder
                 var drwPath = Path.ChangeExtension(model.FilePath, "SLDDRW");
 
-                // Check if file exist
-                if (File.Exists(drwPath))
+                // Try to open the drawing
+                var drwModel = SolidWorksEnvironment.Application.OpenFile(drwPath, options: OpenDocumentOptions.Silent);
+
+                if (drwModel == null)
                 {
-                    // Open the drawing model
-                    var drwModel = Application.OpenFile(drwPath, options: OpenDocumentOptions.Silent);
-
-                    if (drwModel != null)
-                    {
-                        // Get the list of open model
-                        List<Model> models = Application.OpenDocuments().ToList();
-
-                        // If the drawing model is already open activate it
-                        if (models.Contains(drwModel) != true)
-                        {
-                            int activeErr = 0;
-                            Application.UnsafeObject.IActivateDoc3(Path.GetFileName(drwPath), true, activeErr);
-                        }
-
-                        // Export drawing
-                        ExportDrawing(drwModel);
-
-                        // Close the model
-                        Application.CloseFile(drwPath);                    
-                    }                    
+                    return;
                 }
+
+                // Export drawing and model preview
+                ExportDrawingAndPreview(drwModel);
+            }
+        }
+
+        /// <summary>
+        /// Export the drawing and the model preview from the drawing path
+        /// </summary>
+        /// <param name="drwModel">The pointer to the drawing model</param>
+        internal static void ExportDrawingAndPreview(Model drwModel)
+        {
+            if (drwModel != null)
+            {
+                // Get the path of the drawing
+                var drwPath = drwModel.FilePath;
+
+                // Get the list of open model
+                List<Model> models = Application.OpenDocuments().ToList();
+
+                // If the drawing model is already open activate it
+                if (models.Contains(drwModel) != true)
+                {
+                    int activeErr = 0;
+                    Application.UnsafeObject.IActivateDoc3(Path.GetFileName(drwPath), true, activeErr);
+                }
+
+                // Export drawing
+                ExportDrawing(drwModel);
+
+                // Get drawing root model
+                Model rootModel = ExportFileMacro.GetRootModel(drwModel);
+
+                // Export preview
+                ExportModelAsPng(rootModel);
+
+                // Close the model
+                Application.CloseFile(drwPath);
             }
         }
 
@@ -326,7 +358,7 @@ namespace CodeWorksLibrary.Macros.Files
             var fileName = Path.GetFileNameWithoutExtension(modelPath);
 
             // Compose the path to the folder
-            var folderPath = Path.Combine(GlobalConfig.ExportPath, extension);
+            var folderPath = Path.Combine(ExportFolder, extension);
 
             // Check if output path exists, if not create it
             if (!Directory.Exists(folderPath))
@@ -361,7 +393,7 @@ namespace CodeWorksLibrary.Macros.Files
             var fileName = Path.GetFileNameWithoutExtension(modelPath);
 
             // Compose the path to the folder
-            var folderPath = Path.Combine(GlobalConfig.ExportPath, subFolder);
+            var folderPath = Path.Combine(ExportFolder, subFolder);
 
             // Check if output path exists, if not create it
             if (!Directory.Exists(folderPath))
