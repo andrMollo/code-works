@@ -5,7 +5,7 @@ using CodeWorksLibrary.Helpers;
 using CodeWorksLibrary.Macros.Drawings;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
-using SwDocumentMgr;
+using SolidWorks.Interop.swdocumentmgr;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
