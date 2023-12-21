@@ -115,7 +115,16 @@ namespace CodeWorksLibrary.Macros.Export
 
                 // Get the flat BOM
                 List<BomModel> bom = new List<BomModel>();
-                bom = GetBomToExport(rootComp, bom, userSel.ExportAgain);            
+                bom = GetBomToExport(rootComp, bom, userSel.ExportAgain);
+
+                // Add the assembly to the BoM
+                bom.Add(new BomModel()
+                {
+                    Model = assemblyModel.Model,
+                    Configuration = swConf.Name,
+                    Quantity = Convert.ToDouble(assemblyModel.Quantity),
+                    Path = assemblyModel.Model.GetPathName()
+                });
 
                 // Export all component in the BOM
                 if (bom != null)
@@ -145,6 +154,7 @@ namespace CodeWorksLibrary.Macros.Export
         /// <returns>The Bill of Material to be processed</returns>
         private static List<BomModel> GetBomToExport(Component2 rootComp, List<BomModel> bom, bool exportAgain)
         {
+            // Compose the flat Bill of Material
             CwBomManager.ComposeFlatBOM(rootComp, bom);
 
             if (exportAgain == true || File.Exists(AssExpLog.LogPath) == false)
