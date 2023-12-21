@@ -12,6 +12,8 @@ A form ask the user if components need to be exported, printed or both. The user
 
 The user can also specify a `Job Number` which will be used to create a sub-folder in the root output folder is defined in `GlobalConfig.ExportPath`.
 
+The macro produces a log file in the path defined in `GlobalConfig.LogPath`. The log contains the list of all the components exported by the previous run by job number. In the next run the user can select if export again all the components or just the ones not exported in the previous run.
+
 For more information see the notes on:
 
 * [Export file](#export-file)
