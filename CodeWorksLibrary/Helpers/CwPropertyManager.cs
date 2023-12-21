@@ -20,10 +20,25 @@ namespace CodeWorksLibrary
         }
 
         /// <summary>
+        /// Get the content of the custom property
+        /// </summary>
+        /// <param name="swModel">The model object to read the custom property from</param>
+        /// <param name="prpName">The name of the custom property to be read</param>
+        /// <returns>The value of the custom property</returns>
+        internal string GetCustomProperty(ModelDoc2 swModel, string prpName)
+        {
+            CustomPropertyManager swCustPrpMgr = swModel.Extension.get_CustomPropertyManager("");
+
+            var getResult = swCustPrpMgr.Get6(prpName, false, out string prpValue, out string prpResValue, out bool wasRes, out bool linkPrp);
+
+            return prpValue;
+        }
+
+        /// <summary>
         /// Set the name of user that print a drawing
         /// </summary>
         /// <param name="swModel">The model object that needs the property to be changed</param>
-        /// <returns></returns>
+        /// <returns>True if the property is set</returns>
         internal bool SetPrintedByProperty(ModelDoc2 swModel)
         {
             var user = CwPdmManager.GetPdmUserName();
@@ -44,7 +59,7 @@ namespace CodeWorksLibrary
         /// Set the date when the document is printed
         /// </summary>
         /// <param name="swModel">The model object that needs the property to be changed</param>
-        /// <returns></returns>
+        /// <returns>True if the property is set</returns>
         internal bool SetPrintedOnProperty(ModelDoc2 swModel)
         {
             var currentDate = DateTime.Now.ToString(@"MM\/dd\/yyyy HH\:mm\:ss");

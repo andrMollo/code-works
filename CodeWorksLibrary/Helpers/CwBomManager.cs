@@ -1,4 +1,5 @@
 ﻿using CADBooster.SolidDna;
+using CodeWorksLibrary.Models;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
@@ -10,23 +11,11 @@ namespace CodeWorksLibrary.Helpers
     internal class CwBomManager
     {
         /// <summary>
-        /// Bill of material type class
-        /// </summary>
-        internal class Bom
-        {
-            internal ModelDoc2 model;
-
-            internal String configuration;
-
-            internal double quantity;
-        }
-
-        /// <summary>
         /// Get the flat Bill of Material
         /// </summary>
         /// <param name="swParentComp">The parent component of which to extract the BOM</param>
         /// <param name="bom">The Bill of Material object</param>
-        internal static void ComposeFlatBOM(Component2 swParentComp, List<Bom> bom)
+        internal static void ComposeFlatBOM(Component2 swParentComp, List<BomModel> bom)
         {
             // Get a list of component
             var vComps = (object[])swParentComp.GetChildren();
@@ -68,18 +57,19 @@ namespace CodeWorksLibrary.Helpers
                             if (bomPos == -1)
                             {
                                 // Add the component to the bom
-                                Bom newBomElement = new Bom();
+                                BomModel newBomElement = new BomModel();
 
-                                newBomElement.model = swRefModel;
-                                newBomElement.configuration = swComp.ReferencedConfiguration;
-                                newBomElement.quantity = 1;
+                                newBomElement.Model = swRefModel;
+                                newBomElement.Configuration = swComp.ReferencedConfiguration;
+                                newBomElement.Quantity = 1;
+                                newBomElement.Path = swRefModel.GetPathName();
 
                                 bom.Add(newBomElement);
                             }
                             else
                             {
                                 // Increment the quantity of the BOM element
-                                bom[bomPos].quantity = bom[bomPos].quantity + 1;
+                                bom[bomPos].Quantity = bom[bomPos].Quantity + 1;
                             }
                         }
 
@@ -100,7 +90,7 @@ namespace CodeWorksLibrary.Helpers
         /// <param name="bom">The Bill of Material object</param>
         /// <param name="swComp">The pointer to the component object</param>
         /// <returns>An integer with the position of the component in the BOM, return -1 if the component is not found</returns>
-        private static int FindBomPosition(List<Bom> bom, Component2 comp)
+        private static int FindBomPosition(List<BomModel> bom, Component2 comp)
         {
             int findBomPosition = -1;
 
@@ -109,7 +99,7 @@ namespace CodeWorksLibrary.Helpers
                 for (int i = 0; i < bom.Count; i++)
                 {
                     // Get the full path of the i-th model in the bom
-                    var modelPath = bom[i].model.GetPathName().ToLower();
+                    var modelPath = bom[i].Model.GetPathName().ToLower();
 
                     // Get the full path of the analyzed model
                     var compPath = comp.GetPathName().ToLower();

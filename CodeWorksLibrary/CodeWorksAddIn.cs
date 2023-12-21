@@ -4,10 +4,12 @@ using CADBooster.SolidDna;
 using CodeWorksLibrary.Macros.Drawings;
 using CodeWorksLibrary.Macros.Export;
 using CodeWorksLibrary.Macros.Files;
+using CodeWorksLibrary.Macros.Properties;
 using CodeWorksLibrary.Properties;
 using SolidWorks.Interop.sldworks;
 using System.ComponentModel;
 using Xarial.XCad.Base.Attributes;
+using Xarial.XCad.SolidWorks;
 using Xarial.XCad.UI.Commands;
 
 namespace CodeWorksLibrary
@@ -36,10 +38,6 @@ namespace CodeWorksLibrary
             [Title("Export assembly")]
             [Description("Export the current assembly and its components")]
             ExportAssemblyE,
-            [Title("Update sheet format")]
-            [Description("Update sheet format for all the sheet of the active document")]
-            [Icon(typeof(Resources), nameof(Resources.ChangeFormat))]
-            UpdateFormatE,
             [Title("Print drawing")]
             [Description("Print all the sheet of the active drawing")]
             [Icon(typeof(Resources), nameof(Resources.FastPrint))]
@@ -47,13 +45,29 @@ namespace CodeWorksLibrary
             [Title("Print sheet")]
             [Description("Print the current sheet")]
             [Icon(typeof(Resources), nameof(Resources.FastPrintSheet))]
-            FastPrintSheetE
+            FastPrintSheetE,
+            [Title("Update sheet format")]
+            [Description("Update sheet format for all the sheet of the active document")]
+            [Icon(typeof(Resources), nameof(Resources.ChangeFormat))]
+            UpdateFormatE,
+            [Title("Write quantity")]
+            [Description("Write the quantity custom property in all components of the open assembly")]
+            WriteQuantityE
         }
 
         #endregion
 
         #region Public properties
-        public static SldWorks swApp {  get; set; }
+        
+        /// <summary>
+        /// The SolidWorks application
+        /// </summary>
+        public static SldWorks SwApp {  get; set; }
+
+        /// <summary>
+        /// The application for xCAD
+        /// </summary>
+        public static ISwApplication App { get; set; }
 
         #endregion
 
@@ -66,7 +80,9 @@ namespace CodeWorksLibrary
 
             CommandManager.AddCommandGroup<CwCommands_e>().CommandClick += OnCommandClick;
 
-            swApp = (SldWorks)this.Application.Sw;
+            SwApp = (SldWorks)this.Application.Sw;
+
+            App = this.Application;
         }
 
         /// <summary>
@@ -98,6 +114,9 @@ namespace CodeWorksLibrary
                     break;
                 case CwCommands_e.FastPrintSheetE:
                     FastPrintMacro.FastPrintSheet();
+                    break;
+                case CwCommands_e.WriteQuantityE:
+                    WriteQuantityMacro.WriteComponentsQuantity();
                     break;
             }
         }

@@ -20,7 +20,7 @@ namespace CodeWorksLibrary.Macros.Drawings
             var model = Application.ActiveModel;
 
             // Check if there is an open document, if the documents has been saved and if it is a drawing
-            var isDrawingOpen = CwValidation.ModelIsDrawing(model);
+            var isDrawingOpen = CwValidation.DrawingIsOpen(model);
 
             if (isDrawingOpen == false)
             {
