@@ -265,12 +265,6 @@ namespace CodeWorksLibrary.Macros.Export
                         // Set the export job number
                         ExportDocument.JobNumber = JobNumber;
 
-                        // Export file if the user selected the option
-                        if (userSelection.Export == true)
-                        {
-                            ExportDocument.ExportSelection = true;
-                        }
-
                         // Print the drawing if the user selected the option
                         if (userSelection.Print == true)
                         {
@@ -281,9 +275,13 @@ namespace CodeWorksLibrary.Macros.Export
                         // Export the component drawing and preview if the user selected the option
                         if (userSelection.Export == true)
                         {
+                            ExportDocument.ExportSelection = true;
                             // Export drawing and model preview
                             ExportDocument.ExportDrawingAndPreview();
                         }
+
+                        // Close the drawing
+                        drwModel.Close();
 
                         // Write log entry
                         asmLog.WriteLogWithDate(modelPath);
