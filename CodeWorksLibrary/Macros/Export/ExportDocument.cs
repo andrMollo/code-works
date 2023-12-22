@@ -410,12 +410,16 @@ namespace CodeWorksLibrary
                 ExportModelToStep();
 
                 // Get the drawing model
-                _model = GetDrawingModel();                
+                _model = GetDrawingModel();
+                
+                // Save the drawing model to be closed later
+                Model drwModel = _model;
 
                 // Export the drawing and preview
                 ExportDrawingAndPreview();
 
-                // TODO Close the file
+                // Close the file
+                drwModel.Close();
             }
         }
 
@@ -441,7 +445,7 @@ namespace CodeWorksLibrary
             // If the drawing is found between the open documents try to activate it
             Model model = null;
 
-            if (openDrw != null)
+            if (openDrw.Any())
             {
                 // Try to active the drawing
                 int activateError = new int();
@@ -470,7 +474,9 @@ namespace CodeWorksLibrary
             return model;
         }
 
-        // Export the active model as STEP
+        /// <summary>
+        /// Export the active model as STEP
+        /// </summary>
         private static void ExportModelToStep()
         {
             string exportPath = ComposeExportFilePath("STP");
