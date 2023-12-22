@@ -409,12 +409,65 @@ namespace CodeWorksLibrary
             {
                 ExportModelToStep();
 
-                // TODO Get the drawing path
-
-                // TODO Open the drawing
+                // Get the drawing model
+                _model = GetDrawingModel();                
 
                 // Export the drawing and preview
+                ExportDrawingAndPreview();
+
+                // TODO Close the file
             }
+        }
+
+        /// <summary>
+        /// Get and activate the SolidDNA Model object for the drawing associate to the active model
+        /// Assume drawing and model in the same directory with the same filename
+        /// </summary>
+        /// <returns>The pointer to SolidDNA Model object</returns>
+        private static Model GetDrawingModel()
+        {
+            /* Get the drawing path
+                 * Assume drawing and model in the same directory with the same filename
+                 */
+            string drwPath = Path.ChangeExtension(_model.FilePath, "SLDDRW");
+
+
+            // Get the list of open document
+            var listOpenDoc = Application.OpenDocuments().ToList();
+
+            // Check if the drawing path is amid the open documents
+            var openDrw = listOpenDoc.Where(p => p.FilePath == drwPath);
+
+            // If the drawing is found between the open documents try to activate it
+            Model model = null;
+
+            if (openDrw != null)
+            {
+                // Try to active the drawing
+                int activateError = new int();
+                var swDrawingModel = Application.UnsafeObject.ActivateDoc3(
+                    Path.GetFileName(openDrw.First().FilePath),
+                    false,
+                    (int)swRebuildOnActivation_e.swRebuildActiveDoc,
+                    ref activateError);
+
+                model = Application.ActiveModel;
+            }
+            // If the drawing is not open
+            else
+            {
+                model = Application.OpenFile(drwPath,
+                    options: OpenDocumentOptions.Silent
+                    );
+            }
+
+            if (model == null)
+            {
+                Application.ShowMessageBox("Unable to open the drawing.", SolidWorksMessageBoxIcon.Stop);
+                throw new Exception("Unable to open the drawing");
+            }
+
+            return model;
         }
 
         // Export the active model as STEP
