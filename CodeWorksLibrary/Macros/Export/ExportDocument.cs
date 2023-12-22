@@ -173,6 +173,12 @@ namespace CodeWorksLibrary
 
             // Revert to the original option for sheet export of DXF / DWG
             Application.SetUserPreferencesInteger(swUserPreferenceIntegerValue_e.swDxfMultiSheetOption, originalDxfSheetOption);
+
+            // Show message box if export fails
+            if (!exportResult.Successful)
+            {
+                Application.ShowMessageBox($"Failed to export {_modelNameNoExt} to DWG.",SolidWorksMessageBoxIcon.Stop);
+            }
         }
 
         /// <summary>
@@ -194,6 +200,12 @@ namespace CodeWorksLibrary
                 options: SaveAsOptions.Silent | SaveAsOptions.Copy | SaveAsOptions.UpdateInactiveViews,
                 pdfExportData: exportData
                 );
+
+            // Show message box if export fails
+            if (!exportResult.Successful)
+            {
+                Application.ShowMessageBox($"Failed to export {_modelNameNoExt} to PDF.", SolidWorksMessageBoxIcon.Question);
+            }            
         }
 
         /// <summary>
