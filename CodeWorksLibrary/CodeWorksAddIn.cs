@@ -54,7 +54,9 @@ namespace CodeWorksLibrary
             [Title("Write quantity")]
             [Description("Write the quantity custom property in all components of the open assembly")]
             [Icon(typeof(Resources), nameof(Resources.WriteQuantity))]
-            WriteQuantityE
+            WriteQuantityE,
+            [Title("Export document")]
+            ExportDocumentE
         }
 
         #endregion
@@ -119,6 +121,9 @@ namespace CodeWorksLibrary
                     break;
                 case CwCommands_e.WriteQuantityE:
                     WriteQuantityMacro.WriteComponentsQuantity();
+                    break;
+                case CwCommands_e.ExportDocumentE:
+                    ExportDocument.ExportDocumentMacro();
                     break;
             }
         }

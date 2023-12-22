@@ -2,6 +2,7 @@
 using CodeWorksLibrary.Helpers;
 using SolidWorks.Interop.sldworks;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
 
@@ -39,15 +40,15 @@ namespace CodeWorksLibrary.Macros.Drawings
             modelView.EnableGraphicsUpdate = false;
 
             // Get the names of the sheet to update
-            string[] sheetNames = GetDrawingSheetNames(swDraw);
+            List<string> sheetNames = GetDrawingSheetNames(swDraw);
 
-            for (int i = 0; i < sheetNames.Length; i++)
+            foreach (string sheetName in sheetNames)
             {
                 // Get the i-th sheet
-                var swSheet = swDraw.get_Sheet(sheetNames[i]);
+                var swSheet = swDraw.get_Sheet(sheetName);
 
                 // Activate i-th sheet
-                swDraw.ActivateSheet(sheetNames[i]);
+                swDraw.ActivateSheet(sheetName);
 
                 UpdateSheetFormat(swDraw, swSheet);
             }
@@ -121,13 +122,15 @@ namespace CodeWorksLibrary.Macros.Drawings
         /// Get the names of the sheets to be updated
         /// </summary>
         /// <param name="swDraw">The pointer to the DrawindDoc Model</param>
-        /// <returns>An array of strings with the names of the sheets to be updated</returns>
-        internal static string[] GetDrawingSheetNames(DrawingDoc swDraw)
+        /// <returns>An list of strings with the names of the sheets to be updated</returns>
+        internal static List<string> GetDrawingSheetNames(DrawingDoc swDraw)
         {
             // Get the names of the sheets of the active drawing
             var sheetNames = (string[])swDraw.GetSheetNames();
 
-            return sheetNames;
+            List<string> sheetList = new List<string>(sheetNames);
+
+            return sheetList;
         }
 
         /// <summary>

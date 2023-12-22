@@ -113,7 +113,7 @@ namespace CodeWorksLibrary.Macros.Export
                 AssExpLog.LogPath = expAsmForm.LogFilePath;
 
                 // Validate job number
-                JobNumber = CwValidation.RemoveInvalidChars(JobNumber);
+                JobNumber = CwValidation.RemoveInvalidPathChars(JobNumber);
 
                 // Compose set the export path
                 ExportFileMacro.ExportFolder = Path.Combine(GlobalConfig.ExportPath, JobNumber);
