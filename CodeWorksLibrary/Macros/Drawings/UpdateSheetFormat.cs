@@ -77,39 +77,11 @@ namespace CodeWorksLibrary.Macros.Drawings
                 DrawDoc.ActivateSheet(sheetNames[loopOffset]);
 
                 // Update the format
+
             }
-
-            // TODO Re-factor here
-
 
             // Enable update to the graphic view
-            modelView.EnableGraphicsUpdate = true;
-
-            DrawingDoc swDraw = model.AsDrawing();
-
-            // Get the name of the active sheet
-            // This is require to return to the active sheet at the end of the macro
-            var sheet = (Sheet)swDraw.GetCurrentSheet();
-            var activeSheetName = sheet.GetName();
-
-
-            // Get the names of the sheet to update
-            List<string> sheetNames = GetDrawingSheetNames(swDraw);
-
-            foreach (string sheetName in sheetNames)
-            {
-                // Get the i-th sheet
-                var swSheet = swDraw.get_Sheet(sheetName);
-
-                // Activate i-th sheet
-                swDraw.ActivateSheet(sheetName);
-
-                UpdateActiveSheetFormat(swDraw, swSheet);
-            }
-
-            // Activate the original sheet
-            swDraw.ActivateSheet(activeSheetName);
-
+            modelView.EnableGraphicsUpdate = true;        
         }
 
         /// <summary>
