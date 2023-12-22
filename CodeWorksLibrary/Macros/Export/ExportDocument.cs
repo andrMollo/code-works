@@ -140,7 +140,48 @@ namespace CodeWorksLibrary
             {
                 // Upgrade sheet format
                 UpdateFormatMacro.UpgradeSheetFormat(_model.Drawing.UnsafeObject, swSheet);
+
+                // Export to PDF
+                ExportSheetToPDF();
             }
+        }
+
+        /// <summary>
+        /// Export the active sheet to PDF
+        /// </summary>
+        private static void ExportSheetToPDF()
+        {
+            // Set the sheet to be exported as the current one
+            var exportData = new PdfExportData();
+            exportData.SetSheets(PdfSheetsToExport.ExportCurrentSheet,
+                new List<string>(_model.Drawing.SheetNames().ToList<string>()));
+
+            string exportPath = ComposeExportFilePath("PDF");
+        }
+
+        /// <summary>
+        /// Compose the full path for the exported file
+        /// </summary>
+        /// <param name="extension">The file extension, without dot ("PDF")</param>
+        /// <returns>A string with the full path where to export the file</returns>
+        private static string ComposeExportFilePath(string extension)
+        {
+            // Compose the final export folder adding a sub-folder with file extension
+            string finalExportFolder = Path.Combine(_exportFolderPath, extension);
+
+            // Check if the path to the final export folder exists
+            if (!Directory.Exists(finalExportFolder))
+            {
+                Directory.CreateDirectory(finalExportFolder);
+            }
+
+            // Compose the filename with the extension
+            string fileNameWithExtension = _modelNameNoExt + "." + extension;
+
+            // Compose the full path
+            var path = Path.Combine(finalExportFolder, fileNameWithExtension);
+
+            return path;
         }
 
         /// <summary>
