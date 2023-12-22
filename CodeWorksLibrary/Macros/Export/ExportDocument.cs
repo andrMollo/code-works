@@ -402,10 +402,36 @@ namespace CodeWorksLibrary
             if (_model.IsDrawing)
             {
                 ExportDrawingAndPreview();
+
+                ExportModelToStep();
             }
-            else
+            else if (!_model.IsDrawing)
             {
-                // TODO Export the model
+                ExportModelToStep();
+
+                // TODO Get the drawing path
+
+                // TODO Open the drawing
+
+                // Export the drawing and preview
+            }
+        }
+
+        // Export the active model as STEP
+        private static void ExportModelToStep()
+        {
+            string exportPath = ComposeExportFilePath("STP");
+
+            ModelSaveResult exportResult = _model.SaveAs(
+                exportPath,
+                options: SaveAsOptions.Silent | SaveAsOptions.Copy,
+                pdfExportData: null
+                );
+
+            // Show message box if export fails
+            if (!exportResult.Successful)
+            {
+                Application.ShowMessageBox($"Failed to export {_modelNameNoExt} to STEP.", SolidWorksMessageBoxIcon.Stop);
             }
         }
 
