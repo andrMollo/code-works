@@ -9,6 +9,7 @@ using System.Linq;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
 using SolidWorks.Interop.swconst;
 using CodeWorksLibrary.Macros.Export;
+using SolidWorks.Interop.swdocumentmgr;
 
 namespace CodeWorksLibrary
 {
@@ -158,6 +159,51 @@ namespace CodeWorksLibrary
 
             // Export to DWG
             ExportSheetToDWG();
+
+            // Export model preview
+            ExportModelPreview();
+        }
+
+        /// <summary>
+        /// Export model to PNG using the Document Manager API
+        /// </summary>
+        private static void ExportModelPreview()
+        {
+            SwDMClassFactory classFactory = Activator.CreateInstance(
+                Type.GetTypeFromProgID("SwDocumentMgr.SwDMClassFactory")) as SwDMClassFactory;
+
+
+        }
+
+        /// <summary>
+        /// Get the Document Manager document type
+        /// </summary>
+        /// <param name="model">The model object for the model</param>
+        /// <returns></returns>
+        internal static SwDmDocumentType GetDmDocumentType()
+        {
+            // Get the model file extension
+            var modelExt = Path.GetExtension(_model.FilePath).ToUpper();
+
+            SwDmDocumentType dmDocType = new SwDmDocumentType();
+
+            switch (modelExt)
+            {
+                case ".SLDPRT":
+                    dmDocType = SwDmDocumentType.swDmDocumentPart;
+                    break;
+                case ".SLDASM":
+                    dmDocType = SwDmDocumentType.swDmDocumentAssembly;
+                    break;
+                case ".SLDDRW":
+                    dmDocType = SwDmDocumentType.swDmDocumentDrawing;
+                    break;
+                default:
+                    Application.ShowMessageBox("The document ha no valid SolidWorks file extension", SolidWorksMessageBoxIcon.Stop);
+                    break;
+            }
+
+            return dmDocType;
         }
 
         /// <summary>
