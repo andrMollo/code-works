@@ -1,13 +1,12 @@
 ﻿using CADBooster.SolidDna;
 using CodeWorksLibrary.Helpers;
-using static CADBooster.SolidDna.SolidWorksEnvironment;
+using CodeWorksLibrary.Macros.Drawings;
+using SolidWorks.Interop.sldworks;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
-using System.Security.Policy;
+using System.Linq;
+using static CADBooster.SolidDna.SolidWorksEnvironment;
 
 namespace CodeWorksLibrary
 {
@@ -123,7 +122,24 @@ namespace CodeWorksLibrary
                 // Activate sheet
                 drawingModel.ActivateSheet(sheetNames[loopOffset]);
 
+                ExportDrawingSheet(activeSheetName);
+            }
+        }
 
+        /// <summary>
+        /// Export the active sheet in different format
+        /// </summary>
+        /// <param name="sheetName">The name of the active sheet</param>
+        private static void ExportDrawingSheet(string sheetName)
+        {
+            // Get the SolidWorks sheet object
+            Sheet swSheet = _model.Drawing.UnsafeObject.get_Sheet(sheetName);
+
+            // Check if the sheet contains a flat pattern
+            if (!UpdateFormatMacro.CheckFlatPattern(swSheet))
+            {
+                // Upgrade sheet format
+                UpdateFormatMacro.UpgradeSheetFormat(_model.Drawing.UnsafeObject, swSheet);
             }
         }
 
