@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
+using SolidWorks.Interop.swconst;
 
 namespace CodeWorksLibrary
 {
@@ -144,6 +145,34 @@ namespace CodeWorksLibrary
                 // Export to PDF
                 ExportSheetToPDF();
             }
+
+            // Export to DWG
+            ExportSheetToDWF();
+        }
+
+        /// <summary>
+        /// Export the active sheet to DWG
+        /// </summary>
+        private static void ExportSheetToDWF()
+        {
+            // Compose the full path for the exported file
+            string exportPath = ComposeExportFilePath("PDF");
+
+            // Get the original option for sheet export of DXF / DWG 
+            int originalDxfSheetOption = Application.GetUserPreferencesInteger(swUserPreferenceIntegerValue_e.swDxfMultiSheetOption);
+
+            // Change SolidWorks option to export single sheet to DWG
+            Application.SetUserPreferencesInteger(swUserPreferenceIntegerValue_e.swDxfMultiSheetOption, (int)swDxfMultisheet_e.swDxfActiveSheetOnly);
+
+            // Save the file
+            ModelSaveResult exportResult = _model.SaveAs(
+                exportPath,
+                options: SaveAsOptions.Silent | SaveAsOptions.Copy | SaveAsOptions.UpdateInactiveViews,
+                pdfExportData: null
+                );
+
+            // Revert to the original option for sheet export of DXF / DWG
+            Application.SetUserPreferencesInteger(swUserPreferenceIntegerValue_e.swDxfMultiSheetOption, originalDxfSheetOption);
         }
 
         /// <summary>
@@ -156,8 +185,10 @@ namespace CodeWorksLibrary
             exportData.SetSheets(PdfSheetsToExport.ExportCurrentSheet,
                 new List<string>(_model.Drawing.SheetNames().ToList<string>()));
 
+            // Compose the full path for the exported file
             string exportPath = ComposeExportFilePath("PDF");
 
+            // Save the file
             ModelSaveResult exportResult = _model.SaveAs(
                 exportPath,
                 options: SaveAsOptions.Silent | SaveAsOptions.Copy | SaveAsOptions.UpdateInactiveViews,
