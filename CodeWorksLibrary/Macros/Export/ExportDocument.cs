@@ -184,14 +184,14 @@ namespace CodeWorksLibrary
             // Get all the sheet names
             List<string> sheetNames = drawingModel.SheetNames().ToList<string>();
 
-            // Get the name if the active sheet
+            // Get the name of the active sheet
             string activeSheetName = drawingModel.CurrentActiveSheet();
 
             /* Get the active sheet number
              * this allow the loop to start from the active one
              * and save a change of sheet
              */
-            int activeSheetNumber = sheetNames.IndexOf(activeSheetName) +1 ;
+            int activeSheetNumber = sheetNames.IndexOf(activeSheetName) + 1;
 
             // Loop through sheets
             for (int i = 0; i < sheetNames.Count; i++)
