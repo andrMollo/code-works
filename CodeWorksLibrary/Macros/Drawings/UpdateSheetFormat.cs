@@ -4,6 +4,7 @@ using SolidWorks.Interop.sldworks;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
 
 
@@ -45,6 +46,31 @@ namespace CodeWorksLibrary.Macros.Drawings
             // Set the SolidDNA drawing document
             DrawDoc = model.Drawing;
 
+            // Disable updates to the graphic view
+            ModelView modelView = (ModelView)model.UnsafeObject.ActiveView;
+            modelView.EnableGraphicsUpdate = false;
+
+            // Get all the sheet names
+            List<string> sheetNames = DrawDoc.SheetNames().ToList<string>();
+
+            // Get the name of the active sheet
+            string activeSheetName = DrawDoc.CurrentActiveSheet();
+
+            // Get the active sheet number
+            int activeSheetNumber = sheetNames.IndexOf(activeSheetName) + 1;
+
+            // Loop through all the sheet starting form the active
+            for (int i = 0; i < sheetNames.Count; i++)
+            {
+
+            }
+
+            // TODO Re-factor here
+
+
+            // Enable update to the graphic view
+            modelView.EnableGraphicsUpdate = true;
+
             DrawingDoc swDraw = model.AsDrawing();
 
             // Get the name of the active sheet
@@ -52,9 +78,6 @@ namespace CodeWorksLibrary.Macros.Drawings
             var sheet = (Sheet)swDraw.GetCurrentSheet();
             var activeSheetName = sheet.GetName();
 
-            // Disable updates to the graphic view
-            ModelView modelView = (ModelView)model.UnsafeObject.ActiveView;
-            modelView.EnableGraphicsUpdate = false;
 
             // Get the names of the sheet to update
             List<string> sheetNames = GetDrawingSheetNames(swDraw);
@@ -73,8 +96,6 @@ namespace CodeWorksLibrary.Macros.Drawings
             // Activate the original sheet
             swDraw.ActivateSheet(activeSheetName);
 
-            // Enable update to the graphic view
-            modelView.EnableGraphicsUpdate = true;
         }
 
         /// <summary>
