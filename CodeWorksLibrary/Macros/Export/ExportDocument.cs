@@ -236,10 +236,10 @@ namespace CodeWorksLibrary
             Sheet swSheet = ExportModel.Drawing.UnsafeObject.get_Sheet(sheetName);
 
             // Check if the sheet contains a flat pattern
-            if (!UpdateFormatMacro.CheckFlatPattern(swSheet))
+            if (!UpdateSheetFormat.CheckFlatPattern(swSheet))
             {
                 // Upgrade sheet format
-                UpdateFormatMacro.UpgradeSheetFormat(ExportModel.Drawing.UnsafeObject, swSheet);
+                UpdateSheetFormat.UpgradeSheetFormat(ExportModel.Drawing.UnsafeObject, swSheet);
 
                 if (ExportSelection == true)
                 {

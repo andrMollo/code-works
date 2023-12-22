@@ -9,8 +9,12 @@ using static CADBooster.SolidDna.SolidWorksEnvironment;
 
 namespace CodeWorksLibrary.Macros.Drawings
 {
-    internal class UpdateFormatMacro
+    internal class UpdateSheetFormat
     {
+        #region Public properties
+        
+        #endregion
+
         /// <summary>
         /// Update the sheet format on all sheets of the active drawings.
         /// Sheets with only one view containing a flat pattern configuration are not updated.
@@ -50,7 +54,7 @@ namespace CodeWorksLibrary.Macros.Drawings
                 // Activate i-th sheet
                 swDraw.ActivateSheet(sheetName);
 
-                UpdateSheetFormat(swDraw, swSheet);
+                UpdateActiveSheetFormat(swDraw, swSheet);
             }
 
             // Activate the original sheet
@@ -66,7 +70,7 @@ namespace CodeWorksLibrary.Macros.Drawings
         /// </summary>
         /// <param name="swDraw">The pointer to the DrawingDoc model</param>
         /// <param name="swSheet">The pointer to Sheet model</param>
-        internal static void UpdateSheetFormat(DrawingDoc swDraw, Sheet swSheet)
+        internal static void UpdateActiveSheetFormat(DrawingDoc swDraw, Sheet swSheet)
         {          
             // Check if the current sheet contains a flat pattern configuration
             var containsFlatPattern = CheckFlatPattern(swSheet);

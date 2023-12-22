@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Drawing.Printing;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
 using static CodeWorksLibrary.Helpers.CwLayerManager;
-using static CodeWorksLibrary.Macros.Drawings.UpdateFormatMacro;
+using static CodeWorksLibrary.Macros.Drawings.UpdateSheetFormat;
 using static System.Drawing.Printing.PrinterSettings;
 
 namespace CodeWorksLibrary.Macros.Export
@@ -70,7 +70,7 @@ namespace CodeWorksLibrary.Macros.Export
 
                 swDraw.ActivateSheet(sheetName);
 
-                if (UpdateFormatMacro.CheckFlatPattern(swSheet) == false)
+                if (Drawings.UpdateSheetFormat.CheckFlatPattern(swSheet) == false)
                 {
                     UpgradeSheetFormat(swDraw, swSheet);
 
