@@ -29,7 +29,7 @@ namespace CodeWorksLibrary.Macros.Drawings
         /// Sheets with only one view containing a flat pattern configuration are not updated.
         /// The sheet format is updated regardless of the current format name
         /// </summary>
-        internal static void UpdateFormatAllSheets()
+        internal static void UpdateSheetsFormatMacro()
         {
             Model model = Application.ActiveModel;
 
@@ -76,7 +76,7 @@ namespace CodeWorksLibrary.Macros.Drawings
                 // Active the sheet
                 DrawDoc.ActivateSheet(sheetNames[loopOffset]);
 
-                // Update the format
+                // TODO Update the format
 
             }
 
