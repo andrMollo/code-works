@@ -3,7 +3,6 @@
 using CADBooster.SolidDna;
 using CodeWorksLibrary.Macros.Drawings;
 using CodeWorksLibrary.Macros.Export;
-using CodeWorksLibrary.Macros.Files;
 using CodeWorksLibrary.Macros.Properties;
 using CodeWorksLibrary.Properties;
 using SolidWorks.Interop.sldworks;
@@ -126,9 +125,6 @@ namespace CodeWorksLibrary
                     break;
                 case CwCommands_e.WriteQuantityE:
                     WriteQuantityMacro.WriteComponentsQuantity();
-                    break;
-                case CwCommands_e.ExportDocumentE:
-                    ExportDocument.ExportDocumentMacro();
                     break;
             }
         }

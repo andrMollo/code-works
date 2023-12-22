@@ -1,6 +1,5 @@
 ﻿using CADBooster.SolidDna;
 using CodeWorksLibrary.Helpers;
-using CodeWorksLibrary.Macros.Files;
 using CodeWorksLibrary.Macros.Properties;
 using CodeWorksLibrary.Models;
 using SolidWorks.Interop.sldworks;
@@ -116,7 +115,7 @@ namespace CodeWorksLibrary.Macros.Export
                 JobNumber = CwValidation.RemoveInvalidPathChars(JobNumber);
 
                 // Compose set the export path
-                ExportFileMacro.ExportFolder = Path.Combine(GlobalConfig.ExportPath, JobNumber);
+                ExportDocument.ExportFolderPath = Path.Combine(GlobalConfig.ExportPath, JobNumber);
 
                 // Get the flat BOM
                 List<BomModel> bom = new List<BomModel>();
