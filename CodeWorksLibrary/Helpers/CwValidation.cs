@@ -138,9 +138,19 @@ namespace CodeWorksLibrary.Helpers
         /// </summary>
         /// <param name="filename">The string to be checked</param>
         /// <returns>The input string with the invalid characters removed</returns>
-        internal static string RemoveInvalidChars(string filename)
+        internal static string RemoveInvalidPathChars(string filename)
         {
             return string.Concat(filename.Split(Path.GetInvalidPathChars()));
+        }
+
+        /// <summary>
+        /// Remove invalid filename characters
+        /// </summary>
+        /// <param name="filename">The string to be checked</param>
+        /// <returns>The input string with the invalid characters removed</returns>
+        internal static string RemoveInvalidFileNameChars(string filename)
+        {
+            return string.Concat(filename.Split(Path.GetInvalidFileNameChars()));
         }
     }
 }
