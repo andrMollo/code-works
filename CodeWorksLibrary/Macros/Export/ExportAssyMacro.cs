@@ -260,19 +260,27 @@ namespace CodeWorksLibrary.Macros.Export
                             continue;
                         }
 
-                        // Export the component drawing and preview if the user selected the option
-                        if (userSelection.Export == true)
-                        {
-                            // Export drawing and model preview
-                            ExportFileMacro.ExportDrawingAndPreview(drwModel);
-                        }
+                        // Set export document
+                        ExportDocument.ExportModel = drwModel;
+
+                        // Set the export job number
+                        ExportDocument.JobNumber = JobNumber;
 
                         // Print the drawing if the user selected the option
                         if (userSelection.Print == true)
                         {
-                            FastPrintMacro.PrintFile(drwModel);
+                            // Set print property
+                            ExportDocument.PrintSelection = true;
                         }
 
+                        // Export the component drawing and preview if the user selected the option
+                        if (userSelection.Export == true)
+                        {
+                            // Export drawing and model preview
+                            ExportDocument.ExportDrawingAndPreview();
+                        }
+
+                        // Write log entry
                         asmLog.WriteLogWithDate(modelPath);
                     }
                 }

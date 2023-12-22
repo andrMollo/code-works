@@ -35,6 +35,10 @@ namespace CodeWorksLibrary
             [Description("Export the current file in different formats")]
             [Icon(typeof(Resources), nameof(Resources.ExportFile))]
             ExportFileE,
+            [Title("Export and print file")]
+            [Description("Export and print the current file in different formats")]
+            [Icon(typeof(Resources), nameof(Resources.ExportFile))]
+            ExportFilePrintE,
             [Title("Export assembly")]
             [Description("Export the current assembly and its components")]
             [Icon(typeof(Resources), nameof(Resources.ExportAssy))]
@@ -55,8 +59,6 @@ namespace CodeWorksLibrary
             [Description("Write the quantity custom property in all components of the open assembly")]
             [Icon(typeof(Resources), nameof(Resources.WriteQuantity))]
             WriteQuantityE,
-            [Title("Export document")]
-            ExportDocumentE
         }
 
         #endregion
@@ -105,7 +107,10 @@ namespace CodeWorksLibrary
                     SetAuthorMacro.SetAuthor();
                     break;
                 case CwCommands_e.ExportFileE:
-                    ExportFileMacro.ExportFile();
+                    ExportDocument.ExportDocumentMacro();
+                    break;
+                case CwCommands_e.ExportFilePrintE:
+                    ExportDocument.ExportPrintDocumentMacro();
                     break;
                 case CwCommands_e.ExportAssemblyE:
                     ExportAssyMacro.ExportAssembly();
