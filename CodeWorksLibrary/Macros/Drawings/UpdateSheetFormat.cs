@@ -12,7 +12,15 @@ namespace CodeWorksLibrary.Macros.Drawings
     internal static class UpdateSheetFormat
     {
         #region Public properties
-        
+        /// <summary>
+        /// Pointer to the SolidDNA DrawingDocument
+        /// </summary>
+        internal static DrawingDocument DrawDoc {  get; set; }
+
+        /// <summary>
+        /// True to always replace the format, false to replace only if the format full path is different
+        /// </summary>
+        internal static bool AlwaysReplace { get; set; }
         #endregion
 
         /// <summary>
@@ -22,8 +30,9 @@ namespace CodeWorksLibrary.Macros.Drawings
         /// </summary>
         internal static void UpdateFormatAllSheets()
         {
-            var model = Application.ActiveModel;
+            Model model = Application.ActiveModel;
 
+            #region Validation
             // Check if there is an open document, if the documents has been saved and if it is a drawing
             var isDrawingOpen = CwValidation.DrawingIsOpen(model);
 
@@ -31,6 +40,10 @@ namespace CodeWorksLibrary.Macros.Drawings
             {
                 return;
             }
+            #endregion
+
+            // Set the SolidDNA drawing document
+            DrawDoc = model.Drawing;
 
             DrawingDoc swDraw = model.AsDrawing();
 
