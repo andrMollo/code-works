@@ -157,6 +157,12 @@ namespace CodeWorksLibrary
                 new List<string>(_model.Drawing.SheetNames().ToList<string>()));
 
             string exportPath = ComposeExportFilePath("PDF");
+
+            ModelSaveResult exportResult = _model.SaveAs(
+                exportPath,
+                options: SaveAsOptions.Silent | SaveAsOptions.Copy | SaveAsOptions.UpdateInactiveViews,
+                pdfExportData: exportData
+                );
         }
 
         /// <summary>
@@ -175,8 +181,16 @@ namespace CodeWorksLibrary
                 Directory.CreateDirectory(finalExportFolder);
             }
 
+            // Add sheet name as file name suffix in there is more then one sheet
+            string fileNameSuffix = string.Empty;
+
+            if (_model.Drawing.SheetNames().ToList<string>().Count > 1)
+            {
+                fileNameSuffix = "_" + CwValidation.RemoveInvalidFileNameChars(_model.Drawing.CurrentActiveSheet());
+            }
+
             // Compose the filename with the extension
-            string fileNameWithExtension = _modelNameNoExt + "." + extension;
+            string fileNameWithExtension = _modelNameNoExt + fileNameSuffix + "." + extension;
 
             // Compose the full path
             var path = Path.Combine(finalExportFolder, fileNameWithExtension);
@@ -215,7 +229,7 @@ namespace CodeWorksLibrary
             // Remove invalid characters form the job number string
             if (JobNumber != string.Empty)
             {
-                JobNumber = CwValidation.RemoveInvalidChars(JobNumber);
+                JobNumber = CwValidation.RemoveInvalidPathChars(JobNumber);
             }
 
             _exportFolderPath = Path.Combine(GlobalConfig.ExportPath, JobNumber);            
