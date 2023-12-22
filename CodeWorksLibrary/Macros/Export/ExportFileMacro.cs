@@ -59,7 +59,6 @@ namespace CodeWorksLibrary.Macros.Files
             {
                 // Export model
                 ExportModel(model);
-                ExportModelAsStep(model);
 
                 // Assumes drawing has the same name of the model and is in the same folder
                 var drwPath = Path.ChangeExtension(model.FilePath, "SLDDRW");
