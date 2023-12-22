@@ -23,6 +23,11 @@ namespace CodeWorksLibrary
         internal static Model ExportModel { get; set; }
 
         /// <summary>
+        /// The path to the export folder, without filename
+        /// </summary>
+        internal static string ExportFolderPath { get; set; }
+
+        /// <summary>
         /// The name of the job to be used as export sub-folder
         /// </summary>
         internal static string JobNumber { get; set; }
@@ -43,11 +48,6 @@ namespace CodeWorksLibrary
         /// The name of the file without the extension
         /// </summary>
         static string _modelNameNoExt;
-
-        /// <summary>
-        /// The path to the export folder, without filename
-        /// </summary>
-        static string _exportFolderPath;
         #endregion
 
         #region Public methods
@@ -434,7 +434,7 @@ namespace CodeWorksLibrary
         private static string ComposeExportFilePath(string extension)
         {
             // Compose the final export folder adding a sub-folder with file extension
-            string finalExportFolder = Path.Combine(_exportFolderPath, extension);
+            string finalExportFolder = Path.Combine(ExportFolderPath, extension);
 
             // Check if the path to the final export folder exists
             if (!Directory.Exists(finalExportFolder))
@@ -562,7 +562,7 @@ namespace CodeWorksLibrary
                 JobNumber = CwValidation.RemoveInvalidPathChars(JobNumber);
             }
 
-            _exportFolderPath = Path.Combine(GlobalConfig.ExportPath, JobNumber);            
+            ExportFolderPath = Path.Combine(GlobalConfig.ExportPath, JobNumber);            
         }
         #endregion
     }
