@@ -40,8 +40,10 @@ Pseudo code to export a SolidWorks model.
         - [ ] M: export sheet to DWG
         - [ ] if print == true
           - [ ] M: set printed on and printed by
+          - [ ] M: set job number
           - [ ] M: change layer visibility
           - [ ] M: print sheet
+          - [ ] M: delete job number
           - [ ] M: change layer visibility
     - [x] Return to active sheet
     - [ ] M: export preview
