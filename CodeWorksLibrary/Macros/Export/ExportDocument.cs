@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
 using SolidWorks.Interop.swconst;
+using CodeWorksLibrary.Macros.Export;
 
 namespace CodeWorksLibrary
 {
@@ -144,19 +145,28 @@ namespace CodeWorksLibrary
 
                 // Export to PDF
                 ExportSheetToPDF();
+
+                // Print she active sheet
+                if (PrintSelection)
+                {
+                    FastPrintMacro.PrintDrawingSheet(
+                        _model.UnsafeObject,
+                        swSheet,
+                        );
+                }
             }
 
             // Export to DWG
-            ExportSheetToDWF();
+            ExportSheetToDWG();
         }
 
         /// <summary>
         /// Export the active sheet to DWG
         /// </summary>
-        private static void ExportSheetToDWF()
+        private static void ExportSheetToDWG()
         {
             // Compose the full path for the exported file
-            string exportPath = ComposeExportFilePath("PDF");
+            string exportPath = ComposeExportFilePath("DWG");
 
             // Get the original option for sheet export of DXF / DWG 
             int originalDxfSheetOption = Application.GetUserPreferencesInteger(swUserPreferenceIntegerValue_e.swDxfMultiSheetOption);
