@@ -82,13 +82,58 @@ namespace CodeWorksLibrary
         internal static void ExportDrawingAndPreview()
         {
             // Export the drawing
-            ExportDrawingDocument();       
+            ExportDrawingDocument();
 
+            // Get the parent model
+            _model = GetDrawingParentModel();
+
+            // Export model preview
+            ExportModelPreview();
         }
 
         #endregion
 
         #region Private methods
+        /// <summary>
+        /// Get the 3d model referenced inf the first view of the model
+        /// </summary>
+        /// <returns>The SolidDNA Model object for the 3d model referenced in the drawing</returns>
+        private static Model GetDrawingParentModel()
+        {
+            // Check if the drawing is a model
+            if (_model.IsDrawing)
+            {
+                // Get the SolidWorks DrawingDoc object
+                DrawingDoc swDrwDoc = _model.AsDrawing();
+
+                // Get the first view of the model
+                // Be careful it can also be a sheet
+                View firsView = (View)swDrwDoc.GetFirstView();
+
+                // Loop through all the view to get the first one that is not a sheet
+                while (firsView != null)
+                {
+                    // If the view is not a sheet
+                    if (firsView.Type != (int)swDrawingViewTypes_e.swDrawingSheet)
+                    {
+                        goto firstViewFound;
+                    }
+
+                    // Then the vie is actually a sheet so get the next view
+                    firsView = (View)firsView.GetNextView();
+                }
+
+            firstViewFound:
+
+                Model refModel = new Model((ModelDoc2)firsView.ReferencedDocument);
+                return refModel;
+            }
+            else
+            {
+                throw new Exception("Unable to get the model referenced in the drawing");
+            }
+        }
+
         /// <summary>
         /// Export the active drawing one sheet at a time
         /// </summary>
@@ -127,12 +172,7 @@ namespace CodeWorksLibrary
                 drawingModel.ActivateSheet(sheetNames[loopOffset]);
 
                 ExportDrawingSheet(activeSheetName);
-            }
-
-            // TODO Get the parent model
-
-            // Export model preview
-            ExportModelPreview();
+            }            
         }
 
         /// <summary>
@@ -328,9 +368,13 @@ namespace CodeWorksLibrary
             // Add sheet name as file name suffix in there is more then one sheet
             string fileNameSuffix = string.Empty;
 
-            if (_model.Drawing.SheetNames().ToList<string>().Count > 1)
+            // If Model is a drawing
+            if (_model.IsDrawing)
             {
-                fileNameSuffix = "_" + CwValidation.RemoveInvalidFileNameChars(_model.Drawing.CurrentActiveSheet());
+                if (_model.Drawing.SheetNames().ToList<string>().Count > 1)
+                {
+                    fileNameSuffix = "_" + CwValidation.RemoveInvalidFileNameChars(_model.Drawing.CurrentActiveSheet());
+                }
             }
 
             // Compose the filename with the extension
@@ -361,7 +405,7 @@ namespace CodeWorksLibrary
             }
             else
             {
-
+                // TODO Export the model
             }
         }
 
