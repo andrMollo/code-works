@@ -196,9 +196,7 @@ namespace CodeWorksLibrary
             // Loop through sheets
             for (int i = 0; i < sheetNames.Count; i++)
             {
-                /*
-                 * Offset require to start the loop from the active sheet
-                 */
+                // Offset required to start the loop from the active sheet
                 int loopOffset = i + activeSheetNumber;
 
                 if ((activeSheetNumber + i) >= sheetNames.Count)
