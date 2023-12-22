@@ -215,6 +215,18 @@ namespace CodeWorksLibrary
         }
 
         /// <summary>
+        /// Export the part or assembly to STEP
+        /// </summary>
+        private static void Export3DModel()
+        {
+            if (ExportSelection == true)
+            {
+                // Export the model to step
+                ExportModelToStep();
+            }
+        }
+
+        /// <summary>
         /// Export the active sheet in different format
         /// </summary>
         /// <param name="sheetName">The name of the active sheet</param>
@@ -229,8 +241,11 @@ namespace CodeWorksLibrary
                 // Upgrade sheet format
                 UpdateFormatMacro.UpgradeSheetFormat(ExportModel.Drawing.UnsafeObject, swSheet);
 
-                // Export to PDF
-                ExportSheetToPDF();
+                if (ExportSelection == true)
+                {
+                    // Export to PDF
+                    ExportSheetToPDF();
+                }
 
                 // Print she active sheet
                 if (PrintSelection)
@@ -241,8 +256,11 @@ namespace CodeWorksLibrary
                 }
             }
 
-            // Export to DWG
-            ExportSheetToDWG();            
+            if (ExportSelection == true)
+            {
+                // Export to DWG
+                ExportSheetToDWG();
+            }
         }
 
         /// <summary>
@@ -389,6 +407,26 @@ namespace CodeWorksLibrary
         }
 
         /// <summary>
+        /// Export the active model as STEP
+        /// </summary>
+        private static void ExportModelToStep()
+        {
+            string exportPath = ComposeExportFilePath("STP");
+
+            ModelSaveResult exportResult = ExportModel.SaveAs(
+                exportPath,
+                options: SaveAsOptions.Silent | SaveAsOptions.Copy,
+                pdfExportData: null
+                );
+
+            // Show message box if export fails
+            if (!exportResult.Successful)
+            {
+                Application.ShowMessageBox($"Failed to export {_modelNameNoExt} to STEP.", SolidWorksMessageBoxIcon.Stop);
+            }
+        }
+
+        /// <summary>
         /// Compose the full path for the exported file
         /// </summary>
         /// <param name="extension">The file extension, without dot ("PDF")</param>
@@ -442,11 +480,11 @@ namespace CodeWorksLibrary
             {
                 ExportDrawingAndPreview();
 
-                ExportModelToStep();
+                Export3DModel();
             }
             else if (!ExportModel.IsDrawing)
             {
-                ExportModelToStep();
+                Export3DModel();
 
                 // Get the drawing model
                 ExportModel = GetDrawingModel();
@@ -511,26 +549,6 @@ namespace CodeWorksLibrary
             }
 
             return model;
-        }
-
-        /// <summary>
-        /// Export the active model as STEP
-        /// </summary>
-        private static void ExportModelToStep()
-        {
-            string exportPath = ComposeExportFilePath("STP");
-
-            ModelSaveResult exportResult = ExportModel.SaveAs(
-                exportPath,
-                options: SaveAsOptions.Silent | SaveAsOptions.Copy,
-                pdfExportData: null
-                );
-
-            // Show message box if export fails
-            if (!exportResult.Successful)
-            {
-                Application.ShowMessageBox($"Failed to export {_modelNameNoExt} to STEP.", SolidWorksMessageBoxIcon.Stop);
-            }
         }
 
         /// <summary>
