@@ -48,7 +48,7 @@ namespace CodeWorksLibrary
 
         #region Public methods
         /// <summary>
-        /// Export the active document to different format
+        /// Export the active document and its drawing to different format
         /// </summary>
         internal static void ExportDocumentMacro()
         {
@@ -70,6 +70,34 @@ namespace CodeWorksLibrary
 
             // Set the selection to not print the document
             PrintSelection = false;
+
+            // Export the document
+            ExportModelDocument(_model);
+        }
+
+        /// <summary>
+        /// Export and print the active document and its drawing to different format
+        /// </summary>
+        internal static void ExportPrintDocumentMacro()
+        {
+            Model model = Application.ActiveModel;
+
+            #region Validation
+            // Check if there is an open document and if there is it can't be a drawing
+            if (!CwValidation.ModelIsOpen(model))
+            {
+                return;
+            }
+            #endregion
+
+            // Set the active model
+            _model = model;
+
+            // Set the job folder as empty string to export the document without any sub-folder
+            JobNumber = string.Empty;
+
+            // Set the selection to not print the document
+            PrintSelection = true;
 
             // Export the document
             ExportModelDocument(_model);
