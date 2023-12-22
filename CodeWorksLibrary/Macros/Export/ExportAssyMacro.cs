@@ -266,6 +266,12 @@ namespace CodeWorksLibrary.Macros.Export
                         // Set the export job number
                         ExportDocument.JobNumber = JobNumber;
 
+                        // Export file if the user selected the option
+                        if (userSelection.Export == true)
+                        {
+                            ExportDocument.ExportSelection = true;
+                        }
+
                         // Print the drawing if the user selected the option
                         if (userSelection.Print == true)
                         {

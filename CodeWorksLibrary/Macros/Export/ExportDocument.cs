@@ -28,9 +28,14 @@ namespace CodeWorksLibrary
         internal static string JobNumber { get; set; }
 
         /// <summary>
-        /// True to print the document, false to export it
+        /// True to print the document
         /// </summary>
         internal static bool PrintSelection { get; set; }
+
+        /// <summary>
+        /// True to export the document
+        /// </summary>
+        internal static bool ExportSelection { get; set; }
         #endregion
 
         #region Private fields
@@ -67,6 +72,9 @@ namespace CodeWorksLibrary
             // Set the job folder as empty string to export the document without any sub-folder
             JobNumber = string.Empty;
 
+            // Set the selection to export the document
+            ExportSelection = true;
+
             // Set the selection to not print the document
             PrintSelection = false;
 
@@ -94,6 +102,9 @@ namespace CodeWorksLibrary
 
             // Set the job folder as empty string to export the document without any sub-folder
             JobNumber = string.Empty;
+
+            // Set the selection to export the document
+            ExportSelection = true;
 
             // Set the selection to not print the document
             PrintSelection = true;
