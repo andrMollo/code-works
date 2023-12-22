@@ -1,15 +1,16 @@
 ﻿using CADBooster.SolidDna;
 using CodeWorksLibrary.Helpers;
 using CodeWorksLibrary.Macros.Drawings;
+using CodeWorksLibrary.Macros.Export;
 using SolidWorks.Interop.sldworks;
+using SolidWorks.Interop.swconst;
+using SolidWorks.Interop.swdocumentmgr;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
-using SolidWorks.Interop.swconst;
-using CodeWorksLibrary.Macros.Export;
-using SolidWorks.Interop.swdocumentmgr;
 
 namespace CodeWorksLibrary
 {
@@ -127,6 +128,11 @@ namespace CodeWorksLibrary
 
                 ExportDrawingSheet(activeSheetName);
             }
+
+            // TODO Get the parent model
+
+            // Export model preview
+            ExportModelPreview();
         }
 
         /// <summary>
@@ -152,16 +158,12 @@ namespace CodeWorksLibrary
                 {
                     FastPrintMacro.PrintDrawingSheet(
                         _model.UnsafeObject,
-                        swSheet,
-                        );
+                        swSheet);
                 }
             }
 
             // Export to DWG
-            ExportSheetToDWG();
-
-            // Export model preview
-            ExportModelPreview();
+            ExportSheetToDWG();            
         }
 
         /// <summary>
@@ -172,18 +174,61 @@ namespace CodeWorksLibrary
             SwDMClassFactory classFactory = Activator.CreateInstance(
                 Type.GetTypeFromProgID("SwDocumentMgr.SwDMClassFactory")) as SwDMClassFactory;
 
+            if (classFactory != null)
+            {
+                SwDMApplication dmApp = classFactory.GetApplication(GlobalConfig.DmKey.Trim('"'));
 
+                // Get the Document Manager document type
+                SwDmDocumentType docType = ExportDocument.GetDmDocumentType(_model);
+
+                // Open the document
+                SwDmDocumentOpenError dmOpenError = new SwDmDocumentOpenError();
+
+                SwDMDocument swDmDoc = dmApp.GetDocument(_model.FilePath, docType, true, out dmOpenError);
+
+                if (swDmDoc != null)
+                {
+                    // Get the name of the active configuration
+                    var activeConfigName = swDmDoc.ConfigurationManager.GetActiveConfigurationName();
+
+                    // Get the active configuration
+                    var activeConfig = swDmDoc.ConfigurationManager.GetConfigurationByName(activeConfigName);
+
+                    // Get the preview object
+                    var previewErr = new SwDmPreviewError();
+                    var previewObject = activeConfig.GetPreviewBitmap(out previewErr);
+
+                    if (previewErr != SwDmPreviewError.swDmPreviewErrorNoPreview)
+                    {
+                        // Convert preview object to image
+                        Image imgPreview = PictureDispConverter.Convert(previewObject);
+
+                        if (previewErr == SwDmPreviewError.swDmPreviewErrorNone)
+                        {
+                            // Get the output path for the preview
+                            string exportPath = ComposeExportFilePath("PNG");
+
+                            // Save preview as PNG
+                            imgPreview.Save(exportPath, System.Drawing.Imaging.ImageFormat.Png);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                throw new NullReferenceException("Document Manager SDK not installed.");
+            }
         }
 
         /// <summary>
         /// Get the Document Manager document type
         /// </summary>
-        /// <param name="model">The model object for the model</param>
+        /// <param name="model">The SoldDNA Model object for the model</param>
         /// <returns></returns>
-        internal static SwDmDocumentType GetDmDocumentType()
+        internal static SwDmDocumentType GetDmDocumentType(Model model)
         {
             // Get the model file extension
-            var modelExt = Path.GetExtension(_model.FilePath).ToUpper();
+            var modelExt = Path.GetExtension(model.FilePath).ToUpper();
 
             SwDmDocumentType dmDocType = new SwDmDocumentType();
 
