@@ -46,6 +46,9 @@ namespace CodeWorksLibrary.Macros.Drawings
             // Set the SolidDNA drawing document
             DrawDoc = model.Drawing;
 
+            // Set to always update the format
+            AlwaysReplace = true;
+
             // Disable updates to the graphic view
             ModelView modelView = (ModelView)model.UnsafeObject.ActiveView;
             modelView.EnableGraphicsUpdate = false;
@@ -62,7 +65,18 @@ namespace CodeWorksLibrary.Macros.Drawings
             // Loop through all the sheet starting form the active
             for (int i = 0; i < sheetNames.Count; i++)
             {
+                // Offset required to start the loop from the active sheet
+                int loopOffset = i + activeSheetNumber;
 
+                if ((activeSheetNumber + i) >= sheetNames.Count)
+                {
+                    loopOffset = activeSheetNumber + i - sheetNames.Count;
+                }
+
+                // Active the sheet
+                DrawDoc.ActivateSheet(sheetNames[loopOffset]);
+
+                // Update the format
             }
 
             // TODO Re-factor here
