@@ -15,6 +15,12 @@ namespace CodeWorksLibrary.Macros.Export
     internal class ExportAssembly
     {
         #region Public properties
+
+        /// <summary>
+        /// The pointer to the SolidDNA Model object
+        /// </summary>
+        public static Model AssemblyToExport {  get; set; }
+
         /// <summary>
         /// The job number
         /// </summary>
@@ -43,21 +49,25 @@ namespace CodeWorksLibrary.Macros.Export
             }
             #endregion
 
-            // Get the assembly object
-            var swAssy = (AssemblyDoc)model.UnsafeObject;
+            AssemblyToExport = model;
 
-            // Get the AssemblyModel
+            ExportAssemblyDocument();          
+        }
+
+        /// <summary>
+        /// Export the assembly and all its components
+        /// </summary>
+        private static void ExportAssemblyDocument()
+        {
+            // Get the SolidWokrs AssemblyModel
             BomElement assemblyModel = new BomElement();
-            assemblyModel.Model = model.UnsafeObject;
+            assemblyModel.Model = AssemblyToExport.UnsafeObject;
+
+            // Get the SolidWoks assembly doc object
+            var swAssy = (AssemblyDoc)AssemblyToExport.UnsafeObject;
 
             // Resolve lightweight components
             var resResolve = swAssy.ResolveAllLightWeightComponents(false);
-
-            // Get the active configuration
-            var swConf = assemblyModel.Model.ConfigurationManager.ActiveConfiguration;
-
-            // Get the root component
-            var rootComp = swConf.GetRootComponent3(true);
 
             // Get the assembly quantity
             var prpManager = new CwPropertyManager();
@@ -90,7 +100,7 @@ namespace CodeWorksLibrary.Macros.Export
 
                 // Rebuild assembly an all components
                 var asmRebuildRet = assemblyModel.Model.ForceRebuild3(false);
-                
+
                 // An instance of user selection
                 var userSel = new UserSelectionModel();
 
@@ -119,6 +129,12 @@ namespace CodeWorksLibrary.Macros.Export
 
                 // Compose set the export path
                 ExportDocument.ExportFolderPath = Path.Combine(GlobalConfig.ExportPath, JobNumber);
+
+                // Get the active configuration
+                var swConf = assemblyModel.Model.ConfigurationManager.ActiveConfiguration;
+
+                // Get the root component
+                var rootComp = swConf.GetRootComponent3(true);
 
                 // Get the flat BOM
                 List<BomElement> bom = new List<BomElement>();
@@ -152,7 +168,6 @@ namespace CodeWorksLibrary.Macros.Export
             {
                 SolidWorksEnvironment.Application.ShowMessageBox("Macro terminated", SolidWorksMessageBoxIcon.Stop);
             }
-
         }
 
         /// <summary>
