@@ -82,7 +82,7 @@ namespace CodeWorksLibrary
             
             string quantityValue = model.GetCustomProperty(GlobalConfig.QuantityProperty);
 
-            if (quantityValue != null)
+            if (quantityValue != null && quantityValue != string.Empty)
             {
                 if (double.TryParse(quantityValue, out double qtyDouble))
                 {
