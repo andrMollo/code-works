@@ -49,6 +49,15 @@ namespace CodeWorksLibrary
             // Set to always update the format
             AlwaysReplace = true;
 
+            UpdateFormatAllSheet(model);                 
+        }
+
+        /// <summary>
+        /// Update the sheet format for all sheet of the active model
+        /// </summary>
+        /// <param name="model">The pointer to the active SolidDNA Model object</param>
+        public static void UpdateFormatAllSheet(Model model)
+        {
             // Disable updates to the graphic view
             ModelView modelView = (ModelView)model.UnsafeObject.ActiveView;
             modelView.EnableGraphicsUpdate = false;
@@ -80,7 +89,7 @@ namespace CodeWorksLibrary
                 UpdateActiveSheetFormat(DrawDoc.UnsafeObject, (Sheet)DrawDoc.UnsafeObject.GetCurrentSheet());
             }
             // Enable update to the graphic view
-            modelView.EnableGraphicsUpdate = true;        
+            modelView.EnableGraphicsUpdate = true;
         }
 
         /// <summary>
