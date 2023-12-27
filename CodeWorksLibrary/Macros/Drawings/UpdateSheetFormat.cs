@@ -8,7 +8,7 @@ using System.Linq;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
 
 
-namespace CodeWorksLibrary.Macros.Drawings
+namespace CodeWorksLibrary
 {
     internal static class UpdateSheetFormat
     {
