@@ -248,9 +248,7 @@ namespace CodeWorksLibrary
                 // Print she active sheet
                 if (PrintSelection)
                 {
-                    FastPrintMacro.PrintDrawingSheet(
-                        ExportModel.UnsafeObject,
-                        swSheet);
+                    FastPrintMacro.PrintDrawingSheet(ExportModel.UnsafeObject, swSheet);
                 }
             }
 

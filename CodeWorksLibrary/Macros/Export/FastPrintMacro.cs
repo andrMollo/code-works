@@ -140,9 +140,13 @@ namespace CodeWorksLibrary.Macros.Export
 
             // Assign layer name
             var noteLayer = GlobalConfig.PrintNoteLayer;
+            var jobLayer = GlobalConfig.PrintJobLayer;
 
             // Show note layer
-            var retChangeLayerView = ChangeLayerVisibility((ModelDoc2)swDraw, noteLayer, true);
+            var retChangeNoteLayerView = ChangeLayerVisibility((ModelDoc2)swDraw, noteLayer, true);
+
+            // Show job number layer
+            var retChangeJobLayerView = ChangeLayerVisibility((ModelDoc2)swDraw, jobLayer, true);
 
             // Get original print layout
             var swPageSetup = (PageSetup)swModel.PageSetup;
@@ -207,7 +211,10 @@ namespace CodeWorksLibrary.Macros.Export
             swModel.Extension.UsePageSetup = originalUserPageSetup;
 
             // Hide note layer
-            retChangeLayerView = ChangeLayerVisibility((ModelDoc2)swDraw, noteLayer, false);
+            retChangeNoteLayerView = ChangeLayerVisibility((ModelDoc2)swDraw, noteLayer, false);
+
+            // Hide job layer
+            retChangeJobLayerView = ChangeLayerVisibility((ModelDoc2)swDraw, jobLayer, false);
         }
 
         /// <summary>
