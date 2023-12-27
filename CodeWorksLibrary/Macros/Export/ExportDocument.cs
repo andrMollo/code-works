@@ -47,12 +47,12 @@ namespace CodeWorksLibrary
         internal static bool ExportSelection { get; set; }
         #endregion
 
-        #region Private fields
+        #region Public methods
 
         /// <summary>
         /// Export the active document and its drawing to different format
         /// </summary>
-        internal static void ExportDocumentMacro()
+        public static void ExportDocumentMacro()
         {
             Model model = Application.ActiveModel;
 
@@ -83,7 +83,7 @@ namespace CodeWorksLibrary
         /// <summary>
         /// Export and print the active document and its drawing to different format
         /// </summary>
-        internal static void ExportPrintDocumentMacro()
+        public static void ExportPrintDocumentMacro()
         {
             Model model = Application.ActiveModel;
 
@@ -324,7 +324,7 @@ namespace CodeWorksLibrary
         /// </summary>
         /// <param name="model">The SoldDNA Model object for the model</param>
         /// <returns></returns>
-        internal static SwDmDocumentType GetDmDocumentType(Model model)
+        private static SwDmDocumentType GetDmDocumentType(Model model)
         {
             // Get the model file extension
             var modelExt = Path.GetExtension(model.FilePath).ToUpper();
