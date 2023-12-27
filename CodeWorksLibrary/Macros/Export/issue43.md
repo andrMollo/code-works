@@ -54,9 +54,13 @@ Pseudo code to export all components in assembly
 
 - [ ] Write component quantity
 - [ ] Get drawing path
-- [ ] Try to open drawing
+- [ ] Try to open drawing --> there is already a method in export file
 - [ ] Set export model
 - [ ] Set export job number
 - [ ] Set print \ export selection
 - [ ] Export\print
 - [ ] Delete job number
+
+## Others
+
+- [ ] Class for messages
