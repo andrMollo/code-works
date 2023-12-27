@@ -2,6 +2,7 @@
 using CodeWorksLibrary.Helpers;
 using CodeWorksLibrary.Macros.Properties;
 using CodeWorksLibrary.Models;
+using CodeWorksUI;
 using SolidWorks.Interop.sldworks;
 using System;
 using System.Collections.Generic;
@@ -78,13 +79,7 @@ namespace CodeWorksLibrary.Macros.Export
             AssExpLog.LogPath = Logger.ComposeLogPath(string.Empty);
 
             // Initiate form
-            var expAsmForm = new CodeWorksUI.ExportAssemblyForm();
-
-            // Check if log file already exists
-            expAsmForm.LogFilePath = AssExpLog.LogPath;
-
-            // Show assembly quantity in the form
-            expAsmForm.AssemblyQty = asmStringQty;
+            var expAsmForm = AssemblyFormSetup();
 
             // Show export assembly form
             var expAsmFormRes = expAsmForm.ShowDialog();
@@ -166,6 +161,20 @@ namespace CodeWorksLibrary.Macros.Export
             {
                 SolidWorksEnvironment.Application.ShowMessageBox("Macro terminated", SolidWorksMessageBoxIcon.Stop);
             }
+        }
+
+        private static ExportAssemblyForm AssemblyFormSetup()
+        {
+            var expAsmForm = new CodeWorksUI.ExportAssemblyForm();
+
+            // Check if log file already exists
+            expAsmForm.LogFilePath = AssExpLog.LogPath;
+
+            // Show assembly quantity in the form
+            // TODO Check for empty string
+            expAsmForm.AssemblyQty = AssemblyToExport.GetCustomProperty(GlobalConfig.QuantityProperty);
+
+            return expAsmForm;
         }
 
         /// <summary>
