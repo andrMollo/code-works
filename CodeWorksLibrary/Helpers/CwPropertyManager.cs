@@ -4,7 +4,7 @@ using System;
 
 namespace CodeWorksLibrary
 {
-    internal class CwPropertyManager
+    public class CwPropertyManager
     {
         /// <summary>
         /// Set the value of a custom property
@@ -12,7 +12,7 @@ namespace CodeWorksLibrary
         /// <param name="swModel">The model object that needs the property to be changed</param>
         /// <param name="propertyName">The name of the property to be changed</param>
         /// <param name="prpValue">The value of the property to be changed</param>
-        internal void SetCustomProperty(ModelDoc2 swModel, string propertyName, string prpValue)
+        public void SetCustomProperty(ModelDoc2 swModel, string propertyName, string prpValue)
         {
             CustomPropertyManager swCustPrpMgr = swModel.Extension.get_CustomPropertyManager("");
 
@@ -25,7 +25,7 @@ namespace CodeWorksLibrary
         /// <param name="swModel">The model object to read the custom property from</param>
         /// <param name="prpName">The name of the custom property to be read</param>
         /// <returns>The value of the custom property</returns>
-        internal string GetCustomProperty(ModelDoc2 swModel, string prpName)
+        public string GetCustomProperty(ModelDoc2 swModel, string prpName)
         {
             CustomPropertyManager swCustPrpMgr = swModel.Extension.get_CustomPropertyManager("");
 
@@ -39,7 +39,7 @@ namespace CodeWorksLibrary
         /// </summary>
         /// <param name="swModel">The model object that needs the property to be changed</param>
         /// <returns>True if the property is set</returns>
-        internal bool SetPrintedByProperty(ModelDoc2 swModel)
+        public bool SetPrintedByProperty(ModelDoc2 swModel)
         {
             var user = CwPdmManager.GetPdmUserName();
 
@@ -60,13 +60,24 @@ namespace CodeWorksLibrary
         /// </summary>
         /// <param name="swModel">The model object that needs the property to be changed</param>
         /// <returns>True if the property is set</returns>
-        internal bool SetPrintedOnProperty(ModelDoc2 swModel)
+        public bool SetPrintedOnProperty(ModelDoc2 swModel)
         {
             var currentDate = DateTime.Now.ToString(@"MM\/dd\/yyyy HH\:mm\:ss");
 
             SetCustomProperty(swModel, GlobalConfig.PrintedOn, currentDate);
             
             return true;
+        }
+
+        /// <summary>
+        /// Get the quantity custom property in a double format
+        /// </summary>
+        /// <param name="swModel">The pointer to the SolidWorks ModelDoc2 object</param>
+        /// <returns>The double corresponding to quantity custom property</returns>
+        public double GetModelBoolQuantity(ModelDoc2 swModel)
+        {
+            
+            return 0.0;
         }
     }
 }
