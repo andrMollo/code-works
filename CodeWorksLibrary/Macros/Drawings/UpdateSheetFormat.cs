@@ -29,7 +29,7 @@ namespace CodeWorksLibrary.Macros.Drawings
         /// Sheets with only one view containing a flat pattern configuration are not updated.
         /// The sheet format is updated regardless of the current format name
         /// </summary>
-        internal static void UpdateSheetsFormatMacro()
+        public static void UpdateSheetsFormatMacro()
         {
             Model model = Application.ActiveModel;
 
@@ -120,29 +120,14 @@ namespace CodeWorksLibrary.Macros.Drawings
                     }
                 }
             }            
-        }
-
-        /// <summary>
-        /// Get the names of the sheets to be updated
-        /// </summary>
-        /// <param name="swDraw">The pointer to the DrawindDoc Model</param>
-        /// <returns>An list of strings with the names of the sheets to be updated</returns>
-        internal static List<string> GetDrawingSheetNames(DrawingDoc swDraw)
-        {
-            // Get the names of the sheets of the active drawing
-            var sheetNames = (string[])swDraw.GetSheetNames();
-
-            List<string> sheetList = new List<string>(sheetNames);
-
-            return sheetList;
-        }
+        }       
 
         /// <summary>
         /// Check if the current sheet contains only one view that reference the flat pattern configuration
         /// </summary>
         /// <param name="sheet">The pointer to the current sheet object</param>
         /// <returns>Return true if the current sheet contains the flat pattern view</returns>
-        internal static bool CheckFlatPattern(Sheet sheet)
+        public static bool CheckFlatPattern(Sheet sheet)
         {
             var views = (object[])sheet.GetViews();
 
@@ -170,7 +155,7 @@ namespace CodeWorksLibrary.Macros.Drawings
         /// <param name="swDraw">The instance of the drawing doc</param>
         /// <param name="swSheet">The instance of the current sheet</param>
         /// <param name="newSheetFormatPath">The path to the new sheet format</param>
-        internal static void ReplaceSheetFormat(DrawingDoc swDraw, Sheet swSheet, string newSheetFormatPath)
+        private static void ReplaceSheetFormat(DrawingDoc swDraw, Sheet swSheet, string newSheetFormatPath)
         {
             // Get the properties of the current sheet
             var vProps = (double[])swSheet.GetProperties();
@@ -202,7 +187,7 @@ namespace CodeWorksLibrary.Macros.Drawings
         /// </summary>
         /// <param name="swSheet">The sheet that need a sheet format replace</param>
         /// <returns>The string with path to the new sheet format</returns>
-        internal static string GetReplaceSheetFormat(Sheet swSheet)
+        private static string GetReplaceSheetFormat(Sheet swSheet)
         {
             string targetTemplatePath = "";
 
