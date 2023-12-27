@@ -70,10 +70,8 @@ namespace CodeWorksLibrary.Macros.Export
             var resResolve = swAssy.ResolveAllLightWeightComponents(false);
 
             // Get the assembly quantity
-            var prpManager = new CwPropertyManager();
-            string asmStringQty = prpManager.GetCustomProperty(assemblyModel.Model, GlobalConfig.QuantityProperty);
-            bool retParse = double.TryParse(asmStringQty, out double parsedQty);
-            assemblyModel.Quantity = parsedQty;
+            var amsPrpManager = new CwPropertyManager();
+            assemblyModel.Quantity = amsPrpManager.GetModelQuantity(assemblyModel.Model);
 
             // Compose the full path to the logger
             AssExpLog = new Logger();
@@ -116,7 +114,7 @@ namespace CodeWorksLibrary.Macros.Export
 
                 // Write the assembly quantity back to the SolidWorks file
                 // to update it in case it have been changed by the user
-                prpManager.SetCustomProperty(assemblyModel.Model, GlobalConfig.QuantityProperty, expAsmForm.AssemblyQty);
+                amsPrpManager.SetCustomProperty(assemblyModel.Model, GlobalConfig.QuantityProperty, expAsmForm.AssemblyQty);
 
                 // Get the job number
                 JobNumber = expAsmForm.JobNumber;

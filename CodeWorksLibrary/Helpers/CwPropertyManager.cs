@@ -1,6 +1,8 @@
-﻿using SolidWorks.Interop.sldworks;
+﻿using CADBooster.SolidDna;
+using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
+using static CADBooster.SolidDna.SolidWorksEnvironment;
 
 namespace CodeWorksLibrary
 {
@@ -74,10 +76,26 @@ namespace CodeWorksLibrary
         /// </summary>
         /// <param name="swModel">The pointer to the SolidWorks ModelDoc2 object</param>
         /// <returns>The double corresponding to quantity custom property</returns>
-        public double GetModelBoolQuantity(ModelDoc2 swModel)
+        public double GetModelQuantity(ModelDoc2 swModel)
         {
+            Model model = new Model(swModel);
             
-            return 0.0;
+            string quantityValue = model.GetCustomProperty(GlobalConfig.QuantityProperty);
+
+            if (quantityValue != null)
+            {
+                if (double.TryParse(quantityValue, out double qtyDouble))
+                {
+                    return qtyDouble;
+                }
+                else
+                {
+                    Application.ShowMessageBox("Unable to convert the quantity to a number");
+                    return -1;
+                }
+            }
+
+            return -1;
         }
     }
 }
