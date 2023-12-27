@@ -237,7 +237,8 @@ namespace CodeWorksLibrary
             if (!UpdateSheetFormat.CheckFlatPattern(swSheet))
             {
                 // Upgrade sheet format
-                UpdateSheetFormat.UpgradeSheetFormat(ExportModel.Drawing.UnsafeObject, swSheet);
+                UpdateSheetFormat.AlwaysReplace = false;
+                UpdateSheetFormat.UpdateActiveSheetFormat(ExportModel.Drawing.UnsafeObject, swSheet);
 
                 if (ExportSelection == true)
                 {

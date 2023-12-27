@@ -16,12 +16,12 @@ namespace CodeWorksLibrary.Macros.Drawings
         /// <summary>
         /// Pointer to the SolidDNA DrawingDocument
         /// </summary>
-        internal static DrawingDocument DrawDoc {  get; set; }
+        public static DrawingDocument DrawDoc {  get; set; }
 
         /// <summary>
         /// True to always replace the format, false to replace only if the format full path is different
         /// </summary>
-        internal static bool AlwaysReplace { get; set; }
+        public static bool AlwaysReplace { get; set; }
         #endregion
 
         /// <summary>
@@ -76,10 +76,9 @@ namespace CodeWorksLibrary.Macros.Drawings
                 // Active the sheet
                 DrawDoc.ActivateSheet(sheetNames[loopOffset]);
 
-                // TODO Update the format
-
+                // Update the format
+                UpdateActiveSheetFormat(DrawDoc.UnsafeObject, (Sheet)DrawDoc.UnsafeObject.GetCurrentSheet());
             }
-
             // Enable update to the graphic view
             modelView.EnableGraphicsUpdate = true;        
         }
@@ -90,7 +89,7 @@ namespace CodeWorksLibrary.Macros.Drawings
         /// </summary>
         /// <param name="swDraw">The pointer to the DrawingDoc model</param>
         /// <param name="swSheet">The pointer to Sheet model</param>
-        internal static void UpdateActiveSheetFormat(DrawingDoc swDraw, Sheet swSheet)
+        public static void UpdateActiveSheetFormat(DrawingDoc swDraw, Sheet swSheet)
         {          
             // Check if the current sheet contains a flat pattern configuration
             var containsFlatPattern = CheckFlatPattern(swSheet);
@@ -106,40 +105,21 @@ namespace CodeWorksLibrary.Macros.Drawings
                 // Get the full path of the current format
                 var currentSheetFormatPath = swSheet.GetTemplateName();
 
-                // Replace with new one
-                ReplaceSheetFormat(swDraw, swSheet, newSheetFormatPath);
-            }            
-        }
-
-        /// <summary>
-        /// Upgrade the sheet format on the active sheet only if current and target format name are different.
-        /// Sheets with only one view containing a flat pattern configuration are not updated.
-        /// </summary>
-        /// <param name="swDraw">The pointer to the DrawingDoc model</param>
-        /// <param name="swSheet">The pointer to Sheet model</param>
-        internal static void UpgradeSheetFormat(DrawingDoc swDraw, Sheet swSheet)
-        {
-            // Check if the current sheet contains a flat pattern configuration
-            var containsFlatPattern = CheckFlatPattern(swSheet);
-
-            if (containsFlatPattern == false)
-            {
-                // Get the format for the i-th sheet
-                var currentSheetFormatName = swSheet.GetSheetFormatName();
-
-                // Get the name of the new format
-                var newSheetFormatPath = GetReplaceSheetFormat(swSheet);
-
-                // Get the full path of the current format
-                var currentSheetFormatPath = swSheet.GetTemplateName();
-
-                // Change the format if the current full name and the new one are different
-                if (currentSheetFormatPath != newSheetFormatPath)
+                if (AlwaysReplace)
                 {
                     // Replace with new one
-                    ReplaceSheetFormat(swDraw, swSheet, newSheetFormatPath);
+                    ReplaceSheetFormat(swDraw, swSheet, newSheetFormatPath); 
                 }
-            }
+                else
+                {
+                    // Change the format if the current full name and the new one are different
+                    if (currentSheetFormatPath != newSheetFormatPath)
+                    {
+                        // Replace with new one
+                        ReplaceSheetFormat(swDraw, swSheet, newSheetFormatPath);
+                    }
+                }
+            }            
         }
 
         /// <summary>

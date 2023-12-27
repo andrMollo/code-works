@@ -70,10 +70,13 @@ namespace CodeWorksLibrary.Macros.Export
 
                 swDraw.ActivateSheet(sheetName);
 
-                if (Drawings.UpdateSheetFormat.CheckFlatPattern(swSheet) == false)
+                if (CheckFlatPattern(swSheet) == false)
                 {
-                    UpgradeSheetFormat(swDraw, swSheet);
+                    // Update the sheet format
+                    UpdateSheetFormat.AlwaysReplace = false;
+                    UpdateActiveSheetFormat(swDraw, swSheet);
 
+                    // Print the sheet
                     PrintDrawingSheet(swModel, swSheet);
                 }
             }
@@ -114,8 +117,10 @@ namespace CodeWorksLibrary.Macros.Export
             // This is require to return to the active sheet at the end of the macro
             var swSheet = (Sheet)swDraw.GetCurrentSheet();
             var activeSheetName = swSheet.GetName();
-            
-            UpgradeSheetFormat(swDraw, swSheet);
+
+            // Update the active sheet
+            UpdateSheetFormat.AlwaysReplace = false;
+            UpdateActiveSheetFormat(swDraw, swSheet);
 
             PrintDrawingSheet(swModel, swSheet);
         }
