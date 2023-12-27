@@ -1,6 +1,5 @@
 ﻿using CADBooster.SolidDna;
 using CodeWorksLibrary.Helpers;
-using CodeWorksLibrary.Macros.Drawings;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
@@ -9,7 +8,6 @@ using System.Drawing.Printing;
 using System.Linq;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
 using static CodeWorksLibrary.Helpers.CwLayerManager;
-using static CodeWorksLibrary.Macros.Drawings.UpdateSheetFormat;
 using static System.Drawing.Printing.PrinterSettings;
 
 namespace CodeWorksLibrary.Macros.Export
@@ -77,13 +75,13 @@ namespace CodeWorksLibrary.Macros.Export
                     loopOffset = activeSheetNumber + i - sheetNames.Count;
                 }
 
-                Sheet swSheet = (Sheet)DrawDoc.UnsafeObject.GetCurrentSheet();
+                Sheet swSheet = (Sheet)drawDocu.UnsafeObject.GetCurrentSheet();
 
-                if (CheckFlatPattern(swSheet) == false)
+                if (UpdateSheetFormat.CheckFlatPattern(swSheet) == false)
                 {
                     // Update the sheet format
                     UpdateSheetFormat.AlwaysReplace = false;
-                    UpdateActiveSheetFormat(swDraw, swSheet);
+                    UpdateSheetFormat.UpdateActiveSheetFormat(swDraw, swSheet);
 
                     // Print the sheet
                     PrintDrawingSheet(swModel, swSheet);
@@ -126,7 +124,7 @@ namespace CodeWorksLibrary.Macros.Export
 
             // Update the active sheet
             UpdateSheetFormat.AlwaysReplace = false;
-            UpdateActiveSheetFormat(swDraw, swSheet);
+            UpdateSheetFormat.UpdateActiveSheetFormat(swDraw, swSheet);
 
             PrintDrawingSheet(swModel, swSheet);
         }
@@ -223,10 +221,10 @@ namespace CodeWorksLibrary.Macros.Export
             if (model.IsDrawing)
             {
                 // Get all the sheet names
-                List<string> sheetNames = DrawDoc.SheetNames().ToList<string>();
+                List<string> sheetNames = model.Drawing.SheetNames().ToList<string>();
 
                 // Get the name of the active sheet
-                string activeSheetName = DrawDoc.CurrentActiveSheet();
+                string activeSheetName = model.Drawing.CurrentActiveSheet();
 
                 // Get the active sheet number
                 int activeSheetNumber = sheetNames.IndexOf(activeSheetName) + 1;

@@ -1,7 +1,6 @@
 ﻿// Ignore Spelling: App
 
 using CADBooster.SolidDna;
-using CodeWorksLibrary.Macros.Drawings;
 using CodeWorksLibrary.Macros.Export;
 using CodeWorksLibrary.Macros.Properties;
 using CodeWorksLibrary.Properties;
