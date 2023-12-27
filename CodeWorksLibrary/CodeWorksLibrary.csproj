@@ -137,7 +137,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Macros\Drawings\UpdateSheetFormat.cs" />
-    <Compile Include="Macros\Export\ExportAssyMacro.cs" />
+    <Compile Include="Macros\Export\ExportAssembly.cs" />
     <Compile Include="Macros\Export\ExportDocument.cs" />
     <Compile Include="Macros\Export\FastPrintMacro.cs" />
     <Compile Include="Macros\Properties\SetAuthorMacro.cs" />

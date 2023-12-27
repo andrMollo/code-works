@@ -12,7 +12,7 @@ using Logger = CodeWorksLibrary.Helpers.Logger;
 
 namespace CodeWorksLibrary.Macros.Export
 {
-    internal class ExportAssyMacro
+    internal class ExportAssembly
     {
         #region Public properties
         /// <summary>
@@ -29,7 +29,7 @@ namespace CodeWorksLibrary.Macros.Export
         /// <summary>
         /// Export the assembly and all its components
         /// </summary>
-        internal static void ExportAssembly()
+        internal static void ExportAssemblyMacro()
         {
             var model = SolidWorksEnvironment.Application.ActiveModel;
 
