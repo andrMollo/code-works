@@ -116,7 +116,7 @@ namespace CodeWorksLibrary
         /// Export the drawing and the model preview
         /// </summary>
         /// <exception cref="NotImplementedException"></exception>
-        internal static void ExportDrawingAndPreview()
+        public static void ExportDrawingAndPreview()
         {
             // Export the drawing
             ExportDrawingDocument();
