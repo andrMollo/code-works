@@ -142,7 +142,7 @@ namespace CodeWorksLibrary.Macros.Export
             var noteLayer = GlobalConfig.PrintNoteLayer;
 
             // Show note layer
-            var retChangeLayerView = ChangeLayerVisibility((ModelDoc2)swDraw, noteLayer, true);
+            var retChangeNoteLayerView = ChangeLayerVisibility((ModelDoc2)swDraw, noteLayer, true);            
 
             // Get original print layout
             var swPageSetup = (PageSetup)swModel.PageSetup;
@@ -207,7 +207,7 @@ namespace CodeWorksLibrary.Macros.Export
             swModel.Extension.UsePageSetup = originalUserPageSetup;
 
             // Hide note layer
-            retChangeLayerView = ChangeLayerVisibility((ModelDoc2)swDraw, noteLayer, false);
+            retChangeNoteLayerView = ChangeLayerVisibility((ModelDoc2)swDraw, noteLayer, false);
         }
 
         /// <summary>

@@ -22,6 +22,11 @@ namespace CodeWorksLibrary
         internal static Model ExportModel { get; set; }
 
         /// <summary>
+        /// The name of the file without the extension
+        /// </summary>
+        internal static string ModelNameNoExt { get; set; }
+
+        /// <summary>
         /// The path to the export folder, without filename
         /// </summary>
         internal static string ExportFolderPath { get; set; }
@@ -43,13 +48,7 @@ namespace CodeWorksLibrary
         #endregion
 
         #region Private fields
-        /// <summary>
-        /// The name of the file without the extension
-        /// </summary>
-        static string _modelNameNoExt;
-        #endregion
 
-        #region Public methods
         /// <summary>
         /// Export the active document and its drawing to different format
         /// </summary>
@@ -116,7 +115,7 @@ namespace CodeWorksLibrary
         /// Export the drawing and the model preview
         /// </summary>
         /// <exception cref="NotImplementedException"></exception>
-        internal static void ExportDrawingAndPreview()
+        public static void ExportDrawingAndPreview()
         {
             // Export the drawing
             ExportDrawingDocument();
@@ -239,19 +238,24 @@ namespace CodeWorksLibrary
                 UpdateSheetFormat.AlwaysReplace = false;
                 UpdateSheetFormat.UpdateActiveSheetFormat(ExportModel.Drawing.UnsafeObject, swSheet);
 
+                // Show job number layer
+                var jobLayer = GlobalConfig.PrintJobLayer;
+                var retChangeJobLayerView = CwLayerManager.ChangeLayerVisibility((ModelDoc2)ExportModel.UnsafeObject, jobLayer, true);
+
                 if (ExportSelection == true)
                 {
                     // Export to PDF
                     ExportSheetToPDF();
                 }
 
-                // Print she active sheet
+                // Print the active sheet
                 if (PrintSelection)
                 {
-                    FastPrintMacro.PrintDrawingSheet(
-                        ExportModel.UnsafeObject,
-                        swSheet);
+                    FastPrintMacro.PrintDrawingSheet(ExportModel.UnsafeObject, swSheet);
                 }
+
+                // Hide job layer
+                retChangeJobLayerView = CwLayerManager.ChangeLayerVisibility((ModelDoc2)ExportModel.UnsafeObject, jobLayer, false);
             }
 
             if (ExportSelection == true)
@@ -373,7 +377,7 @@ namespace CodeWorksLibrary
             // Show message box if export fails
             if (!exportResult.Successful)
             {
-                Application.ShowMessageBox($"Failed to export {_modelNameNoExt} to DWG.",SolidWorksMessageBoxIcon.Stop);
+                Application.ShowMessageBox($"Failed to export {ModelNameNoExt} to DWG.",SolidWorksMessageBoxIcon.Stop);
             }
         }
 
@@ -400,7 +404,7 @@ namespace CodeWorksLibrary
             // Show message box if export fails
             if (!exportResult.Successful)
             {
-                Application.ShowMessageBox($"Failed to export {_modelNameNoExt} to PDF.", SolidWorksMessageBoxIcon.Question);
+                Application.ShowMessageBox($"Failed to export {ModelNameNoExt} to PDF.", SolidWorksMessageBoxIcon.Question);
             }            
         }
 
@@ -420,7 +424,7 @@ namespace CodeWorksLibrary
             // Show message box if export fails
             if (!exportResult.Successful)
             {
-                Application.ShowMessageBox($"Failed to export {_modelNameNoExt} to STEP.", SolidWorksMessageBoxIcon.Stop);
+                Application.ShowMessageBox($"Failed to export {ModelNameNoExt} to STEP.", SolidWorksMessageBoxIcon.Stop);
             }
         }
 
@@ -453,7 +457,7 @@ namespace CodeWorksLibrary
             }
 
             // Compose the filename with the extension
-            string fileNameWithExtension = _modelNameNoExt + fileNameSuffix + "." + extension;
+            string fileNameWithExtension = ModelNameNoExt + fileNameSuffix + "." + extension;
 
             // Compose the full path
             var path = Path.Combine(finalExportFolder, fileNameWithExtension);
@@ -468,7 +472,7 @@ namespace CodeWorksLibrary
         private static void ExportModelDocument(Model model)
         {
             // Get the model name without extension       
-            _modelNameNoExt = Path.GetFileNameWithoutExtension(model.FilePath);
+            ModelNameNoExt = Path.GetFileNameWithoutExtension(model.FilePath);
 
             // Set the export folder by combining the main export folder and the job number
             ComposeExportFolderPath();

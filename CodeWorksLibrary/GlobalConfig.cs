@@ -3,12 +3,8 @@
 namespace CodeWorksLibrary
 {
     internal class GlobalConfig
-    {       
-        /// <summary>
-        /// The name of the custom property that contains the author of the file
-        /// </summary>
-        internal const string AuthorPropName = "Disegnatore";
-
+    {
+        #region Path
         /// <summary>
         /// The root folder for the export path
         /// </summary>
@@ -18,6 +14,13 @@ namespace CodeWorksLibrary
         /// The folder for the log file
         /// </summary>
         internal const string LogPath = @"C:\_Export\.log\";
+        #endregion
+
+        #region Custom properties
+        /// <summary>
+        /// The name of the custom property that contains the author of the file
+        /// </summary>
+        internal const string AuthorPropName = "Disegnatore";
 
         /// <summary>
         /// The name of the configuration with the flat pattern
@@ -28,6 +31,13 @@ namespace CodeWorksLibrary
         /// The name of the custom property that contains the component quantity
         /// </summary>
         internal const string QuantityProperty = "Quantità";
+
+        /// <summary>
+        /// The name of the property for the job number
+        /// </summary>
+        internal const string JobNumberPropName = "Commessa";
+
+        #endregion
 
         #region Private constants
         /// <summary>
@@ -78,6 +88,11 @@ namespace CodeWorksLibrary
         /// The name of the layer that contains the notes to be shown in the prints
         /// </summary>
         internal const string PrintNoteLayer = "NOTE STAMPA";
+
+        /// <summary>
+        /// The name of the layer that contains the job number
+        /// </summary>
+        internal const string PrintJobLayer = "COMMESSA STAMPA";
 
         #endregion
     }

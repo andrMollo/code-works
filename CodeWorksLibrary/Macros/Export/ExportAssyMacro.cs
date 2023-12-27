@@ -215,7 +215,7 @@ namespace CodeWorksLibrary.Macros.Export
             if (bom != null)
             {
                 // Initiate a log model
-                var asmLog = new Helpers.Logger();
+                var asmLog = new Logger();
 
                 // Set the log path
                 asmLog.LogFolderPath = GlobalConfig.LogPath;
@@ -252,7 +252,7 @@ namespace CodeWorksLibrary.Macros.Export
                     // If one between print and export option is selected open the drawing
                     if (userSelection.Export == true || userSelection.Print == true)
                     {
-                        var drwModel = SolidWorksEnvironment.Application.OpenFile(drwPath, options: OpenDocumentOptions.Silent);
+                        Model drwModel = SolidWorksEnvironment.Application.OpenFile(drwPath, options: OpenDocumentOptions.Silent);
 
                         if (drwModel == null)
                         {
@@ -264,6 +264,13 @@ namespace CodeWorksLibrary.Macros.Export
 
                         // Set the export job number
                         ExportDocument.JobNumber = JobNumber;
+
+                        // Set the file name
+                        ExportDocument.ModelNameNoExt = Path.GetFileNameWithoutExtension(drwModel.FilePath);
+
+                        // Set the job number in the drawing model
+                        var drwPrpManger = new CwPropertyManager();
+                        drwPrpManger.SetCustomProperty((ModelDoc2)drwModel.UnsafeObject, GlobalConfig.JobNumberPropName, JobNumber);
 
                         // Print the drawing if the user selected the option
                         if (userSelection.Print == true)
@@ -279,6 +286,9 @@ namespace CodeWorksLibrary.Macros.Export
                             // Export drawing and model preview
                             ExportDocument.ExportDrawingAndPreview();
                         }
+
+                        // Delete the job number from drawing custom properties
+                        drwPrpManger.SetCustomProperty((ModelDoc2)drwModel.UnsafeObject, GlobalConfig.JobNumberPropName, string.Empty);
 
                         // Close the drawing
                         drwModel.Close();
