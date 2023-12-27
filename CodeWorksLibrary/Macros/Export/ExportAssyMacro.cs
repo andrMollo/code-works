@@ -118,11 +118,11 @@ namespace CodeWorksLibrary.Macros.Export
                 ExportDocument.ExportFolderPath = Path.Combine(GlobalConfig.ExportPath, JobNumber);
 
                 // Get the flat BOM
-                List<BomModel> bom = new List<BomModel>();
+                List<BomElement> bom = new List<BomElement>();
                 bom = GetBomToExport(rootComp, bom, userSel.ExportAgain);
 
                 // Add the assembly to the BoM
-                bom.Add(new BomModel()
+                bom.Add(new BomElement()
                 {
                     Model = assemblyModel.Model,
                     Configuration = swConf.Name,
@@ -183,7 +183,7 @@ namespace CodeWorksLibrary.Macros.Export
         /// <param name="bom">The Bill of Material object</param>
         /// <param name="exportAgain">True to export again the whole Bill of material</param>
         /// <returns>The Bill of Material to be processed</returns>
-        private static List<BomModel> GetBomToExport(Component2 rootComp, List<BomModel> bom, bool exportAgain)
+        private static List<BomElement> GetBomToExport(Component2 rootComp, List<BomElement> bom, bool exportAgain)
         {
             // Compose the flat Bill of Material
             CwBomManager.ComposeFlatBOM(rootComp, bom);
@@ -210,7 +210,7 @@ namespace CodeWorksLibrary.Macros.Export
         /// <param name="bom">The instance of the Bill of Material</param>
         /// <param name="assembly">The assembly model object</param>
         /// <param name="userSelection">The model with the option the user selected</param>
-        private static void ExportAllComponent(List<BomModel> bom, AssemblyModel assembly, UserSelectionModel userSelection)
+        private static void ExportAllComponent(List<BomElement> bom, AssemblyModel assembly, UserSelectionModel userSelection)
         {
             if (bom != null)
             {

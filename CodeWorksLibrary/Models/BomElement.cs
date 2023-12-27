@@ -2,7 +2,7 @@
 
 namespace CodeWorksLibrary.Models
 {
-    internal class BomModel
+    internal class BomElement
     {
         /// <summary>
         /// The pointer to the ModelDoc2 object

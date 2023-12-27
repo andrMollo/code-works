@@ -42,7 +42,7 @@ namespace CodeWorksLibrary.Macros.Properties
             var rootComp = swConf.GetRootComponent3(true);
 
             // Get the flat BOM
-            List<BomModel> bom = new List<BomModel>();
+            List<BomElement> bom = new List<BomElement>();
             CwBomManager.ComposeFlatBOM(rootComp, bom);
 
             // Get the assembly quantity
@@ -60,7 +60,7 @@ namespace CodeWorksLibrary.Macros.Properties
         /// </summary>
         /// <param name="bom">A BOM instance with the components for the quantities to be updated</param>
         /// <param name="assemblyQty">The quantity of the main assembly</param>
-        private static void WriteQuantityAllComponents(List<BomModel> bom, string assemblyQty)
+        private static void WriteQuantityAllComponents(List<BomElement> bom, string assemblyQty)
         {
             var assQty = 0.0;
 
