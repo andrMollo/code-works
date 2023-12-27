@@ -142,7 +142,6 @@
     <Compile Include="Macros\Export\FastPrintMacro.cs" />
     <Compile Include="Macros\Properties\SetAuthorMacro.cs" />
     <Compile Include="Macros\Properties\WriteQuantityMacro.cs" />
-    <Compile Include="Models\AssemblyModel.cs" />
     <Compile Include="Models\BomElement.cs" />
     <Compile Include="Models\UserSelectionModel.cs" />
     <Compile Include="Private\GlobalConfigPrivate.cs" />

@@ -47,7 +47,7 @@ namespace CodeWorksLibrary.Macros.Export
             var swAssy = (AssemblyDoc)model.UnsafeObject;
 
             // Get the AssemblyModel
-            AssemblyModel assemblyModel = new AssemblyModel();
+            BomElement assemblyModel = new BomElement();
             assemblyModel.Model = model.UnsafeObject;
 
             // Resolve lightweight components
@@ -61,7 +61,9 @@ namespace CodeWorksLibrary.Macros.Export
 
             // Get the assembly quantity
             var prpManager = new CwPropertyManager();
-            assemblyModel.Quantity = prpManager.GetCustomProperty(assemblyModel.Model, GlobalConfig.QuantityProperty);
+            string asmStringQty = prpManager.GetCustomProperty(assemblyModel.Model, GlobalConfig.QuantityProperty);
+            bool retParse = double.TryParse(asmStringQty, out double parsedQty);
+            assemblyModel.Quantity = parsedQty;
 
             // Compose the full path to the logger
             AssExpLog = new Logger();
@@ -74,7 +76,7 @@ namespace CodeWorksLibrary.Macros.Export
             expAsmForm.LogFilePath = AssExpLog.LogPath;
 
             // Show assembly quantity in the form
-            expAsmForm.AssemblyQty = assemblyModel.Quantity;
+            expAsmForm.AssemblyQty = asmStringQty;
 
             // Show export assembly form
             var expAsmFormRes = expAsmForm.ShowDialog();
@@ -99,11 +101,12 @@ namespace CodeWorksLibrary.Macros.Export
                 userSel.ExportAgain = expAsmForm.ExportAgain;
 
                 // Get the assembly quantity back from the winform
-                assemblyModel.Quantity = expAsmForm.AssemblyQty;
+                retParse = double.TryParse(expAsmForm.AssemblyQty, out double formDoubleQty);
+                assemblyModel.Quantity = formDoubleQty;
 
                 // Write the assembly quantity back to the SolidWorks file
                 // to update it in case it have been changed by the user
-                prpManager.SetCustomProperty(assemblyModel.Model, GlobalConfig.QuantityProperty, assemblyModel.Quantity);
+                prpManager.SetCustomProperty(assemblyModel.Model, GlobalConfig.QuantityProperty, expAsmForm.AssemblyQty);
 
                 // Get the job number
                 JobNumber = expAsmForm.JobNumber;
@@ -210,7 +213,7 @@ namespace CodeWorksLibrary.Macros.Export
         /// <param name="bom">The instance of the Bill of Material</param>
         /// <param name="assembly">The assembly model object</param>
         /// <param name="userSelection">The model with the option the user selected</param>
-        private static void ExportAllComponent(List<BomElement> bom, AssemblyModel assembly, UserSelectionModel userSelection)
+        private static void ExportAllComponent(List<BomElement> bom, BomElement assembly, UserSelectionModel userSelection)
         {
             if (bom != null)
             {
