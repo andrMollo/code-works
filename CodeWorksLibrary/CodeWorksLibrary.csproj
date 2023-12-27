@@ -136,7 +136,7 @@
     <Compile Include="Helpers\PictureDispConverter.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Macros\Drawings\UpdateFormatMacro.cs" />
+    <Compile Include="Macros\Drawings\UpdateSheetFormat.cs" />
     <Compile Include="Macros\Export\ExportAssyMacro.cs" />
     <Compile Include="Macros\Export\ExportDocument.cs" />
     <Compile Include="Macros\Export\FastPrintMacro.cs" />

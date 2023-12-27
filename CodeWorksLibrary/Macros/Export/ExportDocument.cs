@@ -1,6 +1,5 @@
 ﻿using CADBooster.SolidDna;
 using CodeWorksLibrary.Helpers;
-using CodeWorksLibrary.Macros.Drawings;
 using CodeWorksLibrary.Macros.Export;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
@@ -184,21 +183,19 @@ namespace CodeWorksLibrary
             // Get all the sheet names
             List<string> sheetNames = drawingModel.SheetNames().ToList<string>();
 
-            // Get the name if the active sheet
+            // Get the name of the active sheet
             string activeSheetName = drawingModel.CurrentActiveSheet();
 
             /* Get the active sheet number
              * this allow the loop to start from the active one
              * and save a change of sheet
              */
-            int activeSheetNumber = sheetNames.IndexOf(activeSheetName) +1 ;
+            int activeSheetNumber = sheetNames.IndexOf(activeSheetName) + 1;
 
             // Loop through sheets
             for (int i = 0; i < sheetNames.Count; i++)
             {
-                /*
-                 * Offset require to start the loop from the active sheet
-                 */
+                // Offset required to start the loop from the active sheet
                 int loopOffset = i + activeSheetNumber;
 
                 if ((activeSheetNumber + i) >= sheetNames.Count)
@@ -236,10 +233,11 @@ namespace CodeWorksLibrary
             Sheet swSheet = ExportModel.Drawing.UnsafeObject.get_Sheet(sheetName);
 
             // Check if the sheet contains a flat pattern
-            if (!UpdateFormatMacro.CheckFlatPattern(swSheet))
+            if (!UpdateSheetFormat.CheckFlatPattern(swSheet))
             {
                 // Upgrade sheet format
-                UpdateFormatMacro.UpgradeSheetFormat(ExportModel.Drawing.UnsafeObject, swSheet);
+                UpdateSheetFormat.AlwaysReplace = false;
+                UpdateSheetFormat.UpdateActiveSheetFormat(ExportModel.Drawing.UnsafeObject, swSheet);
 
                 if (ExportSelection == true)
                 {

@@ -115,7 +115,7 @@ namespace CodeWorksLibrary
                     ExportAssyMacro.ExportAssembly();
                     break;
                 case CwCommands_e.UpdateFormatE:
-                    UpdateFormatMacro.UpdateFormatAllSheets();
+                    UpdateSheetFormat.UpdateSheetsFormatMacro();
                     break;
                 case CwCommands_e.FastPrintE:
                     FastPrintMacro.FastPrint();
