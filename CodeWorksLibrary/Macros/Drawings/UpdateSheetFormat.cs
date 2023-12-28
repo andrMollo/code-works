@@ -10,7 +10,7 @@ using static CADBooster.SolidDna.SolidWorksEnvironment;
 
 namespace CodeWorksLibrary
 {
-    internal static class UpdateSheetFormat
+    public static class UpdateSheetFormat
     {
         #region Public properties
         /// <summary>

@@ -8,14 +8,14 @@ using static CADBooster.SolidDna.SolidWorksEnvironment;
 
 namespace CodeWorksLibrary.Helpers
 {
-    internal class CwBomManager
+    public class CwBomManager
     {
         /// <summary>
         /// Get the flat Bill of Material
         /// </summary>
         /// <param name="swParentComp">The parent component of which to extract the BOM</param>
         /// <param name="bom">The Bill of Material object</param>
-        internal static void ComposeFlatBOM(Component2 swParentComp, List<BomElement> bom)
+        public static void ComposeFlatBOM(Component2 swParentComp, List<BomElement> bom)
         {
             // Get a list of component
             var vComps = (object[])swParentComp.GetChildren();

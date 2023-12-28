@@ -13,38 +13,38 @@ using static CADBooster.SolidDna.SolidWorksEnvironment;
 
 namespace CodeWorksLibrary
 {
-    internal static class ExportDocument
+    public static class ExportDocument
     {
         #region Public properties
         /// <summary>
         /// The SolidDNA Model object of the active model
         /// </summary>
-        internal static Model ExportModel { get; set; }
+        public static Model ExportModel { get; set; }
 
         /// <summary>
         /// The name of the file without the extension
         /// </summary>
-        internal static string ModelNameNoExt { get; set; }
+        public static string ModelNameNoExt { get; set; }
 
         /// <summary>
         /// The path to the export folder, without filename
         /// </summary>
-        internal static string ExportFolderPath { get; set; }
+        public static string ExportFolderPath { get; set; }
 
         /// <summary>
         /// The name of the job to be used as export sub-folder
         /// </summary>
-        internal static string JobNumber { get; set; }
+        public static string JobNumber { get; set; }
 
         /// <summary>
         /// True to print the document
         /// </summary>
-        internal static bool PrintSelection { get; set; }
+        public static bool PrintSelection { get; set; }
 
         /// <summary>
         /// True to export the document
         /// </summary>
-        internal static bool ExportSelection { get; set; }
+        public static bool ExportSelection { get; set; }
         #endregion
 
         #region Public methods

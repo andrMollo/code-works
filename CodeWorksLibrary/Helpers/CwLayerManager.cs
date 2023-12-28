@@ -3,7 +3,7 @@ using SolidWorks.Interop.swconst;
 
 namespace CodeWorksLibrary.Helpers
 {
-    internal class CwLayerManager
+    public class CwLayerManager
     {
 
         /// <summary>
@@ -12,7 +12,7 @@ namespace CodeWorksLibrary.Helpers
         /// <param name="swModel">The pointer to the model</param>
         /// <param name="layerName">THe name of the layer to be changed</param>
         /// <returns>True if the layer is made visible, false if the layer is hidden</returns>
-        internal static bool ToggleLayerVisibility(ModelDoc2 swModel, string layerName)
+        public static bool ToggleLayerVisibility(ModelDoc2 swModel, string layerName)
         {
             // Get the model layer manager
             LayerMgr swLayerMgr = (LayerMgr)swModel.GetLayerManager();
@@ -51,7 +51,7 @@ namespace CodeWorksLibrary.Helpers
         /// <param name="layerName">THe name of the layer to be changed</param>
         /// <param name="layerVisibility">True to make the layer visible, false to hidden it</param>
         /// <returns>True if the layer is made visible, false if the layer is hidden</returns>
-        internal static bool ChangeLayerVisibility(ModelDoc2 swModel, string layerName, bool layerVisibility)
+        public static bool ChangeLayerVisibility(ModelDoc2 swModel, string layerName, bool layerVisibility)
         {
             // Get the model layer manager
             LayerMgr swLayerMgr = (LayerMgr)swModel.GetLayerManager();
@@ -89,7 +89,7 @@ namespace CodeWorksLibrary.Helpers
         /// <param name="swModel">The pointer to the model</param>
         /// <param name="layerName">THe name of the layer to be changed</param>
         /// <returns>The pointer to the layer object</returns>
-        internal static Layer CreateLayer(ModelDoc2 swModel, string layerName)
+        public static Layer CreateLayer(ModelDoc2 swModel, string layerName)
         {
             DrawingDoc swDraw = (DrawingDoc)swModel;
 

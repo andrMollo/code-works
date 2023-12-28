@@ -132,7 +132,7 @@
     <Compile Include="Helpers\CwPropertyManager.cs" />
     <Compile Include="Helpers\CwSelectionManager.cs" />
     <Compile Include="Helpers\CwValidation.cs" />
-    <Compile Include="Helpers\Logger.cs" />
+    <Compile Include="Helpers\CwLogger.cs" />
     <Compile Include="Helpers\PictureDispConverter.cs">
       <SubType>Component</SubType>
     </Compile>

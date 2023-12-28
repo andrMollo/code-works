@@ -6,13 +6,13 @@ using static CADBooster.SolidDna.SolidWorksEnvironment;
 
 namespace CodeWorksLibrary
 {
-    internal class CwPdmManager
+    public class CwPdmManager
     {
         /// <summary>
         /// Get the username from SolidWorks PDM
         /// </summary>
         /// <returns>The string with the UserData of the user connected to the Vault, or the Window username if PDM can't be reached</returns>
-        internal static string GetPdmUserName()
+        public static string GetPdmUserName()
         {
             string userName = string.Empty;
 

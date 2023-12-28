@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
-using Logger = CodeWorksLibrary.Helpers.Logger;
+using CwLogger = CodeWorksLibrary.Helpers.CwLogger;
 
 namespace CodeWorksLibrary.Macros.Export
 {
@@ -30,13 +30,13 @@ namespace CodeWorksLibrary.Macros.Export
         /// <summary>
         /// The log object for the assembly export
         /// </summary>
-        public static Logger AssExpLog { get; set; }
+        public static CwLogger AssExpLog { get; set; }
         #endregion
 
         /// <summary>
         /// Export the assembly and all its components
         /// </summary>
-        internal static void ExportAssemblyMacro()
+        public static void ExportAssemblyMacro()
         {
             var model = SolidWorksEnvironment.Application.ActiveModel;
 
@@ -75,8 +75,8 @@ namespace CodeWorksLibrary.Macros.Export
             assemblyModel.Quantity = amsPrpManager.GetModelQuantity(assemblyModel.Model);
 
             // Compose the full path to the logger
-            AssExpLog = new Logger();
-            AssExpLog.LogPath = Logger.ComposeLogPath(string.Empty);
+            AssExpLog = new CwLogger();
+            AssExpLog.LogPath = CwLogger.ComposeLogPath(string.Empty);
 
             // Initiate form
             var expAsmForm = AssemblyFormSetup();
@@ -269,7 +269,7 @@ namespace CodeWorksLibrary.Macros.Export
             else
             {
                 // Read log file
-                List<string> pathList = Logger.ReadLogFile(AssExpLog.LogPath);               
+                List<string> pathList = CwLogger.ReadLogFile(AssExpLog.LogPath);               
 
                 // Filter the bom with the list from the log
                 bom.RemoveAll(bomList => pathList.Contains(bomList.Path));
@@ -289,7 +289,7 @@ namespace CodeWorksLibrary.Macros.Export
             if (bom != null)
             {
                 // Initiate a log model
-                var asmLog = new Logger();
+                var asmLog = new CwLogger();
 
                 // Set the log path
                 asmLog.LogFolderPath = GlobalConfig.LogPath;
@@ -316,7 +316,7 @@ namespace CodeWorksLibrary.Macros.Export
         /// <param name="assembly">The pointer to the BomElement corresponding to the assembly</param>
         /// <param name="userSelection">The pointer to user selection object</param>
         /// <param name="asmLog">The pointer to the logger</param>
-        private static void ExportComponent(BomElement comp, BomElement assembly, UserSelectionModel userSelection, Logger asmLog)
+        private static void ExportComponent(BomElement comp, BomElement assembly, UserSelectionModel userSelection, CwLogger asmLog)
         {
             // Update the component quantity is the user selected the option
             // and if the component is not the assembly
