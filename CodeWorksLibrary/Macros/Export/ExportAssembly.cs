@@ -120,11 +120,30 @@ namespace CodeWorksLibrary.Macros.Export
             var asmRebuildRet = assemblyModel.Model.ForceRebuild3(false);
 
             // Get values back from WinForm
-            UserSelectionModel userSel = SetUserSelection(assemblyModel, expAsmForm);            
+            UserSelectionModel userSel = GetUserSelection(assemblyModel, expAsmForm);            
 
             // Compose set the export path
             ExportDocument.ExportFolderPath = Path.Combine(GlobalConfig.ExportPath, JobNumber);
 
+            // Get the BoM to be processed
+            List<BomElement> bom = GetBomToProcess(assemblyModel, userSel);            
+
+            // Export all component in the BOM
+            if (bom != null)
+            {
+                ExportAllComponent(bom, assemblyModel, userSel);
+            }
+
+        }
+
+        /// <summary>
+        /// Get the Bill of Material to be exported
+        /// </summary>
+        /// <param name="assemblyModel">The pointer to the BomModel of the assembly</param>
+        /// <param name="userSel">The userselection</param>
+        /// <returns></returns>
+        private static List<BomElement> GetBomToProcess(BomElement assemblyModel, UserSelectionModel userSel)
+        {
             // Get the active configuration
             var swConf = assemblyModel.Model.ConfigurationManager.ActiveConfiguration;
 
@@ -144,15 +163,16 @@ namespace CodeWorksLibrary.Macros.Export
                 Path = assemblyModel.Model.GetPathName()
             });
 
-            // Export all component in the BOM
-            if (bom != null)
-            {
-                ExportAllComponent(bom, assemblyModel, userSel);
-            }
-
+            return bom;
         }
 
-        private static UserSelectionModel SetUserSelection(BomElement assemblyModel, ExportAssemblyForm expAsmForm)
+        /// <summary>
+        /// Get the user selection from the UI
+        /// </summary>
+        /// <param name="assemblyModel">The pointer to the BomModel of the assembly</param>
+        /// <param name="expAsmForm">The pointer to the instances of the export form</param>
+        /// <returns></returns>
+        private static UserSelectionModel GetUserSelection(BomElement assemblyModel, ExportAssemblyForm expAsmForm)
         {
             UserSelectionModel userSel = new UserSelectionModel();
 
