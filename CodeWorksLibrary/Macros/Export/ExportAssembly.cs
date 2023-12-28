@@ -303,74 +303,71 @@ namespace CodeWorksLibrary.Macros.Export
 
                 foreach (var comp in bom)
                 {
-                    // Update the component quantity is the user selected the option
-                    // and if the component is not the assembly
-                    if (userSelection.QtyUpdate == true && comp.Path != assembly.Model.GetPathName())
-                    {
-                        // Write quantity
-                        WriteQuantityMacro.WriteQuantity(comp.Model, comp.Quantity, assembly.Quantity);
-                    }
-
-                    // Get model path
-                    var modelPath = comp.Model.GetPathName();
-
-                    // Get drawing path
-                    // It assumes drawing and model have the same name and are in the same folder
-                    var drwPath = Path.ChangeExtension(modelPath, "SLDDRW");
-
-                    if (File.Exists(drwPath) == false)
-                    {
-                        continue;
-                    }
-
-                    // If one between print and export option is selected open the drawing
-                    if (userSelection.Export == true || userSelection.Print == true)
-                    {
-                        Model drwModel = SolidWorksEnvironment.Application.OpenFile(drwPath, options: OpenDocumentOptions.Silent);
-
-                        if (drwModel == null)
-                        {
-                            continue;
-                        }
-
-                        // Set export document
-                        ExportDocument.ExportModel = drwModel;
-
-                        // Set the export job number
-                        ExportDocument.JobNumber = JobNumber;
-
-                        // Set the file name
-                        ExportDocument.ModelNameNoExt = Path.GetFileNameWithoutExtension(drwModel.FilePath);
-
-                        // Set the job number in the drawing model
-                        var drwPrpManger = new CwPropertyManager();
-                        drwPrpManger.SetCustomProperty((ModelDoc2)drwModel.UnsafeObject, GlobalConfig.JobNumberPropName, JobNumber);
-
-                        // Print the drawing if the user selected the option
-                        if (userSelection.Print == true)
-                        {
-                            // Set print property
-                            ExportDocument.PrintSelection = true;
-                        }
-
-                        // Export the component drawing and preview if the user selected the option
-                        if (userSelection.Export == true)
-                        {
-                            ExportDocument.ExportSelection = true;
-                            // Export drawing and model preview
-                            ExportDocument.ExportDrawingAndPreview();
-                        }
-
-                        // Delete the job number from drawing custom properties
-                        drwPrpManger.SetCustomProperty((ModelDoc2)drwModel.UnsafeObject, GlobalConfig.JobNumberPropName, string.Empty);
-
-                        // Close the drawing
-                        drwModel.Close();
-
-                        // Write log entry
-                        asmLog.WriteLogWithDate(modelPath);
-                    }
+                    // Export component
+                    ExportComponent(comp, assembly, userSelection, asmLog);                    
                 }
+            }
+        }
+
+        /// <summary>
+        /// Export the assembly component
+        /// </summary>
+        /// <param name="comp">The pointer to th BoMElement to be exported</param>
+        /// <param name="assembly">The pointer to the BomElement corresponding to the assembly</param>
+        /// <param name="userSelection">The pointer to user selection object</param>
+        /// <param name="asmLog">The pointer to the logger</param>
+        private static void ExportComponent(BomElement comp, BomElement assembly, UserSelectionModel userSelection, Logger asmLog)
+        {
+            // Update the component quantity is the user selected the option
+            // and if the component is not the assembly
+            if (userSelection.QtyUpdate == true && comp.Path != assembly.Model.GetPathName())
+            {
+                // Write quantity
+                WriteQuantityMacro.WriteQuantity(comp.Model, comp.Quantity, assembly.Quantity);
+            }
+
+            // If one between print and export option is selected open the drawing
+            if (userSelection.Export == true || userSelection.Print == true)
+            {
+                // Get drawing model
+                ExportDocument.ExportModel = new Model(comp.Model);
+                ExportDocument.ExportModel = ExportDocument.GetDrawingModel();
+
+                Model drwModel = ExportDocument.ExportModel;
+
+                // Set the export job number
+                ExportDocument.JobNumber = JobNumber;
+
+                // Set the file name
+                ExportDocument.ModelNameNoExt = Path.GetFileNameWithoutExtension(drwModel.FilePath);
+
+                // Set the job number in the drawing model
+                var drwPrpManger = new CwPropertyManager();
+                drwPrpManger.SetCustomProperty((ModelDoc2)drwModel.UnsafeObject, GlobalConfig.JobNumberPropName, JobNumber);
+
+                // Print the drawing if the user selected the option
+                if (userSelection.Print == true)
+                {
+                    // Set print property
+                    ExportDocument.PrintSelection = true;
+                }
+
+                // Export the component drawing and preview if the user selected the option
+                if (userSelection.Export == true)
+                {
+                    ExportDocument.ExportSelection = true;
+                    // Export drawing and model preview
+                    ExportDocument.ExportDrawingAndPreview();
+                }
+
+                // Delete the job number from drawing custom properties
+                drwPrpManger.SetCustomProperty((ModelDoc2)drwModel.UnsafeObject, GlobalConfig.JobNumberPropName, string.Empty);
+
+                // Close the drawing
+                drwModel.Close();
+
+                // Write log entry
+                asmLog.WriteLogWithDate(modelPath);
             }
         }
     }
