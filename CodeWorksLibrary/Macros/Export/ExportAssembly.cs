@@ -86,68 +86,14 @@ namespace CodeWorksLibrary.Macros.Export
 
             // Check button click
             if (expAsmFormRes == DialogResult.OK)
-            {
+            {                           
                 // Start timer
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
 
-                // Rebuild assembly an all components
-                var asmRebuildRet = assemblyModel.Model.ForceRebuild3(false);
-
-                // An instance of user selection
-                var userSel = new UserSelectionModel();
-
-                // Compile user selection based on form selection
-                userSel.Export = expAsmForm.ExportCheck;
-                userSel.Print = expAsmForm.PrintCheck;
-                userSel.QtyUpdate = expAsmForm.QuantityCheck;
-                userSel.ExportAgain = expAsmForm.ExportAgain;
-
-                // Get the assembly quantity back from the winform
-                retParse = double.TryParse(expAsmForm.AssemblyQty, out double formDoubleQty);
-                assemblyModel.Quantity = formDoubleQty;
-
-                // Write the assembly quantity back to the SolidWorks file
-                // to update it in case it have been changed by the user
-                amsPrpManager.SetCustomProperty(assemblyModel.Model, GlobalConfig.QuantityProperty, expAsmForm.AssemblyQty);
-
-                // Get the job number
-                JobNumber = expAsmForm.JobNumber;
-
-                // Get the new log path
-                AssExpLog.LogPath = expAsmForm.LogFilePath;
-
-                // Validate job number
-                JobNumber = CwValidation.RemoveInvalidPathChars(JobNumber);
-
-                // Compose set the export path
-                ExportDocument.ExportFolderPath = Path.Combine(GlobalConfig.ExportPath, JobNumber);
-
-                // Get the active configuration
-                var swConf = assemblyModel.Model.ConfigurationManager.ActiveConfiguration;
-
-                // Get the root component
-                var rootComp = swConf.GetRootComponent3(true);
-
-                // Get the flat BOM
-                List<BomElement> bom = new List<BomElement>();
-                bom = GetBomToExport(rootComp, bom, userSel.ExportAgain);
-
-                // Add the assembly to the BoM
-                bom.Add(new BomElement()
-                {
-                    Model = assemblyModel.Model,
-                    Configuration = swConf.Name,
-                    Quantity = Convert.ToDouble(assemblyModel.Quantity),
-                    Path = assemblyModel.Model.GetPathName()
-                });
-
-                // Export all component in the BOM
-                if (bom != null)
-                {
-                    ExportAllComponent(bom, assemblyModel, userSel);
-                }
-
+                // Process the assembly
+                ProcessAssembly(assemblyModel);
+                
                 // Stop the timer
                 stopwatch.Stop();
                 TimeSpan st = stopwatch.Elapsed;
@@ -161,6 +107,67 @@ namespace CodeWorksLibrary.Macros.Export
             {
                 SolidWorksEnvironment.Application.ShowMessageBox("Macro terminated", SolidWorksMessageBoxIcon.Stop);
             }
+        }
+
+        private static void ProcessAssembly(BomElement assemblyModel)
+        {
+            // Rebuild assembly an all components
+            var asmRebuildRet = assemblyModel.Model.ForceRebuild3(false);
+
+            // An instance of user selection
+            var userSel = new UserSelectionModel();
+
+            // Compile user selection based on form selection
+            userSel.Export = expAsmForm.ExportCheck;
+            userSel.Print = expAsmForm.PrintCheck;
+            userSel.QtyUpdate = expAsmForm.QuantityCheck;
+            userSel.ExportAgain = expAsmForm.ExportAgain;
+
+            // Get the assembly quantity back from the winform
+            retParse = double.TryParse(expAsmForm.AssemblyQty, out double formDoubleQty);
+            assemblyModel.Quantity = formDoubleQty;
+
+            // Write the assembly quantity back to the SolidWorks file
+            // to update it in case it have been changed by the user
+            amsPrpManager.SetCustomProperty(assemblyModel.Model, GlobalConfig.QuantityProperty, expAsmForm.AssemblyQty);
+
+            // Get the job number
+            JobNumber = expAsmForm.JobNumber;
+
+            // Get the new log path
+            AssExpLog.LogPath = expAsmForm.LogFilePath;
+
+            // Validate job number
+            JobNumber = CwValidation.RemoveInvalidPathChars(JobNumber);
+
+            // Compose set the export path
+            ExportDocument.ExportFolderPath = Path.Combine(GlobalConfig.ExportPath, JobNumber);
+
+            // Get the active configuration
+            var swConf = assemblyModel.Model.ConfigurationManager.ActiveConfiguration;
+
+            // Get the root component
+            var rootComp = swConf.GetRootComponent3(true);
+
+            // Get the flat BOM
+            List<BomElement> bom = new List<BomElement>();
+            bom = GetBomToExport(rootComp, bom, userSel.ExportAgain);
+
+            // Add the assembly to the BoM
+            bom.Add(new BomElement()
+            {
+                Model = assemblyModel.Model,
+                Configuration = swConf.Name,
+                Quantity = Convert.ToDouble(assemblyModel.Quantity),
+                Path = assemblyModel.Model.GetPathName()
+            });
+
+            // Export all component in the BOM
+            if (bom != null)
+            {
+                ExportAllComponent(bom, assemblyModel, userSel);
+            }
+
         }
 
         /// <summary>
