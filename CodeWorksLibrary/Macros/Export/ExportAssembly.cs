@@ -163,6 +163,10 @@ namespace CodeWorksLibrary.Macros.Export
             }
         }
 
+        /// <summary>
+        /// Setup the WinForm properties
+        /// </summary>
+        /// <returns>The pointer to the WinForm instances</returns>
         private static ExportAssemblyForm AssemblyFormSetup()
         {
             var expAsmForm = new CodeWorksUI.ExportAssemblyForm();
@@ -170,9 +174,15 @@ namespace CodeWorksLibrary.Macros.Export
             // Check if log file already exists
             expAsmForm.LogFilePath = AssExpLog.LogPath;
 
-            // Show assembly quantity in the form
-            // TODO Check for empty string
-            expAsmForm.AssemblyQty = AssemblyToExport.GetCustomProperty(GlobalConfig.QuantityProperty);
+            // Get assembly quantity custom property string
+            string asmQtyString = AssemblyToExport.GetCustomProperty(GlobalConfig.QuantityProperty);
+
+            // Check for empty string
+            if (asmQtyString != null && asmQtyString != string.Empty)
+            {
+                // Show assembly quantity in the form
+                expAsmForm.AssemblyQty = asmQtyString;
+            }
 
             return expAsmForm;
         }
