@@ -138,7 +138,6 @@ namespace CodeWorksLibrary
                  */
             string drwPath = Path.ChangeExtension(ExportModel.FilePath, "SLDDRW");
 
-
             // Get the list of open document
             var listOpenDoc = Application.OpenDocuments().ToList();
 
@@ -163,15 +162,12 @@ namespace CodeWorksLibrary
             // If the drawing is not open
             else
             {
-                model = Application.OpenFile(drwPath,
-                    options: OpenDocumentOptions.Silent
-                    );
-            }
-
-            if (model == null)
-            {
-                Application.ShowMessageBox("Unable to open the drawing.", SolidWorksMessageBoxIcon.Stop);
-                throw new Exception("Unable to open the drawing");
+                if (File.Exists(drwPath))
+                {
+                    model = Application.OpenFile(drwPath,
+                        options: OpenDocumentOptions.Silent
+                        );
+                }
             }
 
             return model;
@@ -539,15 +535,19 @@ namespace CodeWorksLibrary
 
                 // Get the drawing model
                 ExportModel = GetDrawingModel();
-                
-                // Save the drawing model to be closed later
-                Model drwModel = ExportModel;
 
-                // Export the drawing and preview
-                ExportDrawingAndPreview();
+                // Export the drawing if the model is not null
+                if (ExportModel != null)
+                {
+                    // Save the drawing model to be closed later
+                    Model drwModel = ExportModel;
 
-                // Close the file
-                drwModel.Close();
+                    // Export the drawing and preview
+                    ExportDrawingAndPreview();
+
+                    // Close the file
+                    drwModel.Close();
+                }                
             }
         }
 

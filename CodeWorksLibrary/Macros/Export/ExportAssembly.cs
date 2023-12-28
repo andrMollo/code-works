@@ -333,40 +333,43 @@ namespace CodeWorksLibrary.Macros.Export
                 ExportDocument.ExportModel = new Model(comp.Model);
                 ExportDocument.ExportModel = ExportDocument.GetDrawingModel();
 
-                Model drwModel = ExportDocument.ExportModel;
-
-                // Set the export job number
-                ExportDocument.JobNumber = JobNumber;
-
-                // Set the file name
-                ExportDocument.ModelNameNoExt = Path.GetFileNameWithoutExtension(drwModel.FilePath);
-
-                // Set the job number in the drawing model
-                drwModel.SetCustomProperty(GlobalConfig.JobNumberPropName, JobNumber);
-
-                // Print the drawing if the user selected the option
-                if (userSelection.Print == true)
+                if (ExportDocument.ExportModel != null)
                 {
-                    // Set print property
-                    ExportDocument.PrintSelection = true;
+                    Model drwModel = ExportDocument.ExportModel;
+
+                    // Set the export job number
+                    ExportDocument.JobNumber = JobNumber;
+
+                    // Set the file name
+                    ExportDocument.ModelNameNoExt = Path.GetFileNameWithoutExtension(drwModel.FilePath);
+
+                    // Set the job number in the drawing model
+                    drwModel.SetCustomProperty(GlobalConfig.JobNumberPropName, JobNumber);
+
+                    // Print the drawing if the user selected the option
+                    if (userSelection.Print == true)
+                    {
+                        // Set print property
+                        ExportDocument.PrintSelection = true;
+                    }
+
+                    // Export the component drawing and preview if the user selected the option
+                    if (userSelection.Export == true)
+                    {
+                        ExportDocument.ExportSelection = true;
+                        // Export drawing and model preview
+                        ExportDocument.ExportDrawingAndPreview();
+                    }
+
+                    // Delete the job number from drawing custom properties
+                    drwModel.SetCustomProperty(GlobalConfig.JobNumberPropName, string.Empty);
+
+                    // Close the drawing
+                    drwModel.Close();
+
+                    // Write log entry
+                    asmLog.WriteLogWithDate(drwModel.FilePath); 
                 }
-
-                // Export the component drawing and preview if the user selected the option
-                if (userSelection.Export == true)
-                {
-                    ExportDocument.ExportSelection = true;
-                    // Export drawing and model preview
-                    ExportDocument.ExportDrawingAndPreview();
-                }
-
-                // Delete the job number from drawing custom properties
-                drwModel.SetCustomProperty(GlobalConfig.JobNumberPropName, string.Empty);
-
-                // Close the drawing
-                drwModel.Close();
-
-                // Write log entry
-                asmLog.WriteLogWithDate(drwModel.FilePath);
             }
         }
     }
