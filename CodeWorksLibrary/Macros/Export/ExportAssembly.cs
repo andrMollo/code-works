@@ -92,7 +92,7 @@ namespace CodeWorksLibrary.Macros.Export
                 stopwatch.Start();
 
                 // Process the assembly
-                ProcessAssembly(assemblyModel);
+                ProcessAssembly(assemblyModel, expAsmForm);
                 
                 // Stop the timer
                 stopwatch.Stop();
@@ -109,36 +109,18 @@ namespace CodeWorksLibrary.Macros.Export
             }
         }
 
-        private static void ProcessAssembly(BomElement assemblyModel)
+        /// <summary>
+        /// Process the assembly model: setup export parameters and custom properties
+        /// </summary>
+        /// <param name="assemblyModel">The pointer to the BomModel of the assembly</param>
+        /// <param name="expAsmForm">The pointer to the instances of the export form</param>
+        private static void ProcessAssembly(BomElement assemblyModel, ExportAssemblyForm expAsmForm)
         {
             // Rebuild assembly an all components
             var asmRebuildRet = assemblyModel.Model.ForceRebuild3(false);
 
-            // An instance of user selection
-            var userSel = new UserSelectionModel();
-
-            // Compile user selection based on form selection
-            userSel.Export = expAsmForm.ExportCheck;
-            userSel.Print = expAsmForm.PrintCheck;
-            userSel.QtyUpdate = expAsmForm.QuantityCheck;
-            userSel.ExportAgain = expAsmForm.ExportAgain;
-
-            // Get the assembly quantity back from the winform
-            retParse = double.TryParse(expAsmForm.AssemblyQty, out double formDoubleQty);
-            assemblyModel.Quantity = formDoubleQty;
-
-            // Write the assembly quantity back to the SolidWorks file
-            // to update it in case it have been changed by the user
-            amsPrpManager.SetCustomProperty(assemblyModel.Model, GlobalConfig.QuantityProperty, expAsmForm.AssemblyQty);
-
-            // Get the job number
-            JobNumber = expAsmForm.JobNumber;
-
-            // Get the new log path
-            AssExpLog.LogPath = expAsmForm.LogFilePath;
-
-            // Validate job number
-            JobNumber = CwValidation.RemoveInvalidPathChars(JobNumber);
+            // Get values back from WinForm
+            UserSelectionModel userSel = SetUserSelection(assemblyModel, expAsmForm);            
 
             // Compose set the export path
             ExportDocument.ExportFolderPath = Path.Combine(GlobalConfig.ExportPath, JobNumber);
@@ -168,6 +150,36 @@ namespace CodeWorksLibrary.Macros.Export
                 ExportAllComponent(bom, assemblyModel, userSel);
             }
 
+        }
+
+        private static UserSelectionModel SetUserSelection(BomElement assemblyModel, ExportAssemblyForm expAsmForm)
+        {
+            UserSelectionModel userSel = new UserSelectionModel();
+
+            // Compile user selection based on form selection
+            userSel.Export = expAsmForm.ExportCheck;
+            userSel.Print = expAsmForm.PrintCheck;
+            userSel.QtyUpdate = expAsmForm.QuantityCheck;
+            userSel.ExportAgain = expAsmForm.ExportAgain;
+            userSel.Quantity = expAsmForm.AssemblyQty;
+
+            // Get the assembly quantity back from the WinForm
+            var retParse = double.TryParse(expAsmForm.AssemblyQty, out double formDoubleQty);
+            assemblyModel.Quantity = formDoubleQty;
+
+            // Write the assembly quantity back to the SolidWorks file
+            // to update it in case it have been changed by the user
+            Model model = new Model(assemblyModel.Model);
+
+            model.SetCustomProperty(GlobalConfig.QuantityProperty, expAsmForm.AssemblyQty);
+
+            // Get the job number
+            JobNumber = CwValidation.RemoveInvalidPathChars(expAsmForm.JobNumber);
+
+            // Get the new log path
+            AssExpLog.LogPath = expAsmForm.LogFilePath;
+
+            return userSel;
         }
 
         /// <summary>
