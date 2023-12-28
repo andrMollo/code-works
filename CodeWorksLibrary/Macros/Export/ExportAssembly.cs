@@ -342,8 +342,7 @@ namespace CodeWorksLibrary.Macros.Export
                 ExportDocument.ModelNameNoExt = Path.GetFileNameWithoutExtension(drwModel.FilePath);
 
                 // Set the job number in the drawing model
-                var drwPrpManger = new CwPropertyManager();
-                drwPrpManger.SetCustomProperty((ModelDoc2)drwModel.UnsafeObject, GlobalConfig.JobNumberPropName, JobNumber);
+                drwModel.SetCustomProperty(GlobalConfig.JobNumberPropName, JobNumber);
 
                 // Print the drawing if the user selected the option
                 if (userSelection.Print == true)
@@ -361,13 +360,13 @@ namespace CodeWorksLibrary.Macros.Export
                 }
 
                 // Delete the job number from drawing custom properties
-                drwPrpManger.SetCustomProperty((ModelDoc2)drwModel.UnsafeObject, GlobalConfig.JobNumberPropName, string.Empty);
+                drwModel.SetCustomProperty(GlobalConfig.JobNumberPropName, string.Empty);
 
                 // Close the drawing
                 drwModel.Close();
 
                 // Write log entry
-                asmLog.WriteLogWithDate(modelPath);
+                asmLog.WriteLogWithDate(drwModel.FilePath);
             }
         }
     }
