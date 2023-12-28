@@ -33,7 +33,7 @@ namespace CodeWorksLibrary
             [Description("Export the current file in different formats")]
             [Icon(typeof(Resources), nameof(Resources.ExportFile))]
             ExportFileE,
-            [Title("Export and print file")]
+            [Title("Export print file")]
             [Description("Export and print the current file in different formats")]
             [Icon(typeof(Resources), nameof(Resources.ExportFile))]
             ExportFilePrintE,
@@ -111,7 +111,7 @@ namespace CodeWorksLibrary
                     ExportDocument.ExportPrintDocumentMacro();
                     break;
                 case CwCommands_e.ExportAssemblyE:
-                    ExportAssyMacro.ExportAssembly();
+                    ExportAssembly.ExportAssemblyMacro();
                     break;
                 case CwCommands_e.UpdateFormatE:
                     UpdateSheetFormat.UpdateSheetsFormatMacro();

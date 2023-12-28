@@ -42,7 +42,7 @@ namespace CodeWorksLibrary.Macros.Properties
             var rootComp = swConf.GetRootComponent3(true);
 
             // Get the flat BOM
-            List<BomModel> bom = new List<BomModel>();
+            List<BomElement> bom = new List<BomElement>();
             CwBomManager.ComposeFlatBOM(rootComp, bom);
 
             // Get the assembly quantity
@@ -60,7 +60,7 @@ namespace CodeWorksLibrary.Macros.Properties
         /// </summary>
         /// <param name="bom">A BOM instance with the components for the quantities to be updated</param>
         /// <param name="assemblyQty">The quantity of the main assembly</param>
-        private static void WriteQuantityAllComponents(List<BomModel> bom, string assemblyQty)
+        private static void WriteQuantityAllComponents(List<BomElement> bom, string assemblyQty)
         {
             var assQty = 0.0;
 
@@ -110,24 +110,11 @@ namespace CodeWorksLibrary.Macros.Properties
         /// <param name="swModel">The pointer to the model</param>
         /// <param name="quantity">The quantity to be written tin the custom property</param>
         /// <param name="assemblyQty">The quantity of the main assembly</param>
-        internal static void WriteQuantity(ModelDoc2 swModel, double quantity, string assemblyQty)
+        internal static void WriteQuantity(ModelDoc2 swModel, double quantity, double assemblyQty)
         {
-            var assQty = 0.0;
-
-            // Try to convert the assembly quantity to a double
-            try
+            if (assemblyQty > 0)
             {
-                assQty = Convert.ToDouble(assemblyQty);
-            }
-            catch (Exception ex)
-            {
-                Application.ShowMessageBox("Assembly quantity can't be converted to a number " + ex.Message, CADBooster.SolidDna.SolidWorksMessageBoxIcon.Stop);
-                goto finally_;
-            }
-
-            if (assQty > 0)
-            {
-                var componentQty = quantity * assQty;
+                var componentQty = quantity * assemblyQty;
 
                 var prpQtyValue = componentQty.ToString();
 
@@ -139,9 +126,6 @@ namespace CodeWorksLibrary.Macros.Properties
             {
                 Application.ShowMessageBox("Assembly quantity must be greater than 0", CADBooster.SolidDna.SolidWorksMessageBoxIcon.Stop);
             }
-
-        finally_:
-            return;
         }
     }
 }
