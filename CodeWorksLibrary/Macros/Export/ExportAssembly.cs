@@ -367,10 +367,10 @@ namespace CodeWorksLibrary.Macros.Export
                     // Close the drawing
                     drwModel.Close();
 
-                    // Write log entry
-                    asmLog.WriteLogWithDate(drwModel.FilePath); 
                 }
             }
+            // Write log entry
+            asmLog.WriteLogWithDate(comp.Model.GetPathName()); 
         }
     }
 }
