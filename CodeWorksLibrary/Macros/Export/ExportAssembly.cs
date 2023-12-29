@@ -20,7 +20,7 @@ namespace CodeWorksLibrary.Macros.Export
         /// <summary>
         /// The pointer to the SolidDNA Model object
         /// </summary>
-        public static Model AssemblyToExport {  get; set; }
+        public static BomElement AssemblyBomElement {  get; set; }
 
         /// <summary>
         /// The job number
@@ -50,7 +50,8 @@ namespace CodeWorksLibrary.Macros.Export
             }
             #endregion
 
-            AssemblyToExport = model;
+            AssemblyBomElement = new BomElement();
+            AssemblyBomElement.Model = (ModelDoc2)model.UnsafeObject;
 
             ExportAssemblyDocument();          
         }
@@ -60,19 +61,15 @@ namespace CodeWorksLibrary.Macros.Export
         /// </summary>
         private static void ExportAssemblyDocument()
         {
-            // Get the SolidWokrs AssemblyModel
-            BomElement assemblyModel = new BomElement();
-            assemblyModel.Model = AssemblyToExport.UnsafeObject;
-
             // Get the SolidWoks assembly doc object
-            var swAssy = (AssemblyDoc)AssemblyToExport.UnsafeObject;
+            var swAssy = (AssemblyDoc)AssemblyBomElement.Model;
 
             // Resolve lightweight components
             var resResolve = swAssy.ResolveAllLightWeightComponents(false);
 
             // Get the assembly quantity
             var amsPrpManager = new CwPropertyManager();
-            assemblyModel.Quantity = amsPrpManager.GetModelQuantity(assemblyModel.Model);
+            AssemblyBomElement.Quantity = amsPrpManager.GetModelQuantity(AssemblyBomElement.Model);
 
             // Compose the full path to the logger
             AssExpLog = new CwLogger();
@@ -92,7 +89,7 @@ namespace CodeWorksLibrary.Macros.Export
                 stopwatch.Start();
 
                 // Process the assembly
-                ProcessAssembly(assemblyModel, expAsmForm);
+                ProcessAssembly(expAsmForm);
                 
                 // Stop the timer
                 stopwatch.Stop();
@@ -112,26 +109,25 @@ namespace CodeWorksLibrary.Macros.Export
         /// <summary>
         /// Process the assembly model: setup export parameters and custom properties
         /// </summary>
-        /// <param name="assemblyModel">The pointer to the BomModel of the assembly</param>
         /// <param name="expAsmForm">The pointer to the instances of the export form</param>
-        private static void ProcessAssembly(BomElement assemblyModel, ExportAssemblyForm expAsmForm)
+        private static void ProcessAssembly(ExportAssemblyForm expAsmForm)
         {
             // Rebuild assembly an all components
-            var asmRebuildRet = assemblyModel.Model.ForceRebuild3(false);
+            var asmRebuildRet = AssemblyBomElement.Model.ForceRebuild3(false);
 
             // Get values back from WinForm
-            UserSelectionModel userSel = GetUserSelection(assemblyModel, expAsmForm);            
+            UserSelectionModel userSel = GetUserSelection(expAsmForm);            
 
             // Compose set the export path
             ExportDocument.ExportFolderPath = Path.Combine(GlobalConfig.ExportPath, JobNumber);
 
             // Get the BoM to be processed
-            List<BomElement> bom = GetBomToProcess(assemblyModel, userSel);            
+            List<BomElement> bom = GetBomToProcess(userSel);            
 
             // Export all component in the BOM
             if (bom != null)
             {
-                ExportAllComponent(bom, assemblyModel, userSel);
+                ExportAllComponent(bom, userSel);
             }
 
         }
@@ -139,13 +135,12 @@ namespace CodeWorksLibrary.Macros.Export
         /// <summary>
         /// Get the Bill of Material to be exported
         /// </summary>
-        /// <param name="assemblyModel">The pointer to the BomModel of the assembly</param>
-        /// <param name="userSel">The userselection</param>
+        /// <param name="userSel">The user selection model</param>
         /// <returns></returns>
-        private static List<BomElement> GetBomToProcess(BomElement assemblyModel, UserSelectionModel userSel)
+        private static List<BomElement> GetBomToProcess(UserSelectionModel userSel)
         {
             // Get the active configuration
-            var swConf = assemblyModel.Model.ConfigurationManager.ActiveConfiguration;
+            var swConf = AssemblyBomElement.Model.ConfigurationManager.ActiveConfiguration;
 
             // Get the root component
             var rootComp = swConf.GetRootComponent3(true);
@@ -156,10 +151,10 @@ namespace CodeWorksLibrary.Macros.Export
             // Add the assembly to the BoM
             bom.Add(new BomElement()
             {
-                Model = assemblyModel.Model,
+                Model = AssemblyBomElement.Model,
                 Configuration = swConf.Name,
-                Quantity = Convert.ToDouble(assemblyModel.Quantity),
-                Path = assemblyModel.Model.GetPathName()
+                Quantity = Convert.ToDouble(AssemblyBomElement.Quantity),
+                Path = AssemblyBomElement.Model.GetPathName()
             });
 
             // Get the Bill of Material to be exported comparing with the log file
@@ -171,10 +166,9 @@ namespace CodeWorksLibrary.Macros.Export
         /// <summary>
         /// Get the user selection from the UI
         /// </summary>
-        /// <param name="assemblyModel">The pointer to the BomModel of the assembly</param>
         /// <param name="expAsmForm">The pointer to the instances of the export form</param>
         /// <returns></returns>
-        private static UserSelectionModel GetUserSelection(BomElement assemblyModel, ExportAssemblyForm expAsmForm)
+        private static UserSelectionModel GetUserSelection(ExportAssemblyForm expAsmForm)
         {
             UserSelectionModel userSel = new UserSelectionModel();
 
@@ -187,11 +181,11 @@ namespace CodeWorksLibrary.Macros.Export
 
             // Get the assembly quantity back from the WinForm
             var retParse = double.TryParse(expAsmForm.AssemblyQty, out double formDoubleQty);
-            assemblyModel.Quantity = formDoubleQty;
+            AssemblyBomElement.Quantity = formDoubleQty;
 
             // Write the assembly quantity back to the SolidWorks file
             // to update it in case it have been changed by the user
-            Model model = new Model(assemblyModel.Model);
+            Model model = new Model(AssemblyBomElement.Model);
 
             model.SetCustomProperty(GlobalConfig.QuantityProperty, expAsmForm.AssemblyQty);
 
@@ -216,7 +210,8 @@ namespace CodeWorksLibrary.Macros.Export
             expAsmForm.LogFilePath = AssExpLog.LogPath;
 
             // Get assembly quantity custom property string
-            string asmQtyString = AssemblyToExport.GetCustomProperty(GlobalConfig.QuantityProperty);
+            Model asmModel = new Model(AssemblyBomElement.Model);
+            string asmQtyString = asmModel.GetCustomProperty(GlobalConfig.QuantityProperty);
 
             // Check for empty string
             if (asmQtyString != null && asmQtyString != string.Empty)
@@ -284,9 +279,8 @@ namespace CodeWorksLibrary.Macros.Export
         /// Export all components in the BOM
         /// </summary>
         /// <param name="bom">The instance of the Bill of Material</param>
-        /// <param name="assembly">The assembly model object</param>
         /// <param name="userSelection">The model with the option the user selected</param>
-        private static void ExportAllComponent(List<BomElement> bom, BomElement assembly, UserSelectionModel userSelection)
+        private static void ExportAllComponent(List<BomElement> bom, UserSelectionModel userSelection)
         {
             if (bom != null)
             {
@@ -306,7 +300,7 @@ namespace CodeWorksLibrary.Macros.Export
                 foreach (var comp in bom)
                 {
                     // Export component
-                    ExportComponent(comp, assembly, userSelection, asmLog);                    
+                    ExportComponent(comp, userSelection, asmLog);                    
                 }
             }
         }
@@ -315,17 +309,16 @@ namespace CodeWorksLibrary.Macros.Export
         /// Export the assembly component
         /// </summary>
         /// <param name="comp">The pointer to th BoMElement to be exported</param>
-        /// <param name="assembly">The pointer to the BomElement corresponding to the assembly</param>
         /// <param name="userSelection">The pointer to user selection object</param>
         /// <param name="asmLog">The pointer to the logger</param>
-        private static void ExportComponent(BomElement comp, BomElement assembly, UserSelectionModel userSelection, CwLogger asmLog)
+        private static void ExportComponent(BomElement comp, UserSelectionModel userSelection, CwLogger asmLog)
         {
             // Update the component quantity is the user selected the option
             // and if the component is not the assembly
-            if (userSelection.QtyUpdate == true && comp.Path != assembly.Model.GetPathName())
+            if (userSelection.QtyUpdate == true && comp.Path != AssemblyBomElement.Model.GetPathName())
             {
                 // Write quantity
-                WriteQuantityMacro.WriteQuantity(comp.Model, comp.Quantity, assembly.Quantity);
+                WriteQuantityMacro.WriteQuantity(comp.Model, comp.Quantity, AssemblyBomElement.Quantity);
             }
 
             // If one between print and export option is selected open the drawing
