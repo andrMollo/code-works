@@ -35,6 +35,8 @@ namespace CodeWorksLibrary
             catch
             {
                 CwMessage.NoPDMConnection();
+
+                // Set the username ad the windows login
                 userName = Environment.UserName;
 
                 return userName;

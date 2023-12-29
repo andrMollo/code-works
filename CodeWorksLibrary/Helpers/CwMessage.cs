@@ -102,6 +102,15 @@ namespace CodeWorksLibrary.Helpers
         {
             Application.ShowMessageBox("Model not loaded.", SolidWorksMessageBoxIcon.Stop);
         }
+
+        /// <summary>
+        /// Show a message box for export error
+        /// </summary>
+        /// <param name="fileName">The name of the file to export</param>
+        public static void ExportFail(string fileName)
+        {
+            Application.ShowMessageBox($"Failed to export {fileName} to DWG.", SolidWorksMessageBoxIcon.Stop);
+        }
         #endregion
 
         #region Private methods
