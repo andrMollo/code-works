@@ -150,9 +150,8 @@ namespace CodeWorksLibrary.Macros.Export
             // Get the root component
             var rootComp = swConf.GetRootComponent3(true);
 
-            // Get the flat BOM
+            // Create the Bill of Material
             List<BomElement> bom = new List<BomElement>();
-            bom = GetBomToExport(rootComp, bom, userSel.ExportAgain);
 
             // Add the assembly to the BoM
             bom.Add(new BomElement()
@@ -162,6 +161,9 @@ namespace CodeWorksLibrary.Macros.Export
                 Quantity = Convert.ToDouble(assemblyModel.Quantity),
                 Path = assemblyModel.Model.GetPathName()
             });
+
+            // Get the Bill of Material to be exported comparing with the log file
+            bom = GetBomToExport(rootComp, bom, userSel.ExportAgain);
 
             return bom;
         }
