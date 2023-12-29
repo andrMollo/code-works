@@ -122,7 +122,7 @@ namespace CodeWorksLibrary.Macros.Export
             ExportDocument.ExportFolderPath = Path.Combine(GlobalConfig.ExportPath, JobNumber);
 
             // Get the BoM to be processed
-            List<BomElement> bom = GetBomToProcess(userSel);            
+            List<BomElement> bom = ComposeBom(userSel);            
 
             // Export all component in the BOM
             if (bom != null)
@@ -137,7 +137,7 @@ namespace CodeWorksLibrary.Macros.Export
         /// </summary>
         /// <param name="userSel">The user selection model</param>
         /// <returns></returns>
-        private static List<BomElement> GetBomToProcess(UserSelectionModel userSel)
+        private static List<BomElement> ComposeBom(UserSelectionModel userSel)
         {
             // Get the active configuration
             var swConf = AssemblyBomElement.Model.ConfigurationManager.ActiveConfiguration;
@@ -147,15 +147,6 @@ namespace CodeWorksLibrary.Macros.Export
 
             // Create the Bill of Material
             List<BomElement> bom = new List<BomElement>();
-
-            // Add the assembly to the BoM
-            bom.Add(new BomElement()
-            {
-                Model = AssemblyBomElement.Model,
-                Configuration = swConf.Name,
-                Quantity = Convert.ToDouble(AssemblyBomElement.Quantity),
-                Path = AssemblyBomElement.Model.GetPathName()
-            });
 
             // Get the Bill of Material to be exported comparing with the log file
             bom = GetBomToExport(rootComp, bom, userSel.ExportAgain);
@@ -259,6 +250,15 @@ namespace CodeWorksLibrary.Macros.Export
             // Compose the flat Bill of Material
             CwBomManager.ComposeFlatBOM(rootComp, bom);
 
+            // Add the assembly to the BoM
+            bom.Add(new BomElement()
+            {
+                Model = AssemblyBomElement.Model,
+                Configuration = AssemblyBomElement.Model.ConfigurationManager.ActiveConfiguration.Name,
+                Quantity = Convert.ToDouble(AssemblyBomElement.Quantity),
+                Path = AssemblyBomElement.Model.GetPathName()
+            });
+
             if (exportAgain == true || File.Exists(AssExpLog.LogPath) == false)
             {
                 return bom;
@@ -268,7 +268,7 @@ namespace CodeWorksLibrary.Macros.Export
                 // Read log file
                 List<string> pathList = CwLogger.ReadLogFile(AssExpLog.LogPath);               
 
-                // Filter the bom with the list from the log
+                // Filter the BoM with the list from the log
                 bom.RemoveAll(bomList => pathList.Contains(bomList.Path));
             }
 
