@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
 
 namespace CodeWorksLibrary.Helpers
@@ -83,7 +84,12 @@ namespace CodeWorksLibrary.Helpers
         /// </summary>
         public static void NoPDMConnection()
         {
-            Application.ShowMessageBox("Unable to connect to the Vault, the user is set to the Windows login username", SolidWorksMessageBoxIcon.Warning);
+            Application.ShowMessageBox("Unable to connect to the Vault, the user is set to the Windows login username.", SolidWorksMessageBoxIcon.Warning);
+        }
+
+        public static void QuantityParseError()
+        {
+            Application.ShowMessageBox("Unable to convert the quantity to a number.", SolidWorksMessageBoxIcon.Warning);
         }
         #endregion
 
