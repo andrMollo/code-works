@@ -266,7 +266,9 @@ namespace CodeWorksLibrary.Macros.Export
             else
             {
                 // Read log file
-                List<string> pathList = CwLogger.ReadLogFile(AssExpLog.LogPath);               
+                List<string> pathList = CwLogger.ReadLogFile(AssExpLog.LogPath);
+                
+                // Delete the content of the log file
 
                 // Filter the BoM with the list from the log
                 bom.RemoveAll(bomList => pathList.Contains(bomList.Path));
@@ -288,19 +290,19 @@ namespace CodeWorksLibrary.Macros.Export
                 var asmLog = new CwLogger();
 
                 // Set the log path
-                asmLog.LogFolderPath = GlobalConfig.LogPath;
-                asmLog.LogFileName = $"log_{JobNumber}.txt";
+                AssExpLog.LogFolderPath = GlobalConfig.LogPath;
+                AssExpLog.LogFileName = $"log_{JobNumber}.txt";
 
                 // Write log first life only if the log file doesn't exist already
                 if (!File.Exists(AssExpLog.LogPath) )
                 {
-                    asmLog.WriteLog("File processati al " + DateTime.Now);
+                    AssExpLog.WriteLog("File processati al " + DateTime.Now);
                 }
 
                 foreach (var comp in bom)
                 {
                     // Export component
-                    ExportComponent(comp, userSelection, asmLog);                    
+                    ExportComponent(comp, userSelection);                    
                 }
             }
         }
@@ -310,8 +312,7 @@ namespace CodeWorksLibrary.Macros.Export
         /// </summary>
         /// <param name="comp">The pointer to th BoMElement to be exported</param>
         /// <param name="userSelection">The pointer to user selection object</param>
-        /// <param name="asmLog">The pointer to the logger</param>
-        private static void ExportComponent(BomElement comp, UserSelectionModel userSelection, CwLogger asmLog)
+        private static void ExportComponent(BomElement comp, UserSelectionModel userSelection)
         {
             // Update the component quantity is the user selected the option
             // and if the component is not the assembly
@@ -365,7 +366,7 @@ namespace CodeWorksLibrary.Macros.Export
                 }
             }
             // Write log entry
-            asmLog.WriteLogWithDate(comp.Model.GetPathName()); 
+            AssExpLog.WriteLogWithDate(comp.Model.GetPathName()); 
         }
     }
 }
