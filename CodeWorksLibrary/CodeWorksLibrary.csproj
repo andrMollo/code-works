@@ -128,6 +128,7 @@
     <Compile Include="GlobalConfig.cs" />
     <Compile Include="Helpers\CwBomManager.cs" />
     <Compile Include="Helpers\CwLayerManager.cs" />
+    <Compile Include="Helpers\CwMessage.cs" />
     <Compile Include="Helpers\CwPdmManager.cs" />
     <Compile Include="Helpers\CwPropertyManager.cs" />
     <Compile Include="Helpers\CwSelectionManager.cs" />
