@@ -259,16 +259,18 @@ namespace CodeWorksLibrary.Macros.Export
                 Path = AssemblyBomElement.Model.GetPathName()
             });
 
+            // Return the whole BoM if the user select the option or il there is no log file
             if (exportAgain == true || File.Exists(AssExpLog.LogPath) == false)
             {
+                // Delete the content of the log file
+                CwLogger.DeleteLogContent(AssExpLog.LogPath);
+
                 return bom;
             }
             else
             {
                 // Read log file
-                List<string> pathList = CwLogger.ReadLogFile(AssExpLog.LogPath);
-                
-                // Delete the content of the log file
+                List<string> pathList = CwLogger.ReadLogFile(AssExpLog.LogPath);                
 
                 // Filter the BoM with the list from the log
                 bom.RemoveAll(bomList => pathList.Contains(bomList.Path));
@@ -286,9 +288,6 @@ namespace CodeWorksLibrary.Macros.Export
         {
             if (bom != null)
             {
-                // Initiate a log model
-                var asmLog = new CwLogger();
-
                 // Set the log path
                 AssExpLog.LogFolderPath = GlobalConfig.LogPath;
                 AssExpLog.LogFileName = $"log_{JobNumber}.txt";
