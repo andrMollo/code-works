@@ -132,18 +132,17 @@
     <Compile Include="Helpers\CwPropertyManager.cs" />
     <Compile Include="Helpers\CwSelectionManager.cs" />
     <Compile Include="Helpers\CwValidation.cs" />
-    <Compile Include="Helpers\Logger.cs" />
+    <Compile Include="Helpers\CwLogger.cs" />
     <Compile Include="Helpers\PictureDispConverter.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Macros\Drawings\UpdateFormatMacro.cs" />
-    <Compile Include="Macros\Export\ExportAssyMacro.cs" />
-    <Compile Include="Macros\Export\ExportFileMacro.cs" />
+    <Compile Include="Macros\Drawings\UpdateSheetFormat.cs" />
+    <Compile Include="Macros\Export\ExportAssembly.cs" />
+    <Compile Include="Macros\Export\ExportDocument.cs" />
     <Compile Include="Macros\Export\FastPrintMacro.cs" />
     <Compile Include="Macros\Properties\SetAuthorMacro.cs" />
     <Compile Include="Macros\Properties\WriteQuantityMacro.cs" />
-    <Compile Include="Models\AssemblyModel.cs" />
-    <Compile Include="Models\BomModel.cs" />
+    <Compile Include="Models\BomElement.cs" />
     <Compile Include="Models\UserSelectionModel.cs" />
     <Compile Include="Private\GlobalConfigPrivate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

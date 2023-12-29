@@ -1,13 +1,13 @@
 ﻿using CADBooster.SolidDna;
 using CodeWorksLibrary.Helpers;
-using CodeWorksLibrary.Macros.Drawings;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
+using System.Collections.Generic;
 using System.Drawing.Printing;
+using System.Linq;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
 using static CodeWorksLibrary.Helpers.CwLayerManager;
-using static CodeWorksLibrary.Macros.Drawings.UpdateFormatMacro;
 using static System.Drawing.Printing.PrinterSettings;
 
 namespace CodeWorksLibrary.Macros.Export
@@ -51,34 +51,42 @@ namespace CodeWorksLibrary.Macros.Export
             // Set the date when the document is printed
             var retPrintedOn = prpManager.SetPrintedOnProperty(swModel);
 
+            // Get the drawing document
+            DrawingDocument drawDocu = model.Drawing;
             DrawingDoc swDraw = model.AsDrawing();
 
+            // Get all the names to all the sheets
+            List<string> sheetNames = drawDocu.SheetNames().ToList<string>();
+
             // Get the name of the active sheet
-            // This is require to return to the active sheet at the end of the macro
-            var sheet = (Sheet)swDraw.GetCurrentSheet();
-            var activeSheetName = sheet.GetName();
+            string activeSheetName = drawDocu.CurrentActiveSheet();
 
-            // Get sheet names
-            string[] sheetNames = GetDrawingSheetNames(swDraw);
+            // Get the active sheet number
+            int activeSheetNumber = sheetNames.IndexOf(activeSheetName) + 1;
 
-            // Loop through sheets
-            for (int i = 0; i < sheetNames.Length; i++)
+            // Loop through all the sheet starting form the active
+            for (int i = 0; i < sheetNames.Count; i++)
             {
-                // Get the i-th sheet
-                var swSheet = swDraw.get_Sheet(sheetNames[i]);
+                // Offset required to start the loop from the active sheet
+                int loopOffset = i + activeSheetNumber;
 
-                swDraw.ActivateSheet(sheetNames[i]);
-
-                if (UpdateFormatMacro.CheckFlatPattern(swSheet) == false)
+                if ((activeSheetNumber + i) >= sheetNames.Count)
                 {
-                    UpgradeSheetFormat(swDraw, swSheet);
+                    loopOffset = activeSheetNumber + i - sheetNames.Count;
+                }
 
+                Sheet swSheet = (Sheet)drawDocu.UnsafeObject.GetCurrentSheet();
+
+                if (UpdateSheetFormat.CheckFlatPattern(swSheet) == false)
+                {
+                    // Update the sheet format
+                    UpdateSheetFormat.AlwaysReplace = false;
+                    UpdateSheetFormat.UpdateActiveSheetFormat(swDraw, swSheet);
+
+                    // Print the sheet
                     PrintDrawingSheet(swModel, swSheet);
                 }
             }
-
-            // Activate the original sheet
-            swDraw.ActivateSheet(activeSheetName);
         }
 
         /// <summary>
@@ -113,8 +121,10 @@ namespace CodeWorksLibrary.Macros.Export
             // This is require to return to the active sheet at the end of the macro
             var swSheet = (Sheet)swDraw.GetCurrentSheet();
             var activeSheetName = swSheet.GetName();
-            
-            UpgradeSheetFormat(swDraw, swSheet);
+
+            // Update the active sheet
+            UpdateSheetFormat.AlwaysReplace = false;
+            UpdateSheetFormat.UpdateActiveSheetFormat(swDraw, swSheet);
 
             PrintDrawingSheet(swModel, swSheet);
         }
@@ -132,7 +142,7 @@ namespace CodeWorksLibrary.Macros.Export
             var noteLayer = GlobalConfig.PrintNoteLayer;
 
             // Show note layer
-            var retChangeLayerView = ChangeLayerVisibility((ModelDoc2)swDraw, noteLayer, true);
+            var retChangeNoteLayerView = ChangeLayerVisibility((ModelDoc2)swDraw, noteLayer, true);            
 
             // Get original print layout
             var swPageSetup = (PageSetup)swModel.PageSetup;
@@ -175,7 +185,7 @@ namespace CodeWorksLibrary.Macros.Export
             PrintSpecification swPrintSpec = (PrintSpecification)swModel.Extension.GetPrintSpecification();
 
             // Get current sheet number
-            var activeSheetNumber = GetSheetNumber(swDraw, swSheet);
+            var activeSheetNumber = GetSheetNumber(Application.ActiveModel);
 
             // Set the print range
             long[] printRangeArray = new long[2];
@@ -197,7 +207,7 @@ namespace CodeWorksLibrary.Macros.Export
             swModel.Extension.UsePageSetup = originalUserPageSetup;
 
             // Hide note layer
-            retChangeLayerView = ChangeLayerVisibility((ModelDoc2)swDraw, noteLayer, false);
+            retChangeNoteLayerView = ChangeLayerVisibility((ModelDoc2)swDraw, noteLayer, false);
         }
 
         /// <summary>
@@ -206,23 +216,24 @@ namespace CodeWorksLibrary.Macros.Export
         /// <param name="swDraw">The pointer to the drawing document</param>
         /// <param name="swSheet">The pointer to the active sheet</param>
         /// <returns>The integer of the active sheet</returns>
-        internal static int GetSheetNumber(DrawingDoc swDraw, Sheet swSheet)
+        internal static int GetSheetNumber(Model model)
         {
-            // Get sheet names
-            string[] sheetNames = GetDrawingSheetNames(swDraw);
-
-            int sheetNumber = 0;
-
-            for (int i = 1; i < (sheetNames.Length + 1); i++)
+            if (model.IsDrawing)
             {
-                if (swSheet.GetName() == sheetNames[i - 1])
-                {
-                    sheetNumber = i;
-                    break;
-                }
+                // Get all the sheet names
+                List<string> sheetNames = model.Drawing.SheetNames().ToList<string>();
+
+                // Get the name of the active sheet
+                string activeSheetName = model.Drawing.CurrentActiveSheet();
+
+                // Get the active sheet number
+                int activeSheetNumber = sheetNames.IndexOf(activeSheetName) + 1;
+                
+                return activeSheetNumber;
             }
 
-            return sheetNumber;
+            return -1;
+
         }
 
         /// <summary>

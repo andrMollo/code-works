@@ -4,14 +4,14 @@ using static CADBooster.SolidDna.SolidWorksEnvironment;
 
 namespace CodeWorksLibrary.Helpers
 {
-    internal class CwValidation
+    public static class CwValidation
     {
         /// <summary>
         /// Check is there is a open document: part, assembly or drawing
         /// </summary>
         /// <param name="model">The pointer to the model</param>
         /// <returns>True if there is a file open and saved</returns>
-        internal static bool ModelIsOpen(Model model)
+        public static bool ModelIsOpen(Model model)
         {
             // Check if there is an open document
             if (model == null)
@@ -37,7 +37,7 @@ namespace CodeWorksLibrary.Helpers
         /// </summary>
         /// <param name="model">The pointer to the model</param>
         /// <returns>True if there is an assembly open and saved</returns>
-        internal static bool AssemblyIsOpen(Model model)
+        public static bool AssemblyIsOpen(Model model)
         {
             // Check if there is an open document
             if (model == null)
@@ -70,7 +70,7 @@ namespace CodeWorksLibrary.Helpers
         /// </summary>
         /// <param name="model">The pointer to the model</param>
         /// <returns>True if there is a drawing open and saved</returns>
-        internal static bool DrawingIsOpen(Model model)
+        public static bool DrawingIsOpen(Model model)
         {
             // Check if there is an open document
             if (model == null)
@@ -104,7 +104,7 @@ namespace CodeWorksLibrary.Helpers
         /// </summary>
         /// <param name="model">The pointer to the model</param>
         /// <returns>True if there is a part or assembly open and saved</returns>
-        internal static bool Model3dIsOpen(Model model)
+        public static bool Model3dIsOpen(Model model)
         {
             // Check if there is an open document
             if (model == null)
@@ -138,9 +138,19 @@ namespace CodeWorksLibrary.Helpers
         /// </summary>
         /// <param name="filename">The string to be checked</param>
         /// <returns>The input string with the invalid characters removed</returns>
-        internal static string RemoveInvalidChars(string filename)
+        public static string RemoveInvalidPathChars(string filename)
         {
             return string.Concat(filename.Split(Path.GetInvalidPathChars()));
+        }
+
+        /// <summary>
+        /// Remove invalid filename characters
+        /// </summary>
+        /// <param name="filename">The string to be checked</param>
+        /// <returns>The input string with the invalid characters removed</returns>
+        public static string RemoveInvalidFileNameChars(string filename)
+        {
+            return string.Concat(filename.Split(Path.GetInvalidFileNameChars()));
         }
     }
 }

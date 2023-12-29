@@ -5,30 +5,30 @@ using System.Linq;
 
 namespace CodeWorksLibrary.Helpers
 {
-    internal class Logger
+    public class CwLogger
     {
         #region Public properties
         /// <summary>
         /// The full path to the log file
         /// </summary>
-        internal string LogPath { get; set; }
+        public string LogPath { get; set; }
 
         /// <summary>
         /// The name of the log file
         /// </summary>
-        internal string LogFileName { get; set; }
+        public string LogFileName { get; set; }
 
         /// <summary>
         /// The path to the log folder
         /// </summary>
-        internal string LogFolderPath { get; set; }
+        public string LogFolderPath { get; set; }
         #endregion
 
         /// <summary>
         /// Write a message to file
         /// </summary>
         /// <param name="message">The string to be written in the log</param>
-        internal void WriteLog(string message)
+        public void WriteLog(string message)
         {
             string logFolder = LogFolderPath;
 
@@ -51,7 +51,7 @@ namespace CodeWorksLibrary.Helpers
         /// Write a massage to the log file followed by the current date
         /// </summary>
         /// <param name="message">The string to be written int the log</param>
-        internal void WriteLogWithDate(string message)
+        public void WriteLogWithDate(string message)
         {
             string logFolder = LogFolderPath;
 
@@ -75,7 +75,7 @@ namespace CodeWorksLibrary.Helpers
         /// </summary>
         /// <param name="token">The job number / sub folder</param>
         /// <returns>The full path to the log file</returns>
-        internal static string ComposeLogPath(string token)
+        public static string ComposeLogPath(string token)
         {
             // The folder of the log file
             string logFolder = GlobalConfig.LogPath;
@@ -97,7 +97,7 @@ namespace CodeWorksLibrary.Helpers
         /// </summary>
         /// <param name="path">The full path to the log file</param>
         /// <returns>A list of string with the log content without the fist line</returns>
-        internal static List<string> ReadLogFile(string path)
+        public static List<string> ReadLogFile(string path)
         {
             List<string> logList = File.ReadAllLines(path).ToList();
 
@@ -117,6 +117,18 @@ namespace CodeWorksLibrary.Helpers
 
             return pathList;
             
+        }
+
+        /// <summary>
+        /// Delete the content of the log file
+        /// </summary>
+        /// <param name="path">The full path to the log file</param>
+        public static void DeleteLogContent(string path)
+        {
+            if (File.Exists(path))
+            {
+                File.WriteAllText(path, string.Empty);
+            }
         }
     }
 }

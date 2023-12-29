@@ -1,9 +1,7 @@
 ﻿// Ignore Spelling: App
 
 using CADBooster.SolidDna;
-using CodeWorksLibrary.Macros.Drawings;
 using CodeWorksLibrary.Macros.Export;
-using CodeWorksLibrary.Macros.Files;
 using CodeWorksLibrary.Macros.Properties;
 using CodeWorksLibrary.Properties;
 using SolidWorks.Interop.sldworks;
@@ -35,6 +33,10 @@ namespace CodeWorksLibrary
             [Description("Export the current file in different formats")]
             [Icon(typeof(Resources), nameof(Resources.ExportFile))]
             ExportFileE,
+            [Title("Export print file")]
+            [Description("Export and print the current file in different formats")]
+            [Icon(typeof(Resources), nameof(Resources.ExportFile))]
+            ExportFilePrintE,
             [Title("Export assembly")]
             [Description("Export the current assembly and its components")]
             [Icon(typeof(Resources), nameof(Resources.ExportAssy))]
@@ -54,7 +56,7 @@ namespace CodeWorksLibrary
             [Title("Write quantity")]
             [Description("Write the quantity custom property in all components of the open assembly")]
             [Icon(typeof(Resources), nameof(Resources.WriteQuantity))]
-            WriteQuantityE
+            WriteQuantityE,
         }
 
         #endregion
@@ -103,13 +105,16 @@ namespace CodeWorksLibrary
                     SetAuthorMacro.SetAuthor();
                     break;
                 case CwCommands_e.ExportFileE:
-                    ExportFileMacro.ExportFile();
+                    ExportDocument.ExportDocumentMacro();
+                    break;
+                case CwCommands_e.ExportFilePrintE:
+                    ExportDocument.ExportPrintDocumentMacro();
                     break;
                 case CwCommands_e.ExportAssemblyE:
-                    ExportAssyMacro.ExportAssembly();
+                    ExportAssembly.ExportAssemblyMacro();
                     break;
                 case CwCommands_e.UpdateFormatE:
-                    UpdateFormatMacro.UpdateFormatAllSheets();
+                    UpdateSheetFormat.UpdateSheetsFormatMacro();
                     break;
                 case CwCommands_e.FastPrintE:
                     FastPrintMacro.FastPrint();

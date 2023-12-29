@@ -8,14 +8,14 @@ using static CADBooster.SolidDna.SolidWorksEnvironment;
 
 namespace CodeWorksLibrary.Helpers
 {
-    internal class CwBomManager
+    public class CwBomManager
     {
         /// <summary>
         /// Get the flat Bill of Material
         /// </summary>
         /// <param name="swParentComp">The parent component of which to extract the BOM</param>
         /// <param name="bom">The Bill of Material object</param>
-        internal static void ComposeFlatBOM(Component2 swParentComp, List<BomModel> bom)
+        public static void ComposeFlatBOM(Component2 swParentComp, List<BomElement> bom)
         {
             // Get a list of component
             var vComps = (object[])swParentComp.GetChildren();
@@ -57,7 +57,7 @@ namespace CodeWorksLibrary.Helpers
                             if (bomPos == -1)
                             {
                                 // Add the component to the bom
-                                BomModel newBomElement = new BomModel();
+                                BomElement newBomElement = new BomElement();
 
                                 newBomElement.Model = swRefModel;
                                 newBomElement.Configuration = swComp.ReferencedConfiguration;
@@ -90,7 +90,7 @@ namespace CodeWorksLibrary.Helpers
         /// <param name="bom">The Bill of Material object</param>
         /// <param name="swComp">The pointer to the component object</param>
         /// <returns>An integer with the position of the component in the BOM, return -1 if the component is not found</returns>
-        private static int FindBomPosition(List<BomModel> bom, Component2 comp)
+        private static int FindBomPosition(List<BomElement> bom, Component2 comp)
         {
             int findBomPosition = -1;
 
