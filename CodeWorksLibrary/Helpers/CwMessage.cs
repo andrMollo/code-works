@@ -87,9 +87,20 @@ namespace CodeWorksLibrary.Helpers
             Application.ShowMessageBox("Unable to connect to the Vault, the user is set to the Windows login username.", SolidWorksMessageBoxIcon.Warning);
         }
 
+        /// <summary>
+        /// Show an error message for quantity parse error
+        /// </summary>
         public static void QuantityParseError()
         {
             Application.ShowMessageBox("Unable to convert the quantity to a number.", SolidWorksMessageBoxIcon.Warning);
+        }
+
+        /// <summary>
+        /// Show an error message for model not loaded
+        /// </summary>
+        public static void ModelNotLoaded()
+        {
+            Application.ShowMessageBox("Model not loaded.", SolidWorksMessageBoxIcon.Stop);
         }
         #endregion
 
