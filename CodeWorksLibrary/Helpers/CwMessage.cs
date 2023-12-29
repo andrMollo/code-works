@@ -10,6 +10,7 @@ namespace CodeWorksLibrary.Helpers
 {
     public static class CwMessage
     {
+        #region Public Methods
         /// <summary>
         /// Show a message box for the interruption of the macro
         /// </summary>
@@ -26,19 +27,57 @@ namespace CodeWorksLibrary.Helpers
             Application.ShowMessageBox("Macro completed.", CADBooster.SolidDna.SolidWorksMessageBoxIcon.Information);
         }
 
+        /// <summary>
+        /// Show a message box for the end of the macro with the runtime
+        /// </summary>
+        /// <param name="ts">The TimeSpan object with the calculated runtime</param>
         public static void MacroCompletedTime(TimeSpan ts)
         {
             string elapsedTIme = ComposeElapsedTime(ts);
 
             Application.ShowMessageBox($"Macro completed in {elapsedTIme}", SolidWorksMessageBoxIcon.Information);
         }
+        
+        /// <summary>
+        /// Show a message box to open a file
+        /// </summary>
+        public static void OpenAFile()
+        {
+            Application.ShowMessageBox("Open a file to run the macro.", SolidWorksMessageBoxIcon.Stop);
+        }
 
+        /// <summary>
+        /// Show a message box to save the file
+        /// </summary>
+        public static void SaveFile()
+        {
+            Application.ShowMessageBox("Save the file to run the macro.", SolidWorksMessageBoxIcon.Stop);
+        }
+
+        /// <summary>
+        /// Show a message box to open a assembly
+        /// </summary>
+        public static void OpenAssembly()
+        {
+            Application.ShowMessageBox("Open an assembly to run the macro.", SolidWorksMessageBoxIcon.Stop);
+        }
+
+        /// <summary>
+        /// Show a message box to open a drawing
+        /// </summary>
+        public static void OpenADrawing()
+        {
+            Application.ShowMessageBox("Open a drawing to run the macro.", SolidWorksMessageBoxIcon.Stop);
+        }
+        #endregion
+
+        #region Private methods
         /// <summary>
         /// Compose a string with the elapsed time in seconds or minutes and seconds
         /// </summary>
         /// <param name="ts">The TimeSpan object</param>
         /// <returns>A string with elapsed message</returns>
-        public static string ComposeElapsedTime(TimeSpan ts)
+        private static string ComposeElapsedTime(TimeSpan ts)
         {
             string elapsed = string.Empty;
 
@@ -56,5 +95,7 @@ namespace CodeWorksLibrary.Helpers
 
             return elapsed;
         }
+        #endregion
+
     }
 }
