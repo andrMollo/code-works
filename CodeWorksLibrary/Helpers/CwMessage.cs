@@ -69,6 +69,22 @@ namespace CodeWorksLibrary.Helpers
         {
             Application.ShowMessageBox("Open a drawing to run the macro.", SolidWorksMessageBoxIcon.Stop);
         }
+
+        /// <summary>
+        /// Show a message box to open a part or assembly
+        /// </summary>
+        public static void OpenAModel()
+        {
+            Application.ShowMessageBox("Open a part or assembly to run the macro.", SolidWorksMessageBoxIcon.Stop);
+        }
+
+        /// <summary>
+        /// Show a message box for unable to connect to PDM
+        /// </summary>
+        public static void NoPDMConnection()
+        {
+            Application.ShowMessageBox("Unable to connect to the Vault, the user is set to the Windows login username", SolidWorksMessageBoxIcon.Warning);
+        }
         #endregion
 
         #region Private methods
