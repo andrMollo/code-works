@@ -388,7 +388,7 @@ namespace CodeWorksLibrary
                     dmDocType = SwDmDocumentType.swDmDocumentDrawing;
                     break;
                 default:
-                    Application.ShowMessageBox("The document ha no valid SolidWorks file extension", SolidWorksMessageBoxIcon.Stop);
+                    CwMessage.NoValidSolidWorksFile();
                     break;
             }
 

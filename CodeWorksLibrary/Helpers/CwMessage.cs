@@ -92,7 +92,15 @@ namespace CodeWorksLibrary.Helpers
         /// </summary>
         public static void QuantityParseError()
         {
-            Application.ShowMessageBox("Unable to convert the quantity to a number.", SolidWorksMessageBoxIcon.Warning);
+            Application.ShowMessageBox("Unable to convert the quantity to a number.", SolidWorksMessageBoxIcon.Stop);
+        }
+
+        /// <summary>
+        /// Show a message box to warn for negative quantity
+        /// </summary>
+        public static void QuantityGraterThanZero()
+        {
+            Application.ShowMessageBox("Assembly quantity must be greater than 0", CADBooster.SolidDna.SolidWorksMessageBoxIcon.Stop);
         }
 
         /// <summary>
@@ -110,6 +118,14 @@ namespace CodeWorksLibrary.Helpers
         public static void ExportFail(string fileName)
         {
             Application.ShowMessageBox($"Failed to export {fileName} to DWG.", SolidWorksMessageBoxIcon.Stop);
+        }
+
+        /// <summary>
+        /// Show a message box for SolidWorks file externsion not found
+        /// </summary>
+        public static void NoValidSolidWorksFile()
+        {
+            Application.ShowMessageBox("The document ha no valid SolidWorks file extension", SolidWorksMessageBoxIcon.Stop);
         }
         #endregion
 
