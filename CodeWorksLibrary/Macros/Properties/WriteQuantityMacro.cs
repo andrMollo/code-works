@@ -3,11 +3,7 @@ using CodeWorksLibrary.Models;
 using SolidWorks.Interop.sldworks;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
-using static CodeWorksLibrary.Helpers.CwBomManager;
 
 namespace CodeWorksLibrary.Macros.Properties
 {
@@ -52,7 +48,7 @@ namespace CodeWorksLibrary.Macros.Properties
             // Write quantity to components
             WriteQuantityAllComponents(bom, assemblyQty);
 
-            Application.ShowMessageBox("Macro terminated", CADBooster.SolidDna.SolidWorksMessageBoxIcon.Information);
+            CwMessage.MacroCompleted();
         }
 
         /// <summary>
@@ -71,7 +67,7 @@ namespace CodeWorksLibrary.Macros.Properties
             }
             catch (Exception ex)
             {
-                Application.ShowMessageBox("Assembly quantity can't be converted to a number " + ex.Message, CADBooster.SolidDna.SolidWorksMessageBoxIcon.Stop);
+                CwMessage.QuantityParseError();
                 goto finally_;
             }
 
@@ -97,7 +93,7 @@ namespace CodeWorksLibrary.Macros.Properties
             }
             else
             {
-                Application.ShowMessageBox("Assembly quantity must be greater than 0", CADBooster.SolidDna.SolidWorksMessageBoxIcon.Stop);
+                CwMessage.QuantityGraterThanZero();
             }
 
         finally_:

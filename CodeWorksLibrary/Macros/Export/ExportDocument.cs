@@ -388,7 +388,7 @@ namespace CodeWorksLibrary
                     dmDocType = SwDmDocumentType.swDmDocumentDrawing;
                     break;
                 default:
-                    Application.ShowMessageBox("The document ha no valid SolidWorks file extension", SolidWorksMessageBoxIcon.Stop);
+                    CwMessage.NoValidSolidWorksFile();
                     break;
             }
 
@@ -422,7 +422,7 @@ namespace CodeWorksLibrary
             // Show message box if export fails
             if (!exportResult.Successful)
             {
-                Application.ShowMessageBox($"Failed to export {ModelNameNoExt} to DWG.",SolidWorksMessageBoxIcon.Stop);
+                CwMessage.ExportFail(ModelNameNoExt);
             }
         }
 
@@ -449,7 +449,7 @@ namespace CodeWorksLibrary
             // Show message box if export fails
             if (!exportResult.Successful)
             {
-                Application.ShowMessageBox($"Failed to export {ModelNameNoExt} to PDF.", SolidWorksMessageBoxIcon.Question);
+                CwMessage.ExportFail(ModelNameNoExt);
             }            
         }
 
@@ -469,7 +469,7 @@ namespace CodeWorksLibrary
             // Show message box if export fails
             if (!exportResult.Successful)
             {
-                Application.ShowMessageBox($"Failed to export {ModelNameNoExt} to STEP.", SolidWorksMessageBoxIcon.Stop);
+                CwMessage.ExportFail(ModelNameNoExt);
             }
         }
 

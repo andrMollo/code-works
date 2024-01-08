@@ -1,4 +1,5 @@
 ﻿using CADBooster.SolidDna;
+using CodeWorksLibrary.Helpers;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
@@ -90,7 +91,7 @@ namespace CodeWorksLibrary
                 }
                 else
                 {
-                    Application.ShowMessageBox("Unable to convert the quantity to a number");
+                    CwMessage.QuantityParseError();
                     return -1;
                 }
             }
