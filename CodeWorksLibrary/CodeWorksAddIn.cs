@@ -6,13 +6,15 @@ using CodeWorksLibrary.Macros.Properties;
 using CodeWorksLibrary.Properties;
 using SolidWorks.Interop.sldworks;
 using System.ComponentModel;
+using System.Runtime.InteropServices;
 using Xarial.XCad.Base.Attributes;
 using Xarial.XCad.SolidWorks;
 using Xarial.XCad.UI.Commands;
 
 namespace CodeWorksLibrary
 {
-    [System.Runtime.InteropServices.ComVisible(true)]
+    [ComVisible(true)]
+    [Guid("B611522B-5141-41D9-A918-2B50BB885BAA")]
     [Title("CodeWorks")]
     [Description("A collection of macros for SolidWorks")]
     public class AddIn : Xarial.XCad.SolidWorks.SwAddInEx
