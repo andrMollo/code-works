@@ -1,5 +1,6 @@
 ﻿// Ignore Spelling: Pdm
 
+using CodeWorksLibrary.Helpers;
 using EPDM.Interop.epdm;
 using System;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
@@ -33,7 +34,9 @@ namespace CodeWorksLibrary
             }
             catch
             {
-                Application.ShowMessageBox("Unable to connect to the Vault, the user is set to the Windows login username", CADBooster.SolidDna.SolidWorksMessageBoxIcon.Warning);
+                CwMessage.NoPDMConnection();
+
+                // Set the username ad the windows login
                 userName = Environment.UserName;
 
                 return userName;

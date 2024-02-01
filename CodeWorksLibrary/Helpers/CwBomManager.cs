@@ -37,7 +37,7 @@ namespace CodeWorksLibrary.Helpers
                         // Exit the method if the model isn't loaded
                         if (swRefModel == null)
                         {
-                            Application.ShowMessageBox("Modello del componente non caricato", SolidWorksMessageBoxIcon.Stop);
+                            CwMessage.ModelNotLoaded();
                             return;
                         }
 

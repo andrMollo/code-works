@@ -16,7 +16,7 @@ namespace CodeWorksLibrary.Helpers
             // Check if there is an open document
             if (model == null)
             {
-                Application.ShowMessageBox("Open a file", SolidWorksMessageBoxIcon.Stop);
+                CwMessage.OpenAFile();
 
                 return false;
             }
@@ -24,7 +24,7 @@ namespace CodeWorksLibrary.Helpers
             // Check if the open file has already been saved
             if (model.HasBeenSaved == false)
             {
-                Application.ShowMessageBox("Save the file to run the macro", SolidWorksMessageBoxIcon.Stop);
+                CwMessage.SaveFile();
 
                 return false;
             }
@@ -42,7 +42,7 @@ namespace CodeWorksLibrary.Helpers
             // Check if there is an open document
             if (model == null)
             {
-                Application.ShowMessageBox("Open a file", SolidWorksMessageBoxIcon.Stop);
+                CwMessage.OpenAFile();
 
                 return false;
             }
@@ -50,14 +50,14 @@ namespace CodeWorksLibrary.Helpers
             // Check if the open file has already been saved
             if (model.HasBeenSaved == false)
             {
-                Application.ShowMessageBox("Save the file to run the macro", SolidWorksMessageBoxIcon.Stop);
+                CwMessage.SaveFile();
 
                 return false;
             }
 
             if (model.IsAssembly != true)
             {
-                Application.ShowMessageBox("Open an assembly to run the macro", SolidWorksMessageBoxIcon.Stop);
+                CwMessage.OpenAssembly();
 
                 return false;
             }
@@ -75,7 +75,7 @@ namespace CodeWorksLibrary.Helpers
             // Check if there is an open document
             if (model == null)
             {
-                Application.ShowMessageBox("Open a file", SolidWorksMessageBoxIcon.Stop);
+                CwMessage.OpenAFile();
 
                 return false;
             }
@@ -83,7 +83,7 @@ namespace CodeWorksLibrary.Helpers
             // Check if the open file has already been saved
             if (model.HasBeenSaved == false)
             {
-                Application.ShowMessageBox("Save the file to run the macro", SolidWorksMessageBoxIcon.Stop);
+                CwMessage.SaveFile();
 
                 return false;
             }
@@ -91,7 +91,7 @@ namespace CodeWorksLibrary.Helpers
             // Check if the open file is not a drawing
             if (model.IsDrawing != true)
             {
-                Application.ShowMessageBox("Open a drawing to run the macro", SolidWorksMessageBoxIcon.Stop);
+                CwMessage.OpenADrawing();
 
                 return false;
             }
@@ -109,7 +109,7 @@ namespace CodeWorksLibrary.Helpers
             // Check if there is an open document
             if (model == null)
             {
-                Application.ShowMessageBox("Open a file", SolidWorksMessageBoxIcon.Stop);
+                CwMessage.OpenAFile();
 
                 return false;
             }
@@ -117,7 +117,7 @@ namespace CodeWorksLibrary.Helpers
             // Check if the open file has already been saved
             if (model.HasBeenSaved == false)
             {
-                Application.ShowMessageBox("Save the file to run the macro", SolidWorksMessageBoxIcon.Stop);
+                CwMessage.SaveFile();
 
                 return false;
             }
@@ -125,7 +125,7 @@ namespace CodeWorksLibrary.Helpers
             // Check if the open file is a drawing
             if (model.IsDrawing == true)
             {
-                Application.ShowMessageBox("Open a part or assembly to run the macro", SolidWorksMessageBoxIcon.Stop);
+                CwMessage.OpenAModel();
 
                 return false;
             }

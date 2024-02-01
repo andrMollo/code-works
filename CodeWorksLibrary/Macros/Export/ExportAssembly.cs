@@ -95,14 +95,12 @@ namespace CodeWorksLibrary.Macros.Export
                 stopwatch.Stop();
                 TimeSpan st = stopwatch.Elapsed;
 
-                // Compose elapsed time
-                string elapsedTIme = ComposeElapsedTime(st);
-
-                SolidWorksEnvironment.Application.ShowMessageBox($"Macro completed in {elapsedTIme}", SolidWorksMessageBoxIcon.Information);
+                // End message
+                CwMessage.MacroCompletedTime(st);
             }
             else if (expAsmFormRes == DialogResult.Cancel)
             {
-                SolidWorksEnvironment.Application.ShowMessageBox("Macro terminated", SolidWorksMessageBoxIcon.Stop);
+                CwMessage.MacroStopped();
             }
         }
 
@@ -212,31 +210,7 @@ namespace CodeWorksLibrary.Macros.Export
             }
 
             return expAsmForm;
-        }
-
-        /// <summary>
-        /// Compose a string with the elapsed time in seconds or minutes and seconds
-        /// </summary>
-        /// <param name="ts">The TimeSpan object</param>
-        /// <returns>A string with elapsed message</returns>
-        private static string ComposeElapsedTime(TimeSpan ts)
-        {
-            string elapsed = string.Empty;
-
-            if (ts != null)
-            {
-                if (ts.TotalSeconds < 60)
-                {
-                    elapsed = string.Format("{0:0} seconds", ts.TotalSeconds);
-                }
-                else
-                {
-                    elapsed = string.Format("{0} minutes and {0:0} seconds", (int)ts.TotalMinutes, ts.Seconds);
-                }
-            }
-
-            return elapsed;
-        }
+        }        
 
         /// <summary>
         /// Get the Bill of Material to be processed
