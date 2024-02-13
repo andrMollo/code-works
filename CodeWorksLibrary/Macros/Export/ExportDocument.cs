@@ -251,9 +251,18 @@ namespace CodeWorksLibrary.Macros.Export
                 // Activate sheet
                 drawingModel.ActivateSheet(sheetNames[loopOffset]);
 
+                // Get the sheet name
+                string currentSheetName = sheetNames[loopOffset];
+
                 // Export the drawing
-                ExportDrawingSheet(activeSheetName);
-            }            
+                ExportDrawingSheet(currentSheetName);
+            }
+
+            if (ExportSelection == true)
+            {
+                // Export to DWG
+                ExportDrawingToDWG();
+            }
         }
 
         /// <summary>
@@ -302,12 +311,6 @@ namespace CodeWorksLibrary.Macros.Export
 
                 // Hide job layer
                 retChangeJobLayerView = CwLayerManager.ChangeLayerVisibility((ModelDoc2)ExportModel.UnsafeObject, jobLayer, false);
-            }
-
-            if (ExportSelection == true)
-            {
-                // Export to DWG
-                ExportSheetToDWG();
             }
         }
 
@@ -397,9 +400,9 @@ namespace CodeWorksLibrary.Macros.Export
         }
 
         /// <summary>
-        /// Export the active sheet to DWG
+        /// Export the active drawing to DWG
         /// </summary>
-        private static void ExportSheetToDWG()
+        private static void ExportDrawingToDWG()
         {
             // Compose the full path for the exported file
             string exportPath = ComposeExportFilePath("DWG");
@@ -407,8 +410,8 @@ namespace CodeWorksLibrary.Macros.Export
             // Get the original option for sheet export of DXF / DWG 
             int originalDxfSheetOption = Application.GetUserPreferencesInteger(swUserPreferenceIntegerValue_e.swDxfMultiSheetOption);
 
-            // Change SolidWorks option to export single sheet to DWG
-            Application.SetUserPreferencesInteger(swUserPreferenceIntegerValue_e.swDxfMultiSheetOption, (int)swDxfMultisheet_e.swDxfActiveSheetOnly);
+            // Change SolidWorks option to export multi-sheet DWG
+            Application.SetUserPreferencesInteger(swUserPreferenceIntegerValue_e.swDxfMultiSheetOption, (int)swDxfMultisheet_e.swDxfMultiSheet);
 
             // Save the file
             ModelSaveResult exportResult = ExportModel.SaveAs(
