@@ -1,5 +1,6 @@
 ﻿using CADBooster.SolidDna;
 using CodeWorksLibrary.Helpers;
+using CodeWorksLibrary.Macros.Drawings;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;

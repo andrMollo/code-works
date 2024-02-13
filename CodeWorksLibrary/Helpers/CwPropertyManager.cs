@@ -1,11 +1,9 @@
 ﻿using CADBooster.SolidDna;
-using CodeWorksLibrary.Helpers;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
-using static CADBooster.SolidDna.SolidWorksEnvironment;
 
-namespace CodeWorksLibrary
+namespace CodeWorksLibrary.Helpers
 {
     public class CwPropertyManager
     {

@@ -1,5 +1,6 @@
 ﻿using CADBooster.SolidDna;
 using CodeWorksLibrary.Helpers;
+using CodeWorksLibrary.Macros.Drawings;
 using CodeWorksLibrary.Macros.Export;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
@@ -11,7 +12,7 @@ using System.IO;
 using System.Linq;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
 
-namespace CodeWorksLibrary
+namespace CodeWorksLibrary.Macros.Export
 {
     public static class ExportDocument
     {
@@ -277,7 +278,7 @@ namespace CodeWorksLibrary
             Sheet swSheet = ExportModel.Drawing.UnsafeObject.get_Sheet(sheetName);
 
             // Check if the sheet contains a flat pattern
-            if (!UpdateSheetFormat.CheckFlatPattern(swSheet))
+            if (UpdateSheetFormat.CheckFlatPattern(swSheet) == false)
             {
                 // Upgrade sheet format
                 UpdateSheetFormat.AlwaysReplace = false;
