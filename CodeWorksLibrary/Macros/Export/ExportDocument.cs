@@ -16,6 +16,12 @@ namespace CodeWorksLibrary.Macros.Export
 {
     public static class ExportDocument
     {
+        #region Private fields
+
+        private static List<string> _pdfFilePath;
+
+        #endregion
+
         #region Public properties
         /// <summary>
         /// The SolidDNA Model object of the active model
@@ -237,6 +243,9 @@ namespace CodeWorksLibrary.Macros.Export
              */
             int activeSheetNumber = sheetNames.IndexOf(activeSheetName) + 1;
 
+            // Initialize the path to the PDF files
+            _pdfFilePath = new List<string>();
+
             // Loop through sheets
             for (int i = 0; i < sheetNames.Count; i++)
             {
@@ -262,6 +271,34 @@ namespace CodeWorksLibrary.Macros.Export
             {
                 // Export to DWG
                 ExportDrawingToDWG();
+
+                MergePdfDrawings();
+            }
+        }
+
+        /// <summary>
+        /// Merge PDF file
+        /// </summary>
+        private static void MergePdfDrawings()
+        {
+            string newPdfPath = ComposeExportFilePath("PDF", false);
+
+            if (_pdfFilePath.Count > 1)
+            {
+                // Merge PDF
+            }
+            else
+            {
+                // Delete existing PDF
+                if (File.Exists(newPdfPath))
+                {
+                    File.Delete(newPdfPath);
+                }
+
+                // Rename existing PDF
+                string pathToExistingPdf = _pdfFilePath.First();
+
+                File.Move(pathToExistingPdf, newPdfPath);
             }
         }
 
@@ -424,7 +461,7 @@ namespace CodeWorksLibrary.Macros.Export
             Application.SetUserPreferencesInteger(swUserPreferenceIntegerValue_e.swDxfMultiSheetOption, originalDxfSheetOption);
 
             // Show message box if export fails
-            if (!exportResult.Successful)
+            if (exportResult.Successful == false)
             {
                 CwMessage.ExportFail(ModelNameNoExt);
             }
@@ -451,10 +488,14 @@ namespace CodeWorksLibrary.Macros.Export
                 );
 
             // Show message box if export fails
-            if (!exportResult.Successful)
+            if (exportResult.Successful == false)
             {
                 CwMessage.ExportFail(ModelNameNoExt);
-            }            
+            }
+            else
+            {
+                _pdfFilePath.Add( exportPath );
+            }
         }
 
         /// <summary>
@@ -471,7 +512,7 @@ namespace CodeWorksLibrary.Macros.Export
                 );
 
             // Show message box if export fails
-            if (!exportResult.Successful)
+            if (exportResult.Successful == false)
             {
                 CwMessage.ExportFail(ModelNameNoExt);
             }
