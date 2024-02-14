@@ -19,11 +19,6 @@ namespace CodeWorksLibrary.Macros.Export
         #region Private fields
 
         /// <summary>
-        /// A list of path to exported PDF files
-        /// </summary>
-        private static List<string> _pdfFilePath;
-
-        /// <summary>
         /// A list of sheet name to export to PDF
         /// </summary>
         private static List<string> _sheetNamesToExport;
