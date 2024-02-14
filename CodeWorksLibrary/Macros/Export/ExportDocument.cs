@@ -18,7 +18,15 @@ namespace CodeWorksLibrary.Macros.Export
     {
         #region Private fields
 
+        /// <summary>
+        /// A list of path to exported PDF files
+        /// </summary>
         private static List<string> _pdfFilePath;
+
+        /// <summary>
+        /// A list of sheet name to export to PDF
+        /// </summary>
+        private static List<string> _sheetNamesToExport;
 
         #endregion
 
@@ -245,6 +253,7 @@ namespace CodeWorksLibrary.Macros.Export
 
             // Initialize the path to the PDF files
             _pdfFilePath = new List<string>();
+            _sheetNamesToExport = new List<string>();
 
             // Loop through sheets
             for (int i = 0; i < sheetNames.Count; i++)
@@ -272,33 +281,8 @@ namespace CodeWorksLibrary.Macros.Export
                 // Export to DWG
                 ExportDrawingToDWG();
 
-                MergePdfDrawings();
-            }
-        }
-
-        /// <summary>
-        /// Merge PDF file
-        /// </summary>
-        private static void MergePdfDrawings()
-        {
-            string newPdfPath = ComposeExportFilePath("PDF", false);
-
-            if (_pdfFilePath.Count > 1)
-            {
-                // Merge PDF
-            }
-            else
-            {
-                // Delete existing PDF
-                if (File.Exists(newPdfPath))
-                {
-                    File.Delete(newPdfPath);
-                }
-
-                // Rename existing PDF
-                string pathToExistingPdf = _pdfFilePath.First();
-
-                File.Move(pathToExistingPdf, newPdfPath);
+                // Export to PDF
+                ExportDrawingToPDF();
             }
         }
 
@@ -336,8 +320,8 @@ namespace CodeWorksLibrary.Macros.Export
 
                 if (ExportSelection == true)
                 {
-                    // Export to PDF
-                    ExportSheetToPDF();
+                    // Add the sheet to the list to be exported as PDF
+                    _sheetNamesToExport.Add(sheetName);
                 }
 
                 // Print the active sheet
@@ -468,14 +452,13 @@ namespace CodeWorksLibrary.Macros.Export
         }
 
         /// <summary>
-        /// Export the active sheet to PDF
+        /// Export the selected sheets to PDF
         /// </summary>
-        private static void ExportSheetToPDF()
+        private static void ExportDrawingToPDF()
         {
             // Set the sheet to be exported as the current one
             var exportData = new PdfExportData();
-            exportData.SetSheets(PdfSheetsToExport.ExportCurrentSheet,
-                new List<string>(ExportModel.Drawing.SheetNames().ToList<string>()));
+            exportData.SetSheets(PdfSheetsToExport.ExportSpecifiedSheets, _sheetNamesToExport);
 
             // Compose the full path for the exported file
             string exportPath = ComposeExportFilePath("PDF", true);
@@ -491,10 +474,6 @@ namespace CodeWorksLibrary.Macros.Export
             if (exportResult.Successful == false)
             {
                 CwMessage.ExportFail(ModelNameNoExt);
-            }
-            else
-            {
-                _pdfFilePath.Add( exportPath );
             }
         }
 
