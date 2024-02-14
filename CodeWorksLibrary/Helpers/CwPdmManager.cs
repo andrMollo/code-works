@@ -1,11 +1,7 @@
-﻿// Ignore Spelling: Pdm
-
-using CodeWorksLibrary.Helpers;
-using EPDM.Interop.epdm;
+﻿using EPDM.Interop.epdm;
 using System;
-using static CADBooster.SolidDna.SolidWorksEnvironment;
 
-namespace CodeWorksLibrary
+namespace CodeWorksLibrary.Helpers
 {
     public class CwPdmManager
     {
