@@ -375,7 +375,7 @@ namespace CodeWorksLibrary.Macros.Export
                         if (previewErr == SwDmPreviewError.swDmPreviewErrorNone)
                         {
                             // Get the output path for the preview
-                            string exportPath = ComposeExportFilePath("PNG", false);
+                            string exportPath = ComposeExportFilePath("PNG");
 
                             // Save preview as PNG
                             imgPreview.Save(exportPath, System.Drawing.Imaging.ImageFormat.Png);
@@ -426,7 +426,7 @@ namespace CodeWorksLibrary.Macros.Export
         private static void ExportDrawingToDWG()
         {
             // Compose the full path for the exported file
-            string exportPath = ComposeExportFilePath("DWG", false);
+            string exportPath = ComposeExportFilePath("DWG");
 
             // Get the original option for sheet export of DXF / DWG 
             int originalDxfSheetOption = Application.GetUserPreferencesInteger(swUserPreferenceIntegerValue_e.swDxfMultiSheetOption);
@@ -461,7 +461,7 @@ namespace CodeWorksLibrary.Macros.Export
             exportData.SetSheets(PdfSheetsToExport.ExportSpecifiedSheets, _sheetNamesToExport);
 
             // Compose the full path for the exported file
-            string exportPath = ComposeExportFilePath("PDF", true);
+            string exportPath = ComposeExportFilePath("PDF");
 
             // Save the file
             ModelSaveResult exportResult = ExportModel.SaveAs(
@@ -482,7 +482,7 @@ namespace CodeWorksLibrary.Macros.Export
         /// </summary>
         private static void ExportModelToStep()
         {
-            string exportPath = ComposeExportFilePath("STP", false);
+            string exportPath = ComposeExportFilePath("STP");
 
             ModelSaveResult exportResult = ExportModel.SaveAs(
                 exportPath,
@@ -501,9 +501,8 @@ namespace CodeWorksLibrary.Macros.Export
         /// Compose the full path for the exported file
         /// </summary>
         /// <param name="extension">The file extension, without dot ("PDF")</param>
-        /// <param name="appendSheetName">True to append the sheet name to the filename</param>
         /// <returns>A string with the full path where to export the file</returns>
-        private static string ComposeExportFilePath(string extension, bool appendSheetName)
+        private static string ComposeExportFilePath(string extension)
         {
             // Compose the final export folder adding a sub-folder with file extension
             string finalExportFolder = Path.Combine(ExportFolderPath, extension);
@@ -514,20 +513,8 @@ namespace CodeWorksLibrary.Macros.Export
                 Directory.CreateDirectory(finalExportFolder);
             }
 
-            // Add sheet name as file name suffix in there is more then one sheet
-            string fileNameSuffix = string.Empty;
-
-            // If Model is a drawing
-            if (ExportModel.IsDrawing && appendSheetName == true)
-            {
-                if (ExportModel.Drawing.SheetNames().ToList<string>().Count > 1)
-                {
-                    fileNameSuffix = "_" + CwValidation.RemoveInvalidFileNameChars(ExportModel.Drawing.CurrentActiveSheet());
-                }
-            }
-
             // Compose the filename with the extension
-            string fileNameWithExtension = ModelNameNoExt + fileNameSuffix + "." + extension;
+            string fileNameWithExtension = ModelNameNoExt + "." + extension;
 
             // Compose the full path
             var path = Path.Combine(finalExportFolder, fileNameWithExtension);
