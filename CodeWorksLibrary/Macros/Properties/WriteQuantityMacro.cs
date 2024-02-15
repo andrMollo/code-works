@@ -65,7 +65,7 @@ namespace CodeWorksLibrary.Macros.Properties
             {
                 assQty = Convert.ToDouble(assemblyQty);
             }
-            catch (Exception ex)
+            catch
             {
                 CwMessage.QuantityParseError();
                 goto finally_;

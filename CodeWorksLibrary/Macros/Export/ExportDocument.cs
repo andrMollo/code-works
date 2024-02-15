@@ -1,5 +1,6 @@
 ﻿using CADBooster.SolidDna;
 using CodeWorksLibrary.Helpers;
+using CodeWorksLibrary.Macros.Drawings;
 using CodeWorksLibrary.Macros.Export;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
@@ -11,10 +12,19 @@ using System.IO;
 using System.Linq;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
 
-namespace CodeWorksLibrary
+namespace CodeWorksLibrary.Macros.Export
 {
     public static class ExportDocument
     {
+        #region Private fields
+
+        /// <summary>
+        /// A list of sheet name to export to PDF
+        /// </summary>
+        private static List<string> _sheetNamesToExport;
+
+        #endregion
+
         #region Public properties
         /// <summary>
         /// The SolidDNA Model object of the active model
@@ -175,48 +185,50 @@ namespace CodeWorksLibrary
         #endregion
 
         #region Private methods
+
         /// <summary>
-        /// Get the 3d model referenced inf the first view of the model
+        /// Export the model and it's drawing to different format
         /// </summary>
-        /// <returns>The SolidDNA Model object for the 3d model referenced in the drawing</returns>
-        private static Model GetDrawingParentModel()
+        /// <param name="model">The pointer to the active SolidDNA.Model object</param>
+        private static void ExportModelDocument(Model model)
         {
-            // Check if the drawing is a model
+            // Get the model name without extension       
+            ModelNameNoExt = Path.GetFileNameWithoutExtension(model.FilePath);
+
+            // Set the export folder by combining the main export folder and the job number
+            ComposeExportFolderPath();
+
+            // Check model type
             if (ExportModel.IsDrawing)
             {
-                // Get the SolidWorks DrawingDoc object
-                DrawingDoc swDrwDoc = ExportModel.AsDrawing();
+                ExportDrawingAndPreview();
 
-                // Get the first view of the model
-                // Be careful it can also be a sheet
-                View firsView = (View)swDrwDoc.GetFirstView();
-
-                // Loop through all the view to get the first one that is not a sheet
-                while (firsView != null)
-                {
-                    // If the view is not a sheet
-                    if (firsView.Type != (int)swDrawingViewTypes_e.swDrawingSheet)
-                    {
-                        goto firstViewFound;
-                    }
-
-                    // Then the vie is actually a sheet so get the next view
-                    firsView = (View)firsView.GetNextView();
-                }
-
-            firstViewFound:
-
-                Model refModel = new Model((ModelDoc2)firsView.ReferencedDocument);
-                return refModel;
+                Export3DModel();
             }
-            else
+            else if (!ExportModel.IsDrawing)
             {
-                throw new Exception("Unable to get the model referenced in the drawing");
+                Export3DModel();
+
+                // Get the drawing model
+                ExportModel = GetDrawingModel();
+
+                // Export the drawing if the model is not null
+                if (ExportModel != null)
+                {
+                    // Save the drawing model to be closed later
+                    Model drwModel = ExportModel;
+
+                    // Export the drawing and preview
+                    ExportDrawingAndPreview();
+
+                    // Close the file
+                    drwModel.Close();
+                }                
             }
         }
 
         /// <summary>
-        /// Export the active drawing one sheet at a time
+        /// Export the active drawing
         /// </summary>
         /// <exception cref="NotImplementedException"></exception>
         private static void ExportDrawingDocument()
@@ -236,6 +248,9 @@ namespace CodeWorksLibrary
              */
             int activeSheetNumber = sheetNames.IndexOf(activeSheetName) + 1;
 
+            // Initialize the path to the PDF files
+            _sheetNamesToExport = new List<string>();
+
             // Loop through sheets
             for (int i = 0; i < sheetNames.Count; i++)
             {
@@ -250,10 +265,22 @@ namespace CodeWorksLibrary
                 // Activate sheet
                 drawingModel.ActivateSheet(sheetNames[loopOffset]);
 
+                // Get the sheet name
+                string currentSheetName = sheetNames[loopOffset];
+
                 // Export the drawing
-                ExportDrawingSheet(activeSheetName);
-            }            
-        }
+                PrintDrawingSheet(currentSheetName);
+            }
+
+            if (ExportSelection == true)
+            {
+                // Export to DWG
+                ExportDrawingToDWG();
+
+                // Export to PDF
+                ExportDrawingToPDF();
+            }
+        }        
 
         /// <summary>
         /// Export the part or assembly to STEP
@@ -268,16 +295,16 @@ namespace CodeWorksLibrary
         }
 
         /// <summary>
-        /// Export the active sheet in different format
+        /// Update sheet formant and print the active sheet in different format
         /// </summary>
         /// <param name="sheetName">The name of the active sheet</param>
-        private static void ExportDrawingSheet(string sheetName)
+        private static void PrintDrawingSheet(string sheetName)
         {
             // Get the SolidWorks sheet object
             Sheet swSheet = ExportModel.Drawing.UnsafeObject.get_Sheet(sheetName);
 
             // Check if the sheet contains a flat pattern
-            if (!UpdateSheetFormat.CheckFlatPattern(swSheet))
+            if (UpdateSheetFormat.CheckFlatPattern(swSheet) == false)
             {
                 // Upgrade sheet format
                 UpdateSheetFormat.AlwaysReplace = false;
@@ -289,8 +316,8 @@ namespace CodeWorksLibrary
 
                 if (ExportSelection == true)
                 {
-                    // Export to PDF
-                    ExportSheetToPDF();
+                    // Add the sheet to the list to be exported as PDF
+                    _sheetNamesToExport.Add(sheetName);
                 }
 
                 // Print the active sheet
@@ -301,12 +328,6 @@ namespace CodeWorksLibrary
 
                 // Hide job layer
                 retChangeJobLayerView = CwLayerManager.ChangeLayerVisibility((ModelDoc2)ExportModel.UnsafeObject, jobLayer, false);
-            }
-
-            if (ExportSelection == true)
-            {
-                // Export to DWG
-                ExportSheetToDWG();
             }
         }
 
@@ -350,7 +371,7 @@ namespace CodeWorksLibrary
                         if (previewErr == SwDmPreviewError.swDmPreviewErrorNone)
                         {
                             // Get the output path for the preview
-                            string exportPath = ComposeExportFilePath("PNG");
+                            string exportPath = ComposeExportFilePath("PNG", "JPG");
 
                             // Save preview as PNG
                             imgPreview.Save(exportPath, System.Drawing.Imaging.ImageFormat.Png);
@@ -394,11 +415,50 @@ namespace CodeWorksLibrary
 
             return dmDocType;
         }
+        /// <summary>
+        /// Get the 3d model referenced inf the first view of the model
+        /// </summary>
+        /// <returns>The SolidDNA Model object for the 3d model referenced in the drawing</returns>
+        private static Model GetDrawingParentModel()
+        {
+            // Check if the drawing is a model
+            if (ExportModel.IsDrawing)
+            {
+                // Get the SolidWorks DrawingDoc object
+                DrawingDoc swDrwDoc = ExportModel.AsDrawing();
+
+                // Get the first view of the model
+                // Be careful it can also be a sheet
+                View firsView = (View)swDrwDoc.GetFirstView();
+
+                // Loop through all the view to get the first one that is not a sheet
+                while (firsView != null)
+                {
+                    // If the view is not a sheet
+                    if (firsView.Type != (int)swDrawingViewTypes_e.swDrawingSheet)
+                    {
+                        goto firstViewFound;
+                    }
+
+                    // Then the vie is actually a sheet so get the next view
+                    firsView = (View)firsView.GetNextView();
+                }
+
+            firstViewFound:
+
+                Model refModel = new Model((ModelDoc2)firsView.ReferencedDocument);
+                return refModel;
+            }
+            else
+            {
+                throw new Exception("Unable to get the model referenced in the drawing");
+            }
+        }
 
         /// <summary>
-        /// Export the active sheet to DWG
+        /// Export the active drawing to DWG
         /// </summary>
-        private static void ExportSheetToDWG()
+        private static void ExportDrawingToDWG()
         {
             // Compose the full path for the exported file
             string exportPath = ComposeExportFilePath("DWG");
@@ -406,8 +466,8 @@ namespace CodeWorksLibrary
             // Get the original option for sheet export of DXF / DWG 
             int originalDxfSheetOption = Application.GetUserPreferencesInteger(swUserPreferenceIntegerValue_e.swDxfMultiSheetOption);
 
-            // Change SolidWorks option to export single sheet to DWG
-            Application.SetUserPreferencesInteger(swUserPreferenceIntegerValue_e.swDxfMultiSheetOption, (int)swDxfMultisheet_e.swDxfActiveSheetOnly);
+            // Change SolidWorks option to export multi-sheet DWG
+            Application.SetUserPreferencesInteger(swUserPreferenceIntegerValue_e.swDxfMultiSheetOption, (int)swDxfMultisheet_e.swDxfMultiSheet);
 
             // Save the file
             ModelSaveResult exportResult = ExportModel.SaveAs(
@@ -420,21 +480,20 @@ namespace CodeWorksLibrary
             Application.SetUserPreferencesInteger(swUserPreferenceIntegerValue_e.swDxfMultiSheetOption, originalDxfSheetOption);
 
             // Show message box if export fails
-            if (!exportResult.Successful)
+            if (exportResult.Successful == false)
             {
                 CwMessage.ExportFail(ModelNameNoExt);
             }
         }
 
         /// <summary>
-        /// Export the active sheet to PDF
+        /// Export the selected sheets to PDF
         /// </summary>
-        private static void ExportSheetToPDF()
+        private static void ExportDrawingToPDF()
         {
             // Set the sheet to be exported as the current one
             var exportData = new PdfExportData();
-            exportData.SetSheets(PdfSheetsToExport.ExportCurrentSheet,
-                new List<string>(ExportModel.Drawing.SheetNames().ToList<string>()));
+            exportData.SetSheets(PdfSheetsToExport.ExportSpecifiedSheets, _sheetNamesToExport);
 
             // Compose the full path for the exported file
             string exportPath = ComposeExportFilePath("PDF");
@@ -447,10 +506,10 @@ namespace CodeWorksLibrary
                 );
 
             // Show message box if export fails
-            if (!exportResult.Successful)
+            if (exportResult.Successful == false)
             {
                 CwMessage.ExportFail(ModelNameNoExt);
-            }            
+            }
         }
 
         /// <summary>
@@ -458,7 +517,7 @@ namespace CodeWorksLibrary
         /// </summary>
         private static void ExportModelToStep()
         {
-            string exportPath = ComposeExportFilePath("STP");
+            string exportPath = ComposeExportFilePath("STP", "STEP");
 
             ModelSaveResult exportResult = ExportModel.SaveAs(
                 exportPath,
@@ -467,7 +526,7 @@ namespace CodeWorksLibrary
                 );
 
             // Show message box if export fails
-            if (!exportResult.Successful)
+            if (exportResult.Successful == false)
             {
                 CwMessage.ExportFail(ModelNameNoExt);
             }
@@ -477,11 +536,17 @@ namespace CodeWorksLibrary
         /// Compose the full path for the exported file
         /// </summary>
         /// <param name="extension">The file extension, without dot ("PDF")</param>
+        /// <param name="subFolderName">The name of the sub-folder where to export the files</param>
         /// <returns>A string with the full path where to export the file</returns>
-        private static string ComposeExportFilePath(string extension)
+        private static string ComposeExportFilePath(string extension, string subFolderName = "" )
         {
+            if (subFolderName.IsNullOrEmpty())
+            {
+                subFolderName = extension;
+            }
+            
             // Compose the final export folder adding a sub-folder with file extension
-            string finalExportFolder = Path.Combine(ExportFolderPath, extension);
+            string finalExportFolder = Path.Combine(ExportFolderPath, subFolderName);
 
             // Check if the path to the final export folder exists
             if (!Directory.Exists(finalExportFolder))
@@ -489,66 +554,13 @@ namespace CodeWorksLibrary
                 Directory.CreateDirectory(finalExportFolder);
             }
 
-            // Add sheet name as file name suffix in there is more then one sheet
-            string fileNameSuffix = string.Empty;
-
-            // If Model is a drawing
-            if (ExportModel.IsDrawing)
-            {
-                if (ExportModel.Drawing.SheetNames().ToList<string>().Count > 1)
-                {
-                    fileNameSuffix = "_" + CwValidation.RemoveInvalidFileNameChars(ExportModel.Drawing.CurrentActiveSheet());
-                }
-            }
-
             // Compose the filename with the extension
-            string fileNameWithExtension = ModelNameNoExt + fileNameSuffix + "." + extension;
+            string fileNameWithExtension = ModelNameNoExt + "." + extension;
 
             // Compose the full path
             var path = Path.Combine(finalExportFolder, fileNameWithExtension);
 
             return path;
-        }
-
-        /// <summary>
-        /// Export the model to different format
-        /// </summary>
-        /// <param name="model">The pointer to the active SolidDNA.Model object</param>
-        private static void ExportModelDocument(Model model)
-        {
-            // Get the model name without extension       
-            ModelNameNoExt = Path.GetFileNameWithoutExtension(model.FilePath);
-
-            // Set the export folder by combining the main export folder and the job number
-            ComposeExportFolderPath();
-
-            // Check model type
-            if (ExportModel.IsDrawing)
-            {
-                ExportDrawingAndPreview();
-
-                Export3DModel();
-            }
-            else if (!ExportModel.IsDrawing)
-            {
-                Export3DModel();
-
-                // Get the drawing model
-                ExportModel = GetDrawingModel();
-
-                // Export the drawing if the model is not null
-                if (ExportModel != null)
-                {
-                    // Save the drawing model to be closed later
-                    Model drwModel = ExportModel;
-
-                    // Export the drawing and preview
-                    ExportDrawingAndPreview();
-
-                    // Close the file
-                    drwModel.Close();
-                }                
-            }
         }
 
         /// <summary>
@@ -564,6 +576,7 @@ namespace CodeWorksLibrary
 
             ExportFolderPath = Path.Combine(GlobalConfig.ExportPath, JobNumber);            
         }
+
         #endregion
     }
 }

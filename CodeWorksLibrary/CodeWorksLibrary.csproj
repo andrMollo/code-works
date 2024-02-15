@@ -155,6 +155,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Macros\Drawings\README.md" />
+    <None Include="Macros\Export\README.md" />
+    <None Include="Macros\Properties\README.md" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

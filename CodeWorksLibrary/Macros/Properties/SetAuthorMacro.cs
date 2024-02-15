@@ -3,7 +3,7 @@ using SolidWorks.Interop.sldworks;
 using System.Collections.Generic;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
 
-namespace CodeWorksLibrary
+namespace CodeWorksLibrary.Macros.Properties
 {
     internal class SetAuthorMacro
     {
