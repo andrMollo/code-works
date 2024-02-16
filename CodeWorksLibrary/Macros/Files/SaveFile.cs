@@ -14,7 +14,8 @@ namespace CodeWorksLibrary.Macros.Files
         #region Public methods
 
         /// <summary>
-        /// Save a copy of a component with its drawing
+        /// Save a copy of the active, or the selected component with its drawing. 
+        /// Replace all the selected instances with the new component
         /// </summary>
         public static void MakeIndependentWithDrawingMacro()
         {
@@ -26,19 +27,36 @@ namespace CodeWorksLibrary.Macros.Files
                 return;
             }
 
-            MakeIndependentWithDrawing(model);
+            if (model.IsPart)
+            {
+                // Get the new path
+                // Save the file as a copy
+                // Update file properties **common**
+                // Save drawing **common**
+                // Replace drawing reference **common**
+                // Replace reference to old part
+            }
+            else
+            {
+                // Check whether or not there are selected components
+                // If nothing is selected
+                    // Save the file as a copy
+                    // Update file properties **common**
+                    // Save drawing **common**
+                    // Replace drawing reference **common**
+                    // Replace reference to old part
+                // If there are selected components
+                    // Get all the selected model
+                    // Check that the selection
+                    // Save the file as a copy
+                    // Update file properties **common**
+                    // Save drawing **common**
+                    // Replace drawing reference **common**
+                    // Replace reference to old part
+            }
         }
 
         #endregion
-
-        /// <summary>
-        /// Save a copy of a component with its drawing
-        /// </summary>
-        /// <param name="model">The pointer to the active SolidDNA.Model object</param>
-        private static void MakeIndependentWithDrawing(Model model)
-        {
-            
-        }
 
     }
 }
