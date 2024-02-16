@@ -1,10 +1,6 @@
 ﻿using CADBooster.SolidDna;
 using CodeWorksLibrary.Helpers;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
 
 namespace CodeWorksLibrary.Macros.Files
@@ -30,6 +26,7 @@ namespace CodeWorksLibrary.Macros.Files
             if (model.IsPart)
             {
                 // Get the new path
+                string pathNewFile = GetNewFilePath(model);
                 // Save the file as a copy
                 // Update file properties **common**
                 // Save drawing **common**
@@ -54,6 +51,20 @@ namespace CodeWorksLibrary.Macros.Files
                     // Replace drawing reference **common**
                     // Replace reference to old part
             }
+        }
+
+        #endregion
+
+        #region Private methods
+
+        /// <summary>
+        /// Get the full path for the new file
+        /// </summary>
+        /// <param name="model">The pointer to the active SolidDNA.Model object</param>
+        /// <returns>A string with the full path for the new file</returns>
+        private static string GetNewFilePath(Model model)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
