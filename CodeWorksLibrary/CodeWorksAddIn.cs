@@ -1,6 +1,7 @@
 ﻿using CADBooster.SolidDna;
 using CodeWorksLibrary.Macros.Drawings;
 using CodeWorksLibrary.Macros.Export;
+using CodeWorksLibrary.Macros.Files;
 using CodeWorksLibrary.Macros.Properties;
 using CodeWorksLibrary.Properties;
 using SolidWorks.Interop.sldworks;
@@ -30,7 +31,7 @@ namespace CodeWorksLibrary
         {
             [Title("Save component")]
             [Description("Make a copy of the selected file and its drawing")]
-            SuperIndiPdmE,
+            MakeIndepPdmE,
             [Title("Set author")]
             [Description("Write the component author in the custom properties")]
             [Icon(typeof(Resources), nameof(Resources.SetAuthor))]
@@ -107,7 +108,8 @@ namespace CodeWorksLibrary
         {
             switch (spec)
             {
-                case CwCommands_e.SuperIndiPdmE:
+                case CwCommands_e.MakeIndepPdmE:
+                    SaveFile.MakeIndependentWithDrawingMacro();
                     break;
                 case CwCommands_e.SetAuthorE:
                     SetAuthorMacro.SetAuthor();

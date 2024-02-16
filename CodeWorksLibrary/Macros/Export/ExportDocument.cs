@@ -1,7 +1,6 @@
 ﻿using CADBooster.SolidDna;
 using CodeWorksLibrary.Helpers;
 using CodeWorksLibrary.Macros.Drawings;
-using CodeWorksLibrary.Macros.Export;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using SolidWorks.Interop.swdocumentmgr;
@@ -68,7 +67,7 @@ namespace CodeWorksLibrary.Macros.Export
 
             #region Validation
             // Check if there is an open document and if there is it can't be a drawing
-            if (!CwValidation.ModelIsOpen(model))
+            if (CwValidation.ModelIsOpen(model) == false)
             {
                 return;
             }
