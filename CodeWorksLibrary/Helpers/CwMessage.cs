@@ -133,7 +133,7 @@ namespace CodeWorksLibrary.Helpers
         /// </summary>
         public static void NoValidPath()
         {
-            SolidWorksEnvironment.Application.ShowMessageBox("Percorso file non valido.", SolidWorksMessageBoxIcon.Stop);
+            SolidWorksEnvironment.Application.ShowMessageBox("Select a valid path to file.", SolidWorksMessageBoxIcon.Stop);
         }
 
         #endregion

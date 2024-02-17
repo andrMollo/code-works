@@ -31,7 +31,7 @@ namespace CodeWorksLibrary.Macros.Files
         /// </summary>
         private static string _currentFileExtension = string.Empty;
 
-        private static CwLogger _logger;
+        private static CwLogger _logger = new CwLogger();
 
         #endregion
 
@@ -44,8 +44,6 @@ namespace CodeWorksLibrary.Macros.Files
         public static void MakeIndependentWithDrawingMacro()
         {
             Model model = SolidWorksEnvironment.Application.ActiveModel;
-
-            _logger = new CwLogger();
 
             if (CwValidation.Model3dIsOpen(model) == false)
             {
@@ -139,8 +137,6 @@ namespace CodeWorksLibrary.Macros.Files
 
                 if (userInputFilePath.IsNullOrEmpty())
                 {
-                    output = string.Empty;
-
                     return output;
                 }
 
