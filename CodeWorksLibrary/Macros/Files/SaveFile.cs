@@ -61,7 +61,7 @@ namespace CodeWorksLibrary.Macros.Files
                     string fileFilter = FileFilter(_currentFileExtension);
 
                     string pathNewFile = GetNewFilePath(
-                        "Super indipendente - Seleziona nuovo percorso file",
+                        "Make independent with drawing - Select new file position",
                         _currentFileFolder,
                         fileFilter,
                         false);
