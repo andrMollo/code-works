@@ -1,6 +1,7 @@
 ﻿using CADBooster.SolidDna;
 using CodeWorksLibrary.Helpers;
 using System;
+using System.IO;
 using System.Windows.Forms;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
 
@@ -8,6 +9,30 @@ namespace CodeWorksLibrary.Macros.Files
 {
     internal static class SaveFile
     {
+        #region Private fields
+
+        /// <summary>
+        /// The full path of the file that need to be saved
+        /// </summary>
+        private static string _currentFilePath;
+
+        /// <summary>
+        /// The folder of the file that need to be saved
+        /// </summary>
+        private static string _currentFileFolder;
+
+        /// <summary>
+        /// The file name of the file that need to be saved
+        /// </summary>
+        private static string _currentFileName;
+
+        /// <summary>
+        /// The extension of the file that need to be saved
+        /// </summary>
+        private static string _currentFileExtension;
+
+        #endregion
+
         #region Public methods
 
         /// <summary>
@@ -68,11 +93,15 @@ namespace CodeWorksLibrary.Macros.Files
         {
             string output = string.Empty;
 
+            _currentFilePath = model.FilePath;
+            _currentFileFolder = Path.GetDirectoryName(_currentFilePath);
+            _currentFileExtension = Path.GetExtension(_currentFilePath);
+
             SaveFileDialog saveFileDialog = new SaveFileDialog();
 
-            saveFileDialog.Title = "Salva file";
-            saveFileDialog.Filter = "File di testo (*.txt)|*.txt";
-            saveFileDialog.InitialDirectory = @"C:\Users\username\Desktop";
+            saveFileDialog.Title = "Super indipendente - Seleziona nuovo percorso file";
+            saveFileDialog.Filter = FileFilter(_currentFileExtension);
+            saveFileDialog.InitialDirectory = _currentFileFolder;
             saveFileDialog.OverwritePrompt = true;
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
@@ -81,6 +110,32 @@ namespace CodeWorksLibrary.Macros.Files
             }
 
             MessageBox.Show(output);
+
+            return output;
+        }
+
+        /// <summary>
+        /// Get the filter string for the SaveFileDialog form
+        /// </summary>
+        /// <param name="fileExtension">The current file extension</param>
+        private static string FileFilter(string fileExtension)
+        {
+            string output = string.Empty;
+
+            string fileType = string.Empty;
+
+            fileExtension = fileExtension.ToLower();
+
+            if (fileExtension == ".sldprt")
+            {
+                fileType = "SOLIDWORKS Parts";
+            }
+            else if (fileExtension == ".sldasm")
+            {
+                fileType = "SOLIDWORKS Assemblies";
+            }
+
+            output = $"{fileType} (*{fileExtension})|*{fileExtension}|Tutti i file (*.*)|*.*";
 
             return output;
         }
