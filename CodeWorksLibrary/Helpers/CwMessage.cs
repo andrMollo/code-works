@@ -121,12 +121,21 @@ namespace CodeWorksLibrary.Helpers
         }
 
         /// <summary>
-        /// Show a message box for SolidWorks file externsion not found
+        /// Show a message box for SolidWorks file extension not found
         /// </summary>
         public static void NoValidSolidWorksFile()
         {
             Application.ShowMessageBox("The document ha no valid SolidWorks file extension", SolidWorksMessageBoxIcon.Stop);
         }
+
+        /// <summary>
+        /// Show a message box for invalid path to file
+        /// </summary>
+        public static void NoValidPath()
+        {
+            SolidWorksEnvironment.Application.ShowMessageBox("Percorso file non valido.", SolidWorksMessageBoxIcon.Stop);
+        }
+
         #endregion
 
         #region Private methods

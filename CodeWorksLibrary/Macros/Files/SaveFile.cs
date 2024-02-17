@@ -56,6 +56,11 @@ namespace CodeWorksLibrary.Macros.Files
                     // Get the new path
                     string pathNewFile = GetNewFilePath(model);
 
+                    if (pathNewFile.IsNullOrEmpty() )
+                    {
+                        CwMessage.NoValidPath();
+                    }
+
                     // Save the file as a copy
                     // Update file properties **common**
                     // Save drawing **common**
