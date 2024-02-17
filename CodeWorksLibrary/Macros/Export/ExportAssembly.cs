@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
-using CwLogger = CodeWorksLibrary.Helpers.CwLogger;
+using CwTextLogger = CodeWorksLibrary.Helpers.CwTextLogger;
 
 namespace CodeWorksLibrary.Macros.Export
 {
@@ -30,7 +30,7 @@ namespace CodeWorksLibrary.Macros.Export
         /// <summary>
         /// The log object for the assembly export
         /// </summary>
-        public static CwLogger AssExpLog { get; set; }
+        public static CwTextLogger AssExpLog { get; set; }
         #endregion
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace CodeWorksLibrary.Macros.Export
 
             // Compose the full path to the logger
             AssExpLog = new CwLogger();
-            AssExpLog.LogPath = CwLogger.ComposeLogPath(string.Empty);
+            AssExpLog.LogPath = CwTextLogger.ComposeLogPath(string.Empty);
 
             // Initiate form
             var expAsmForm = AssemblyFormSetup();
@@ -237,14 +237,14 @@ namespace CodeWorksLibrary.Macros.Export
             if (exportAgain == true || File.Exists(AssExpLog.LogPath) == false)
             {
                 // Delete the content of the log file
-                CwLogger.DeleteLogContent(AssExpLog.LogPath);
+                CwTextLogger.DeleteLogContent(AssExpLog.LogPath);
 
                 return bom;
             }
             else
             {
                 // Read log file
-                List<string> pathList = CwLogger.ReadLogFile(AssExpLog.LogPath);                
+                List<string> pathList = CwTextLogger.ReadLogFile(AssExpLog.LogPath);                
 
                 // Filter the BoM with the list from the log
                 bom.RemoveAll(bomList => pathList.Contains(bomList.Path));

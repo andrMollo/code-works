@@ -96,5 +96,10 @@ namespace CodeWorksLibrary
         public const string PrintJobLayer = "COMMESSA STAMPA";
 
         #endregion
+
+        /// <summary>
+        /// The name of the logger for the Add-In
+        /// </summary>
+        public const string LoggerName = "CodeWorksLog";
     }
 }

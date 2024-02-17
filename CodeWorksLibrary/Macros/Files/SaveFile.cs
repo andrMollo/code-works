@@ -53,6 +53,8 @@ namespace CodeWorksLibrary.Macros.Files
             {
                 if (model.IsPart)
                 {
+                    
+
                     // Get the new path
                     _currentFilePath = model.FilePath;
                     _currentFileFolder = Path.GetDirectoryName(_currentFilePath);

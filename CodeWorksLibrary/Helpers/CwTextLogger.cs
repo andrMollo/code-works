@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace CodeWorksLibrary.Helpers
 {
-    public class CwLogger
+    public class CwTextLogger
     {
         #region Public properties
         /// <summary>
