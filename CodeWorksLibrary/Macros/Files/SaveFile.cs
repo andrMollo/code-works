@@ -54,11 +54,22 @@ namespace CodeWorksLibrary.Macros.Files
                 if (model.IsPart)
                 {
                     // Get the new path
-                    string pathNewFile = GetNewFilePath(model);
+                    _currentFilePath = model.FilePath;
+                    _currentFileFolder = Path.GetDirectoryName(_currentFilePath);
+                    _currentFileExtension = Path.GetExtension(_currentFilePath);
+
+                    string fileFilter = FileFilter(_currentFileExtension);
+
+                    string pathNewFile = GetNewFilePath(
+                        "Super indipendente - Seleziona nuovo percorso file",
+                        _currentFileFolder,
+                        fileFilter,
+                        false);
 
                     if (pathNewFile.IsNullOrEmpty() )
                     {
                         CwMessage.NoValidPath();
+                        return;
                     }
 
                     // Save the file as a copy
@@ -100,21 +111,20 @@ namespace CodeWorksLibrary.Macros.Files
         /// <summary>
         /// Get the full path for the new file
         /// </summary>
-        /// <param name="model">The pointer to the active SolidDNA.Model object</param>
+        /// <param name="titleWindow">The string with the title to the SaveFileDialog window</param>
+        /// <param name="initialDirectory">The folder where the SaveFileDialog starts</param>
+        /// <param name="filter">The filter for the extensions shown in the SaveFileDialog window</param>
+        /// <param name="getPdmSerial">True to get the file name from the PDM</param>
         /// <returns>A string with the full path for the new file</returns>
-        private static string GetNewFilePath(Model model)
+        private static string GetNewFilePath(string titleWindow, string initialDirectory, string filter, bool getPdmSerial)
         {
             string output = string.Empty;
 
-            _currentFilePath = model.FilePath;
-            _currentFileFolder = Path.GetDirectoryName(_currentFilePath);
-            _currentFileExtension = Path.GetExtension(_currentFilePath);
-
             SaveFileDialog saveFileDialog = new SaveFileDialog();
 
-            saveFileDialog.Title = "Super indipendente - Seleziona nuovo percorso file";
-            saveFileDialog.Filter = FileFilter(_currentFileExtension);
-            saveFileDialog.InitialDirectory = _currentFileFolder;
+            saveFileDialog.Title = titleWindow;
+            saveFileDialog.InitialDirectory = initialDirectory;
+            saveFileDialog.Filter = filter;
             saveFileDialog.OverwritePrompt = true;
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
@@ -140,8 +150,6 @@ namespace CodeWorksLibrary.Macros.Files
                 string fileFullPath = Path.Combine(folderPath, fileName);
 
                 output = fileFullPath;
-
-                SolidWorksEnvironment.Application.ShowMessageBox(fileFullPath);
             }
 
             return output;
