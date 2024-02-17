@@ -14,22 +14,22 @@ namespace CodeWorksLibrary.Macros.Files
         /// <summary>
         /// The full path of the file that need to be saved
         /// </summary>
-        private static string _currentFilePath;
+        private static string _currentFilePath = string.Empty;
 
         /// <summary>
         /// The folder of the file that need to be saved
         /// </summary>
-        private static string _currentFileFolder;
+        private static string _currentFileFolder = string.Empty;
 
         /// <summary>
         /// The file name of the file that need to be saved
         /// </summary>
-        private static string _currentFileName;
+        private static string _currentFileName = string.Empty;
 
         /// <summary>
         /// The extension of the file that need to be saved
         /// </summary>
-        private static string _currentFileExtension;
+        private static string _currentFileExtension = string.Empty;
 
         #endregion
 
@@ -129,9 +129,9 @@ namespace CodeWorksLibrary.Macros.Files
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                string userInputFileName = saveFileDialog.FileName;
+                string userInputFilePath = saveFileDialog.FileName;
 
-                if (userInputFileName.IsNullOrEmpty())
+                if (userInputFilePath.IsNullOrEmpty())
                 {
                     output = string.Empty;
 
@@ -139,10 +139,19 @@ namespace CodeWorksLibrary.Macros.Files
                 }
 
                 // Get the folder path
-                string folderPath = Path.GetDirectoryName(userInputFileName);
+                string folderPath = Path.GetDirectoryName(userInputFilePath);
                 
-                // Remove extension from filename
-                string fileNameNoExt = Path.GetFileNameWithoutExtension(userInputFileName);
+                // Get the file name without extension
+                string fileNameNoExt = string.Empty;
+
+                if (getPdmSerial == false)
+                {
+                    fileNameNoExt = Path.GetFileNameWithoutExtension(userInputFilePath);
+                }
+                else
+                {
+                    fileNameNoExt = ComposePdmFileName(folderPath, _currentFileExtension);
+                }
 
                 // Compose new file name
                 string fileName = fileNameNoExt + _currentFileExtension;
@@ -151,6 +160,21 @@ namespace CodeWorksLibrary.Macros.Files
 
                 output = fileFullPath;
             }
+
+            return output;
+        }
+
+        /// <summary>
+        /// Compose the file name according to the PDM schema
+        /// </summary>
+        /// <param name="path">A path to a folder</param>
+        /// <param name="extension">The extension for the type of SolidWorks file</param>
+        ///<returns>THe file name without extension</returns>
+        private static string ComposePdmFileName(string path, string extension)
+        {
+            string output = string.Empty;
+
+            // TODO Implement method
 
             return output;
         }
