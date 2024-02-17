@@ -119,10 +119,30 @@ namespace CodeWorksLibrary.Macros.Files
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                output = saveFileDialog.FileName;
-            }
+                string userInputFileName = saveFileDialog.FileName;
 
-            MessageBox.Show(output);
+                if (userInputFileName.IsNullOrEmpty())
+                {
+                    output = string.Empty;
+
+                    return output;
+                }
+
+                // Get the folder path
+                string folderPath = Path.GetDirectoryName(userInputFileName);
+                
+                // Remove extension from filename
+                string fileNameNoExt = Path.GetFileNameWithoutExtension(userInputFileName);
+
+                // Compose new file name
+                string fileName = fileNameNoExt + _currentFileExtension;
+
+                string fileFullPath = Path.Combine(folderPath, fileName);
+
+                output = fileFullPath;
+
+                SolidWorksEnvironment.Application.ShowMessageBox(fileFullPath);
+            }
 
             return output;
         }
