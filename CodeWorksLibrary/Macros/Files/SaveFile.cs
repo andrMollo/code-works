@@ -49,27 +49,29 @@ namespace CodeWorksLibrary.Macros.Files
                 return;
             }
 
-            if (model.IsPart)
+            try
             {
-                // Get the new path
-                string pathNewFile = GetNewFilePath(model);
+                if (model.IsPart)
+                {
+                    // Get the new path
+                    string pathNewFile = GetNewFilePath(model);
 
-                // Save the file as a copy
-                // Update file properties **common**
-                // Save drawing **common**
-                // Replace drawing reference **common**
-                // Replace reference to old part
-            }
-            else
-            {
-                // Check whether or not there are selected components
-                // If nothing is selected
                     // Save the file as a copy
                     // Update file properties **common**
                     // Save drawing **common**
                     // Replace drawing reference **common**
                     // Replace reference to old part
-                // If there are selected components
+                }
+                else
+                {
+                    // Check whether or not there are selected components
+                    // If nothing is selected
+                    // Save the file as a copy
+                    // Update file properties **common**
+                    // Save drawing **common**
+                    // Replace drawing reference **common**
+                    // Replace reference to old part
+                    // If there are selected components
                     // Get all the selected model
                     // Check that the selection
                     // Save the file as a copy
@@ -77,6 +79,12 @@ namespace CodeWorksLibrary.Macros.Files
                     // Save drawing **common**
                     // Replace drawing reference **common**
                     // Replace reference to old part
+                }
+            }
+            catch (Exception ex)
+            {
+                string errorMessage = $"Errore: {ex.Message} \n {ex.StackTrace}";
+                SolidWorksEnvironment.Application.ShowMessageBox(errorMessage, SolidWorksMessageBoxIcon.Stop);
             }
         }
 
