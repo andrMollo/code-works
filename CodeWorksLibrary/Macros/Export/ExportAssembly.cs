@@ -72,7 +72,7 @@ namespace CodeWorksLibrary.Macros.Export
             AssemblyBomElement.Quantity = amsPrpManager.GetModelQuantity(AssemblyBomElement.Model);
 
             // Compose the full path to the logger
-            AssExpLog = new CwLogger();
+            AssExpLog = new CwTextLogger();
             AssExpLog.LogPath = CwTextLogger.ComposeLogPath(string.Empty);
 
             // Initiate form

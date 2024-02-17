@@ -31,6 +31,8 @@ namespace CodeWorksLibrary.Macros.Files
         /// </summary>
         private static string _currentFileExtension = string.Empty;
 
+        private static CwLogger _logger;
+
         #endregion
 
         #region Public methods
@@ -43,6 +45,8 @@ namespace CodeWorksLibrary.Macros.Files
         {
             Model model = SolidWorksEnvironment.Application.ActiveModel;
 
+            _logger = new CwLogger();
+
             if (CwValidation.Model3dIsOpen(model) == false)
             {
                 CwMessage.OpenAModel();
@@ -53,7 +57,7 @@ namespace CodeWorksLibrary.Macros.Files
             {
                 if (model.IsPart)
                 {
-                    
+                    _logger.Log("Save the active part file", Xarial.XCad.Base.Enums.LoggerMessageSeverity_e.Information);
 
                     // Get the new path
                     _currentFilePath = model.FilePath;
