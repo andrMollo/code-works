@@ -68,17 +68,19 @@ namespace CodeWorksLibrary.Macros.Files
         {
             string output = string.Empty;
 
-            OpenFileDialog openFileDialog = new OpenFileDialog();
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
 
-            openFileDialog.Title = "Super indipendente - Selezionare percorso nuovo file";
-            openFileDialog.Filter = "File di testo (*.txt)|*.txt";
-            openFileDialog.InitialDirectory = @"C:\Users\username\Desktop";
-            openFileDialog.Multiselect = false;
+            saveFileDialog.Title = "Salva file";
+            saveFileDialog.Filter = "File di testo (*.txt)|*.txt";
+            saveFileDialog.InitialDirectory = @"C:\Users\username\Desktop";
+            saveFileDialog.OverwritePrompt = true;
 
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                output = openFileDialog.FileName;
+                output = saveFileDialog.FileName;
             }
+
+            MessageBox.Show(output);
 
             return output;
         }
