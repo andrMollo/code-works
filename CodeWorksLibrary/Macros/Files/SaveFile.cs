@@ -1,6 +1,7 @@
 ﻿using CADBooster.SolidDna;
 using CodeWorksLibrary.Helpers;
 using System;
+using System.Windows.Forms;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
 
 namespace CodeWorksLibrary.Macros.Files
@@ -15,7 +16,7 @@ namespace CodeWorksLibrary.Macros.Files
         /// </summary>
         public static void MakeIndependentWithDrawingMacro()
         {
-            Model model = Application.ActiveModel;
+            Model model = SolidWorksEnvironment.Application.ActiveModel;
 
             if (CwValidation.Model3dIsOpen(model) == false)
             {
@@ -27,6 +28,7 @@ namespace CodeWorksLibrary.Macros.Files
             {
                 // Get the new path
                 string pathNewFile = GetNewFilePath(model);
+
                 // Save the file as a copy
                 // Update file properties **common**
                 // Save drawing **common**
@@ -64,7 +66,21 @@ namespace CodeWorksLibrary.Macros.Files
         /// <returns>A string with the full path for the new file</returns>
         private static string GetNewFilePath(Model model)
         {
-            throw new NotImplementedException();
+            string output = string.Empty;
+
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            openFileDialog.Title = "Super indipendente - Selezionare percorso nuovo file";
+            openFileDialog.Filter = "File di testo (*.txt)|*.txt";
+            openFileDialog.InitialDirectory = @"C:\Users\username\Desktop";
+            openFileDialog.Multiselect = false;
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                output = openFileDialog.FileName;
+            }
+
+            return output;
         }
 
         #endregion
