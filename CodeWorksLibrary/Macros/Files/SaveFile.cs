@@ -3,6 +3,7 @@ using CodeWorksLibrary.Helpers;
 using System;
 using System.IO;
 using System.Windows.Forms;
+using Xarial.XCad.Base.Enums;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
 
 namespace CodeWorksLibrary.Macros.Files
@@ -55,13 +56,15 @@ namespace CodeWorksLibrary.Macros.Files
             {
                 if (model.IsPart)
                 {
-                    _logger.Log("Save the active part file", Xarial.XCad.Base.Enums.LoggerMessageSeverity_e.Information);
+                    _logger.Log("Save the active part file", LoggerMessageSeverity_e.Information);
 
-                    // Get the new path
+                    // Get current file info
                     _currentFilePath = model.FilePath;
                     _currentFileFolder = Path.GetDirectoryName(_currentFilePath);
+                    _currentFileName = Path.GetFileName(_currentFilePath);
                     _currentFileExtension = Path.GetExtension(_currentFilePath);
 
+                    // Get the new path
                     string fileFilter = FileFilter(_currentFileExtension);
 
                     string pathNewFile = GetNewFilePath(
@@ -171,7 +174,7 @@ namespace CodeWorksLibrary.Macros.Files
         /// </summary>
         /// <param name="path">A path to a folder</param>
         /// <param name="extension">The extension for the type of SolidWorks file</param>
-        ///<returns>THe file name without extension</returns>
+        ///<returns>The file name without extension</returns>
         private static string ComposePdmFileName(string path, string extension)
         {
             string output = string.Empty;
