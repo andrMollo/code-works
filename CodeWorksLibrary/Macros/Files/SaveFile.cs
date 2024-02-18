@@ -115,7 +115,7 @@ namespace CodeWorksLibrary.Macros.Files
             }
             catch (Exception ex)
             {
-                string errorMessage = $"Errore: {ex.Message} \n {ex.StackTrace}";
+                string errorMessage = $"Errore: {ex.Message}";
                 SolidWorksEnvironment.Application.ShowMessageBox(errorMessage, SolidWorksMessageBoxIcon.Stop);
             }
         }
@@ -187,6 +187,12 @@ namespace CodeWorksLibrary.Macros.Files
         private static string ComposePdmFileName(string path, string extension)
         {
             string output = string.Empty;
+
+            // Check if path is inside PDM
+            if (path.StartsWith(GlobalConfig.VaultRootFolder) == false)
+            {
+                throw new ArgumentException("Select path inside PDM.");
+            }
 
             string serialNumber = CwPdmManager.GetPdmSerialNumber(path, _oldModelType);
 
