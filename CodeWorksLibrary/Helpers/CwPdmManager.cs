@@ -116,6 +116,25 @@ namespace CodeWorksLibrary.Helpers
         {
             string output = string.Empty;
 
+            try
+            {
+                EdmVault5 pdmVault = new EdmVault5();
+
+                pdmVault.LoginAuto(GlobalConfig.VaultName, 0);
+
+                // Get folder from path
+                IEdmFolder5 folder = pdmVault.GetFolderFromPath(folderPath);
+
+                // Get variable manager
+                IEdmVariableMgr5 variableMgr = (IEdmVariableMgr5)folder.Vault;
+
+                // How to get the variable id??
+            }
+            catch
+            {
+                throw;
+            }
+
             return output;
         }
     }
