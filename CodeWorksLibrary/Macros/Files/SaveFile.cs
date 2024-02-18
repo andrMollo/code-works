@@ -188,12 +188,6 @@ namespace CodeWorksLibrary.Macros.Files
         {
             string output = string.Empty;
 
-            // Check if path is inside PDM
-            if (path.StartsWith(GlobalConfig.VaultRootFolder) == false)
-            {
-                throw new ArgumentException("Select path inside PDM.");
-            }
-
             string serialNumber = CwPdmManager.GetPdmSerialNumber(path, _oldModelType);
 
             return output;
