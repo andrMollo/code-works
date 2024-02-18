@@ -40,7 +40,8 @@ namespace CodeWorksLibrary
 
         #endregion
 
-        #region Private constants
+        #region Private path constants
+
         /// <summary>
         /// The name of the Vault database
         /// </summary>
@@ -81,7 +82,46 @@ namespace CodeWorksLibrary
         /// </summary>
         public const string SheetFormatMapPath = GlobalConfigPrivate.MyReplaceMapPath;
 
-        #endregion        
+        #endregion
+
+        #region Private PDM Variables and serials names
+
+        /// <summary>
+        /// The name of the variable containing the Project Number
+        /// </summary>
+        public const string ProjectVariableName = GlobalConfigPrivate.MyProjectVariableName;
+
+        /// <summary>
+        /// The name of the serial for part files
+        /// </summary>
+        public const string PartSerialNumberName = GlobalConfigPrivate.MyPartSerialNumberName;
+
+        /// <summary>
+        /// The name of the serial for assembly files
+        /// </summary>
+        public const string AssemblySerialNumberName = GlobalConfigPrivate.MyAssemblySerialNumberName;
+
+        /// <summary>
+        /// The name of the serial for draft part files
+        /// </summary>
+        public const string DraftPartSerialNumberName = GlobalConfigPrivate.MyDraftPartSerialNumberName;
+
+        /// <summary>
+        /// The name of the serial for draft assembly files
+        /// </summary>
+        public const string DraftAssemblySerialNumberName = GlobalConfigPrivate.MyDraftAssemblySerialNumberName;
+
+        /// <summary>
+        /// The name of the serial number for library files
+        /// </summary>
+        public const string LibrarySerialNumberName = GlobalConfigPrivate.MyLibrarySerialNumberName;
+
+        /// <summary>
+        /// The name of the serial for non coded files
+        /// </summary>
+        public const string NonCodedSerialNumberName = GlobalConfigPrivate.MyNonCodedSerialNumberName;
+
+        #endregion
 
         #region Print setup
 
