@@ -47,6 +47,31 @@ namespace CodeWorksLibrary
         public const string VaultName = GlobalConfigPrivate.MyVaultName;
 
         /// <summary>
+        /// The name of the root folder for the PDM
+        /// </summary>
+        public const string VaultRootFolder = GlobalConfigPrivate.MyVaultRootFolder;
+
+        /// <summary>
+        /// The path to the root folder for build components
+        /// </summary>
+        public const string ComponentRootFolder = GlobalConfigPrivate.MyComponentRootFolder;
+
+        /// <summary>
+        /// The path to the root folder for trade \ buy components
+        /// </summary>
+        public const string LibraryRootFolder = GlobalConfigPrivate.MyLibraryRootFolder;
+
+        /// <summary>
+        /// The path to the root folder for drat components
+        /// </summary>
+        public const string DraftRootFolder = GlobalConfigPrivate.MyDraftRootFolder;
+
+        /// <summary>
+        /// The path to my map for the new sheet format
+        /// </summary>
+        public const string MyReplaceMapPath = GlobalConfigPrivate.MyReplaceMapPath;
+
+        /// <summary>
         /// The license key for the Document Manager API
         /// </summary>
         public const string DmKey = GlobalConfigPrivate.MyDmLicense;
