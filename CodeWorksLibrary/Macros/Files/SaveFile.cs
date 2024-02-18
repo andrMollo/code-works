@@ -179,7 +179,7 @@ namespace CodeWorksLibrary.Macros.Files
         }
 
         /// <summary>
-        /// Compose the file name according to the PDM schema
+        /// Compose the file name, without extension, according to the PDM schema
         /// </summary>
         /// <param name="path">A path to a folder</param>
         /// <param name="extension">The extension for the type of SolidWorks file</param>
@@ -189,6 +189,15 @@ namespace CodeWorksLibrary.Macros.Files
             string output = string.Empty;
 
             string serialNumber = CwPdmManager.GetPdmSerialNumber(path.ToLower(), _oldModelType);
+
+            if ((path.ToLower()).StartsWith(GlobalConfig.LibraryRootFolder))
+            {
+                output = serialNumber;
+            }
+            else
+            {
+                string projectNumber = CwPdmManager.GetProjectNumber(path);
+            }
 
             return output;
         }

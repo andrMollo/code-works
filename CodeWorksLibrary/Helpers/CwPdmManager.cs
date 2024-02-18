@@ -111,5 +111,12 @@ namespace CodeWorksLibrary.Helpers
 
             return output;
         }
+
+        public static string GetProjectNumber(string folderPath)
+        {
+            string output = string.Empty;
+
+            return output;
+        }
     }
 }

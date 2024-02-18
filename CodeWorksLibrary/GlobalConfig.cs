@@ -87,6 +87,16 @@ namespace CodeWorksLibrary
         #region Private PDM Variables and serials names
 
         /// <summary>
+        /// The name of the variabile with the project starting letter
+        /// </summary>
+        private const string ProjectLetterVariable = GlobalConfigPrivate.MyProjectLetterVariable;
+
+        /// <summary>
+        /// The name of the variable with the project number
+        /// </summary>
+        private const string ProjectNumberVariable = GlobalConfigPrivate.MyProjectNumberVariable;
+
+        /// <summary>
         /// The name of the variable containing the Project Number
         /// </summary>
         public const string ProjectVariableName = GlobalConfigPrivate.MyProjectVariableName;
