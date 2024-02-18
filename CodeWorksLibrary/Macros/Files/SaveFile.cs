@@ -179,7 +179,7 @@ namespace CodeWorksLibrary.Macros.Files
         {
             string output = string.Empty;
 
-            // TODO Implement method
+            string serialNumber = CwPdmManager.GetPdmSerialNumber(path, string.Empty);
 
             return output;
         }

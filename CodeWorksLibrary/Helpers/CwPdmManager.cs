@@ -38,5 +38,18 @@ namespace CodeWorksLibrary.Helpers
                 return userName;
             }
         }
+
+        /// <summary>
+        /// Get the next PDM serial number
+        /// </summary>
+        /// <param name="path">The path of the file for which the serial number is needed</param>
+        /// <param name="type">The type of SolidWorks file for which the serial number is needed</param>
+        /// <returns></returns>
+        public static string GetPdmSerialNumber(string path, string type)
+        {
+            string output = string.Empty;
+
+            return output;
+        }
     }
 }
