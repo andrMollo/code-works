@@ -1,4 +1,5 @@
-﻿using EPDM.Interop.epdm;
+﻿using CADBooster.SolidDna;
+using EPDM.Interop.epdm;
 using System;
 
 namespace CodeWorksLibrary.Helpers
@@ -42,10 +43,10 @@ namespace CodeWorksLibrary.Helpers
         /// <summary>
         /// Get the next PDM serial number
         /// </summary>
-        /// <param name="path">The path of the file for which the serial number is needed</param>
+        /// <param name="folderPath">The path of the file for which the serial number is needed</param>
         /// <param name="type">The type of SolidWorks file for which the serial number is needed</param>
         /// <returns></returns>
-        public static string GetPdmSerialNumber(string path, string type)
+        public static string GetPdmSerialNumber(string folderPath, ModelType type)
         {
             string output = string.Empty;
 

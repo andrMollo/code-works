@@ -13,24 +13,29 @@ namespace CodeWorksLibrary.Macros.Files
         #region Private fields
 
         /// <summary>
-        /// The full path of the file that need to be saved
+        /// The full path of the file that need to be copied
         /// </summary>
         private static string _oldFilePath = string.Empty;
 
         /// <summary>
-        /// The folder of the file that need to be saved
+        /// The folder of the file that need to be copied
         /// </summary>
         private static string _oldFileFolder = string.Empty;
 
         /// <summary>
-        /// The file name of the file that need to be saved
+        /// The file name of the file that need to be copied
         /// </summary>
         private static string _oldFileName = string.Empty;
 
         /// <summary>
-        /// The extension of the file that need to be saved
+        /// The extension of the file that need to be copied
         /// </summary>
         private static string _oldFileExtension = string.Empty;
+
+        /// <summary>
+        /// The SolidDNA ModelType of the file that need to be copied
+        /// </summary>
+        private static ModelType _oldModelType = ModelType.None;
 
         /// <summary>
         /// A logger model for this add-in
@@ -61,13 +66,12 @@ namespace CodeWorksLibrary.Macros.Files
                 {
                     _logger.Log("Save the active part file", LoggerMessageSeverity_e.Information);
 
-                    var type = model.ModelType;
-
-                    // Get current file info
+                    // Get old file info
                     _oldFilePath = model.FilePath;
                     _oldFileFolder = Path.GetDirectoryName(_oldFilePath);
                     _oldFileName = Path.GetFileName(_oldFilePath);
                     _oldFileExtension = Path.GetExtension(_oldFilePath);
+                    _oldModelType = model.ModelType;
 
                     // Get the new path
                     string fileFilter = FileFilter(_oldFileExtension);
@@ -184,7 +188,7 @@ namespace CodeWorksLibrary.Macros.Files
         {
             string output = string.Empty;
 
-            string serialNumber = CwPdmManager.GetPdmSerialNumber(path, string.Empty);
+            string serialNumber = CwPdmManager.GetPdmSerialNumber(path, _oldModelType);
 
             return output;
         }
