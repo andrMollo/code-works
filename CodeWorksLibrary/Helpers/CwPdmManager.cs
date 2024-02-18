@@ -106,7 +106,7 @@ namespace CodeWorksLibrary.Helpers
             }
             catch
             {
-                throw new Exception("Unable to get a serial number value");
+                throw new Exception("Unable to get a serial number value.");
             }
 
             return output;
