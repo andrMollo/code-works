@@ -58,31 +58,57 @@ namespace CodeWorksLibrary.Helpers
                 throw new ArgumentException("Select path inside PDM.");
             }
 
+            string serialName = string.Empty;
+
             if (folderPath.StartsWith(GlobalConfig.LibraryRootFolder.ToLower()))
             {
-                output = GlobalConfig.LibrarySerialNumberName;
+                serialName = GlobalConfig.LibrarySerialNumberName;
             }
             else if (folderPath.StartsWith (GlobalConfig.ComponentRootFolder.ToLower()) 
                 && type == ModelType.Part)
             {
-                output = GlobalConfig.PartSerialNumberName;
+                serialName = GlobalConfig.PartSerialNumberName;
             }
             else if (folderPath.StartsWith(GlobalConfig.ComponentRootFolder.ToLower())
                 && type == ModelType.Assembly)
             {
-                output = GlobalConfig.AssemblySerialNumberName;
+                serialName = GlobalConfig.AssemblySerialNumberName;
             }
             else if (folderPath.StartsWith(GlobalConfig.DraftRootFolder.ToLower()) 
                 && type == ModelType.Part)
             {
-                output = GlobalConfig.DraftPartSerialNumberName;
+                serialName = GlobalConfig.DraftPartSerialNumberName;
             }
             else if (folderPath.StartsWith(GlobalConfig.DraftRootFolder.ToLower())
                 && type == ModelType.Assembly)
             {
-                output = GlobalConfig.DraftAssemblySerialNumberName;
+                serialName = GlobalConfig.DraftAssemblySerialNumberName;
             }
-            
+            else
+            {
+                throw new Exception("Unable get a name for a serial number schema.");
+            }
+
+            // Get the serial number from the Vault
+            try
+            {
+                EdmVault5 pdmVault = new EdmVault5();
+
+                pdmVault.LoginAuto(GlobalConfig.VaultName, 0);
+
+                IEdmSerNoGen7 serialNumber = (IEdmSerNoGen7)pdmVault;
+
+                IEdmSerNoValue serialNumberValue = serialNumber.AllocSerNoValue(serialName);
+
+                output = serialNumberValue.Value;
+
+                serialNumberValue.Rollback();
+            }
+            catch
+            {
+                throw new Exception("Unable to get a serial number value");
+            }
+
             return output;
         }
     }

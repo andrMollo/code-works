@@ -188,7 +188,7 @@ namespace CodeWorksLibrary.Macros.Files
         {
             string output = string.Empty;
 
-            string serialNumber = CwPdmManager.GetPdmSerialNumber(path, _oldModelType);
+            string serialNumber = CwPdmManager.GetPdmSerialNumber(path.ToLower(), _oldModelType);
 
             return output;
         }
