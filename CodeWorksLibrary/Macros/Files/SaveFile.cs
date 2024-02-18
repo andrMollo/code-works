@@ -15,23 +15,26 @@ namespace CodeWorksLibrary.Macros.Files
         /// <summary>
         /// The full path of the file that need to be saved
         /// </summary>
-        private static string _currentFilePath = string.Empty;
+        private static string _oldFilePath = string.Empty;
 
         /// <summary>
         /// The folder of the file that need to be saved
         /// </summary>
-        private static string _currentFileFolder = string.Empty;
+        private static string _oldFileFolder = string.Empty;
 
         /// <summary>
         /// The file name of the file that need to be saved
         /// </summary>
-        private static string _currentFileName = string.Empty;
+        private static string _oldFileName = string.Empty;
 
         /// <summary>
         /// The extension of the file that need to be saved
         /// </summary>
-        private static string _currentFileExtension = string.Empty;
+        private static string _oldFileExtension = string.Empty;
 
+        /// <summary>
+        /// A logger model for this add-in
+        /// </summary>
         private static CwLogger _logger = new CwLogger();
 
         #endregion
@@ -58,18 +61,20 @@ namespace CodeWorksLibrary.Macros.Files
                 {
                     _logger.Log("Save the active part file", LoggerMessageSeverity_e.Information);
 
+                    var type = model.ModelType;
+
                     // Get current file info
-                    _currentFilePath = model.FilePath;
-                    _currentFileFolder = Path.GetDirectoryName(_currentFilePath);
-                    _currentFileName = Path.GetFileName(_currentFilePath);
-                    _currentFileExtension = Path.GetExtension(_currentFilePath);
+                    _oldFilePath = model.FilePath;
+                    _oldFileFolder = Path.GetDirectoryName(_oldFilePath);
+                    _oldFileName = Path.GetFileName(_oldFilePath);
+                    _oldFileExtension = Path.GetExtension(_oldFilePath);
 
                     // Get the new path
-                    string fileFilter = FileFilter(_currentFileExtension);
+                    string fileFilter = FileFilter(_oldFileExtension);
 
                     string pathNewFile = GetNewFilePath(
                         "Make independent with drawing - Select new file position",
-                        _currentFileFolder,
+                        _oldFileFolder,
                         fileFilter,
                         false);
 
@@ -155,11 +160,11 @@ namespace CodeWorksLibrary.Macros.Files
                 }
                 else
                 {
-                    fileNameNoExt = ComposePdmFileName(folderPath, _currentFileExtension);
+                    fileNameNoExt = ComposePdmFileName(folderPath, _oldFileExtension);
                 }
 
                 // Compose new file name
-                string fileName = fileNameNoExt + _currentFileExtension;
+                string fileName = fileNameNoExt + _oldFileExtension;
 
                 string fileFullPath = Path.Combine(folderPath, fileName);
 
