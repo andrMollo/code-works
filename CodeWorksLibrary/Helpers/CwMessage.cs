@@ -133,7 +133,15 @@ namespace CodeWorksLibrary.Helpers
         /// </summary>
         public static void NoValidPath()
         {
-            SolidWorksEnvironment.Application.ShowMessageBox("Select a valid path to file.", SolidWorksMessageBoxIcon.Stop);
+            Application.ShowMessageBox("Select a valid path to file.", SolidWorksMessageBoxIcon.Stop);
+        }
+
+        /// <summary>
+        /// Show a message box for a file that already exists
+        /// </summary>
+        public static void FileAlreadyExists()
+        {
+            Application.ShowMessageBox("The file already exists in the destination folder", SolidWorksMessageBoxIcon.Stop);
         }
 
         #endregion
