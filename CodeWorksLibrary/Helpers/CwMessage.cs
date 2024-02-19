@@ -144,6 +144,11 @@ namespace CodeWorksLibrary.Helpers
             Application.ShowMessageBox("The file already exists in the destination folder", SolidWorksMessageBoxIcon.Stop);
         }
 
+        public static void FailToSaveFile()
+        {
+            Application.ShowMessageBox("Unable to save the file", SolidWorksMessageBoxIcon.Stop);
+        }
+
         #endregion
 
         #region Private methods
