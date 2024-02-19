@@ -182,6 +182,15 @@ namespace CodeWorksLibrary.Macros.Files
                 fileAttributes &= ~FileAttributes.ReadOnly;
 
                 File.SetAttributes(newDrawingPath, fileAttributes);
+
+                // Replace the drawing reference
+                if (SolidWorksEnvironment.Application.UnsafeObject.ReplaceReferencedDocument(newDrawingPath, oldFilePath, newFilePath)
+                    == false)
+                {
+                    SolidWorksEnvironment.Application.ShowMessageBox("Unable to replace the drawing reference", SolidWorksMessageBoxIcon.Warning);
+                }
+
+                output = newDrawingPath;
             }
 
             return output;
