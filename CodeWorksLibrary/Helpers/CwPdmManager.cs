@@ -123,7 +123,8 @@ namespace CodeWorksLibrary.Helpers
         /// Get the full project number by combining project letter and project number
         /// </summary>
         /// <param name="folderPath">The path to a PDM folder</param>
-        /// <returns>A string with the combination of project letter and project nummber</returns>
+        /// <returns>A string with the combination of project letter and project number</returns>
+        /// <remarks>It return the A000 project number if the path starts with StandardComponentsFolder</remarks>
         public static string GetProjectNumber(string folderPath)
         {
             string output = string.Empty;
@@ -136,6 +137,14 @@ namespace CodeWorksLibrary.Helpers
 
                 if (pdmVault.IsLoggedIn)
                 {
+                    // Return the project for standard components
+                    if (folderPath.StartsWith(GlobalConfig.StandardComponentsFolder.ToLower()))
+                    {
+                        output = GlobalConfig.StandardProjectNumber;
+
+                        return output;
+                    }
+
                     IEdmVariableMgr7 pdmVariableMgr = (IEdmVariableMgr7)pdmVault;
 
                     IEdmVariable5 pdmLetterVariable = pdmVariableMgr.GetVariable(GlobalConfig.ProjectLetterVariable);

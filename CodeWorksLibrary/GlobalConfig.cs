@@ -38,6 +38,11 @@ namespace CodeWorksLibrary
         /// </summary>
         public const string JobNumberPropName = "Commessa";
 
+        /// <summary>
+        /// The name of the project for standard components
+        /// </summary>
+        public const string StandardProjectNumber = "A000";
+
         #endregion
 
         #region Private path constants
