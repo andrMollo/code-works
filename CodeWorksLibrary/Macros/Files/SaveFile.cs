@@ -164,9 +164,9 @@ namespace CodeWorksLibrary.Macros.Files
             // Change component extension to the drawing one
             string oldDrawingPath = Path.ChangeExtension(oldFilePath, "SLDDRW");
 
-            string newDrawginPath = Path.ChangeExtension(newFilePath, "SLDDRW");
+            string newDrawingPath = Path.ChangeExtension(newFilePath, "SLDDRW");
 
-            if (File.Exists(newDrawginPath))
+            if (File.Exists(newDrawingPath))
             {
                 throw new Exception("A drawing already exists in the directory");
             }
@@ -174,7 +174,14 @@ namespace CodeWorksLibrary.Macros.Files
             // Create new drawing only if the old file already has a drawing
             if ( File.Exists(oldDrawingPath))
             {
-                File.Copy(oldDrawingPath, newDrawginPath);
+                File.Copy(oldDrawingPath, newDrawingPath);
+
+                // Try to remove the read-only flag from the new file
+                FileAttributes fileAttributes = File.GetAttributes(newDrawingPath);
+
+                fileAttributes &= ~FileAttributes.ReadOnly;
+
+                File.SetAttributes(newDrawingPath, fileAttributes);
             }
 
             return output;
