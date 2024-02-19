@@ -108,6 +108,12 @@ namespace CodeWorksLibrary.Macros.Files
                         CwMessage.FailToSaveFile();
                     }
 
+                    // Close the old file
+                    SolidWorksEnvironment.Application.CloseFile(_oldFilePath);
+
+                    // Open the new file
+                    SolidWorksEnvironment.Application.OpenFile(pathNewFile, OpenDocumentOptions.Silent);
+
                     // Update file properties **common**
                     // Save drawing **common**
                     // Replace drawing reference **common**
