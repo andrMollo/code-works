@@ -90,7 +90,24 @@ namespace CodeWorksLibrary.Macros.Files
                         return;
                     }
 
+                    // Check if a file already exists
+                    if (File.Exists(pathNewFile))
+                    {
+                        CwMessage.FileAlreadyExists();
+                        return;
+                    }
+
                     // Save the file as a copy
+                    ModelSaveResult saveResult = model.SaveAs(
+                        pathNewFile,
+                        options: SaveAsOptions.Silent | SaveAsOptions.Copy
+                        );
+
+                    if (saveResult.Successful == false )
+                    {
+                        CwMessage.FailToSaveFile();
+                    }
+
                     // Update file properties **common**
                     // Save drawing **common**
                     // Replace drawing reference **common**
