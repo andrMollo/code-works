@@ -50,7 +50,8 @@ namespace CodeWorksLibrary.Macros.Files
         /// Save a copy of the active, or the selected component with its drawing. 
         /// Replace all the selected instances with the new component
         /// </summary>
-        public static void MakeIndependentWithDrawingMacro()
+        /// <param name="usePdmSerialNbr">True to get the filename from PDM</param>
+        public static void MakeIndependentWithDrawingMacro(bool usePdmSerialNbr)
         {
             Model model = SolidWorksEnvironment.Application.ActiveModel;
 
@@ -80,8 +81,9 @@ namespace CodeWorksLibrary.Macros.Files
                         "Make independent with drawing - Select new file position",
                         _oldFileFolder,
                         fileFilter,
-                        false);
+                        usePdmSerialNbr);
 
+                    // Exists the method of the user left the filename empty
                     if (pathNewFile.IsNullOrEmpty() )
                     {
                         CwMessage.NoValidPath();
@@ -142,6 +144,11 @@ namespace CodeWorksLibrary.Macros.Files
             saveFileDialog.InitialDirectory = initialDirectory;
             saveFileDialog.Filter = filter;
             saveFileDialog.OverwritePrompt = true;
+
+            if (getPdmSerial)
+            {
+                saveFileDialog.FileName = "DO NO CHANGE";
+            }
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
