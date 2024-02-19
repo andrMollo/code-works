@@ -68,6 +68,11 @@ namespace CodeWorksLibrary
         public const string DraftRootFolder = GlobalConfigPrivate.MyDraftRootFolder;
 
         /// <summary>
+        /// The path to the PDM folder with the standard components
+        /// </summary>
+        public const string StandardComponentsFolder = GlobalConfigPrivate.MyStandardComponentsFolder;
+
+        /// <summary>
         /// The path to my map for the new sheet format
         /// </summary>
         public const string MyReplaceMapPath = GlobalConfigPrivate.MyReplaceMapPath;
