@@ -157,11 +157,11 @@ namespace CodeWorksLibrary.Helpers
 
                     IEdmEnumeratorVariable5 variableEnum = (IEdmEnumeratorVariable5)pdmFolder;
 
-                    var projectLetter = variableEnum.GetVar(GlobalConfig.ProjectLetterVariable, "", out var poRetValueLet);
+                    var projectLetter = variableEnum.GetVar(GlobalConfig.ProjectLetterVariable, "", out var projectLetterValue);
 
-                    var projectNumber = variableEnum.GetVar(GlobalConfig.ProjectNumberVariable, "", out var poRetValueNbr);
+                    var projectNumber = variableEnum.GetVar(GlobalConfig.ProjectNumberVariable, "", out var projectNumberValue);
 
-                    output = projectLetter.ToString() + " " + projectNumber.ToString();
+                    output = projectLetterValue.ToString() + projectNumberValue.ToString();
                 }
                 else
                 {
