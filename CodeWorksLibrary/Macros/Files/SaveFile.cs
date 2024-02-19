@@ -114,9 +114,11 @@ namespace CodeWorksLibrary.Macros.Files
                     // Open the new file
                     SolidWorksEnvironment.Application.OpenFile(pathNewFile, OpenDocumentOptions.Silent);
 
-                    // Update file properties **common**
-                    // Save drawing **common**
+                    // Save drawing
+                    string pathToNewDrawing = SaveNewDrawing(_oldFilePath, pathNewFile);
+
                     // Replace drawing reference **common**
+                    // Update file properties **common**
                     // Replace reference to old part
                 }
                 else
@@ -148,6 +150,31 @@ namespace CodeWorksLibrary.Macros.Files
         #endregion
 
         #region Private methods
+
+        /// <summary>
+        /// Make a copy of a drawing and replace its reference
+        /// </summary>
+        /// <param name="oldFilePath">The full path to the old component</param>
+        /// <param name="newFilePath">The full path to the new component</param>
+        /// <returns>The full path to the new drawing</returns>
+        private static string SaveNewDrawing(string oldFilePath, string newFilePath)
+        {
+            string output = string.Empty;
+
+            // Change component extension to the drawing one
+            string oldDrawingPath = Path.ChangeExtension(oldFilePath, "SLDDRW");
+
+            string newDrawginPath = Path.ChangeExtension(newFilePath, "SLDDRW");
+
+            if (File.Exists(newDrawginPath))
+            {
+                throw new Exception("A drawing already exists in the directory");
+            }
+
+
+
+            return output;
+        }
 
         /// <summary>
         /// Get the full path for the new file
