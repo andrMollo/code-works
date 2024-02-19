@@ -171,7 +171,11 @@ namespace CodeWorksLibrary.Macros.Files
                 throw new Exception("A drawing already exists in the directory");
             }
 
-
+            // Create new drawing only if the old file already has a drawing
+            if ( File.Exists(oldDrawingPath))
+            {
+                File.Copy(oldDrawingPath, newDrawginPath);
+            }
 
             return output;
         }
