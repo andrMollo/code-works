@@ -89,17 +89,12 @@ namespace CodeWorksLibrary
         /// <summary>
         /// The name of the variabile with the project starting letter
         /// </summary>
-        private const string ProjectLetterVariable = GlobalConfigPrivate.MyProjectLetterVariable;
+        public const string ProjectLetterVariable = GlobalConfigPrivate.MyProjectLetterVariable;
 
         /// <summary>
         /// The name of the variable with the project number
         /// </summary>
-        private const string ProjectNumberVariable = GlobalConfigPrivate.MyProjectNumberVariable;
-
-        /// <summary>
-        /// The name of the variable containing the Project Number
-        /// </summary>
-        public const string ProjectVariableName = GlobalConfigPrivate.MyProjectVariableName;
+        public const string ProjectNumberVariable = GlobalConfigPrivate.MyProjectNumberVariable;
 
         /// <summary>
         /// The name of the serial for part files

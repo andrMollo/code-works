@@ -21,13 +21,20 @@ namespace CodeWorksLibrary.Helpers
 
                 pdmVault.LoginAuto(GlobalConfig.VaultName, 0);
 
-                IEdmUserMgr5 userMgr = (IEdmUserMgr5) pdmVault;
+                if (pdmVault.IsLoggedIn)
+                {
+                    IEdmUserMgr5 userMgr = (IEdmUserMgr5) pdmVault;
 
-                IEdmUser6 user = (IEdmUser6)userMgr.GetLoggedInUser();
+                    IEdmUser6 user = (IEdmUser6)userMgr.GetLoggedInUser();
 
-                userName = (string)user.UserData;
+                    userName = (string)user.UserData;
 
-                return userName;
+                    return userName;
+                }
+                else
+                {
+                    throw new Exception("Unable to connect to PDM.");
+                }
             }
             catch
             {
@@ -112,6 +119,11 @@ namespace CodeWorksLibrary.Helpers
             return output;
         }
 
+        /// <summary>
+        /// Get the full project number by combining project letter and project number
+        /// </summary>
+        /// <param name="folderPath">The path to a PDM folder</param>
+        /// <returns>A string with the combination of project letter and project nummber</returns>
         public static string GetProjectNumber(string folderPath)
         {
             string output = string.Empty;
@@ -122,13 +134,30 @@ namespace CodeWorksLibrary.Helpers
 
                 pdmVault.LoginAuto(GlobalConfig.VaultName, 0);
 
-                // Get folder from path
-                IEdmFolder5 folder = pdmVault.GetFolderFromPath(folderPath);
+                if (pdmVault.IsLoggedIn)
+                {
+                    IEdmVariableMgr7 pdmVariableMgr = (IEdmVariableMgr7)pdmVault;
 
-                // Get variable manager
-                IEdmVariableMgr5 variableMgr = (IEdmVariableMgr5)folder.Vault;
+                    IEdmVariable5 pdmLetterVariable = pdmVariableMgr.GetVariable(GlobalConfig.ProjectLetterVariable);
 
-                // How to get the variable id??
+                    IEdmVariable5 pdmNumberVariable = pdmVariableMgr.GetVariable(GlobalConfig.ProjectNumberVariable);
+
+                    IEdmFolder5 pdmFolder = pdmVault.GetFolderFromPath(folderPath);
+
+                    int folderId = pdmFolder.ID;
+
+                    IEdmEnumeratorVariable5 variableEnum = (IEdmEnumeratorVariable5)pdmFolder;
+
+                    var projectLetter = variableEnum.GetVar(GlobalConfig.ProjectLetterVariable, "", out var poRetValueLet);
+
+                    var projectNumber = variableEnum.GetVar(GlobalConfig.ProjectNumberVariable, "", out var poRetValueNbr);
+
+                    output = projectLetter.ToString() + " " + projectNumber.ToString();
+                }
+                else
+                {
+                    throw new Exception("Unable to connect to PDM.");
+                }
             }
             catch
             {
