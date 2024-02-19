@@ -197,6 +197,8 @@ namespace CodeWorksLibrary.Macros.Files
             else
             {
                 string projectNumber = CwPdmManager.GetProjectNumber(path);
+
+                output = projectNumber + "-" + serialNumber;
             }
 
             return output;
