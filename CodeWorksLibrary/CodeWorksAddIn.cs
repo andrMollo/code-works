@@ -116,6 +116,7 @@ namespace CodeWorksLibrary
                     break;
                 case CwCommands_e.MakeIndepE:
                     SaveFile.MakeIndependentWithDrawingMacro(false);
+                    break;
                 case CwCommands_e.SetAuthorE:
                     SetAuthorMacro.SetAuthor();
                     break;
