@@ -112,10 +112,10 @@ namespace CodeWorksLibrary
             switch (spec)
             {
                 case CwCommands_e.MakeIndepPdmE:
-                    SaveFile.MakeIndependentWithDrawingMacro(true);
+                    SaveFile.MakeIndependentWithDrawingMacro(true, false);
                     break;
                 case CwCommands_e.MakeIndepE:
-                    SaveFile.MakeIndependentWithDrawingMacro(false);
+                    SaveFile.MakeIndependentWithDrawingMacro(false, false);
                     break;
                 case CwCommands_e.SetAuthorE:
                     SetAuthorMacro.SetAuthor();
