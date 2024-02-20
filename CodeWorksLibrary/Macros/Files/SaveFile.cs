@@ -38,6 +38,11 @@ namespace CodeWorksLibrary.Macros.Files
         private static ModelType _oldModelType = ModelType.None;
 
         /// <summary>
+        /// The SolidDNA Model object for the newly created componente
+        /// </summary>
+        private static Model _newModel = null;
+
+        /// <summary>
         /// A logger model for this add-in
         /// </summary>
         private static CwLogger _logger = new CwLogger();
@@ -112,13 +117,14 @@ namespace CodeWorksLibrary.Macros.Files
                     SolidWorksEnvironment.Application.CloseFile(_oldFilePath);
 
                     // Open the new file
-                    SolidWorksEnvironment.Application.OpenFile(pathNewFile, OpenDocumentOptions.Silent);
+                    _newModel = SolidWorksEnvironment.Application.OpenFile(pathNewFile, OpenDocumentOptions.Silent);
 
-                    // Save drawing
+                    // Save drawing and replace reference
                     string pathToNewDrawing = SaveNewDrawing(_oldFilePath, pathNewFile);
 
-                    // Replace drawing reference **common**
-                    // Update file properties **common**
+                    // Update file properties
+                    NewModelPropertyUpdate(_newModel);
+
                     // Replace reference to old part
                 }
                 else
@@ -150,6 +156,15 @@ namespace CodeWorksLibrary.Macros.Files
         #endregion
 
         #region Private methods
+
+        /// <summary>
+        /// Update the custom properties for the newly created files
+        /// </summary>
+        /// <param name="newModel">The SolidDNA Model object of the new componente</param>
+        private static void NewModelPropertyUpdate(Model newModel)
+        {
+            
+        }
 
         /// <summary>
         /// Make a copy of a drawing and replace its reference
