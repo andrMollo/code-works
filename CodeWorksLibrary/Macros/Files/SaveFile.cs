@@ -57,7 +57,7 @@ namespace CodeWorksLibrary.Macros.Files
         /// Replace all the selected instances with the new component
         /// </summary>
         /// <param name="usePdmSerialNbr">True to get the filename from PDM</param>
-        /// <param name="replaceInstances">True to replace all the instances of the old component with the new one</param>
+        /// <param name="replaceInstances">True to replace all the instances of the old component with the new one in the current SolidWorks session</param>
         public static void MakeIndependentWithDrawingMacro(bool usePdmSerialNbr, bool replaceInstances)
         {
             Model model = SolidWorksEnvironment.Application.ActiveModel;
@@ -104,16 +104,8 @@ namespace CodeWorksLibrary.Macros.Files
                         return;
                     }
 
-                    // Save the file as a copy
-                    ModelSaveResult saveResult = model.SaveAs(
-                        pathNewFile,
-                        options: SaveAsOptions.Silent | SaveAsOptions.Copy
-                        );
-
-                    if (saveResult.Successful == false )
-                    {
-                        CwMessage.FailToSaveFile();
-                    }
+                    // Save the new component
+                    SaveNewComponent(model, pathNewFile, replaceInstances);
 
                     // Close the old file
                     SolidWorksEnvironment.Application.CloseFile(_oldFilePath);
@@ -158,6 +150,29 @@ namespace CodeWorksLibrary.Macros.Files
         #endregion
 
         #region Private methods
+
+        /// <summary>
+        /// Save the new component
+        /// </summary>
+        /// <param name="model">The SolidDNA Model object of the part to be saved</param>
+        /// <param name="pathNewFile">The full path to the new file</param>
+        /// <param name="replaceInstances">True to replace all instances of the model in the current SolidWorks session</param>
+        private static void SaveNewComponent(Model model, string pathNewFile, bool replaceInstances)
+        {
+            if (replaceInstances == false)
+            {
+                // Save the file as a copy
+                ModelSaveResult saveResult = model.SaveAs(
+                    pathNewFile,
+                    options: SaveAsOptions.Silent | SaveAsOptions.Copy
+                    );
+
+                if (saveResult.Successful == false)
+                {
+                    CwMessage.FailToSaveFile();
+                }
+            }            
+        }
 
         /// <summary>
         /// Update the custom properties for the newly created files
