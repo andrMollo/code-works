@@ -193,7 +193,7 @@ namespace CodeWorksLibrary.Macros.Files
 
                 foreach (CustomProperty item in customProperties)
                 {
-                    item.Value = string.Empty;
+                    item.Delete();
                 }
             }
         }
