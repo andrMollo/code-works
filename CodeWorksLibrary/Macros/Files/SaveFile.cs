@@ -1,6 +1,7 @@
 ﻿using CADBooster.SolidDna;
 using CodeWorksLibrary.Helpers;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using Xarial.XCad.Base.Enums;
@@ -160,10 +161,35 @@ namespace CodeWorksLibrary.Macros.Files
         /// <summary>
         /// Update the custom properties for the newly created files
         /// </summary>
-        /// <param name="newModel">The SolidDNA Model object of the new componente</param>
-        private static void NewModelPropertyUpdate(Model newModel)
+        /// <param name="model">The SolidDNA Model object of the new componente</param>
+        private static void NewModelPropertyUpdate(Model model)
         {
+            // Delete legacy code
+            model.SetCustomProperty("Codice BL", string.Empty);
             
+            // Delete revision
+            model.SetCustomProperty("Revisione", string.Empty);
+
+            // Update author
+            string authorName = CwPdmManager.GetPdmUserName();
+
+            model.SetCustomProperty(GlobalConfig.AuthorPropName, authorName);
+
+            // Set original code
+            model.SetCustomProperty("Codice Origine", _oldFileName);
+
+            // * Clean up
+
+            // Update filename prop with formula
+            model.SetCustomProperty("Nome File", "$PRP:\"SW-File Name\"");
+
+            // Delete configuration specific properties
+            List<string> modelConfigurations = model.ConfigurationNames;
+
+            foreach ( string configurationName in modelConfigurations )
+            {
+                
+            }
         }
 
         /// <summary>
