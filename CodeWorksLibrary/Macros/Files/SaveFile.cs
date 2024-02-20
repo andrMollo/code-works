@@ -188,7 +188,13 @@ namespace CodeWorksLibrary.Macros.Files
 
             foreach ( string configurationName in modelConfigurations )
             {
-                
+                CustomPropertyEditor customPropertyEditor = model.Extension.CustomPropertyEditor(configurationName);
+                List<CustomProperty> customProperties = customPropertyEditor.GetCustomProperties();
+
+                foreach (CustomProperty item in customProperties)
+                {
+                    item.Value = string.Empty;
+                }
             }
         }
 
