@@ -4,6 +4,7 @@ using SolidWorks.Interop.sldworks;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using Xarial.XCad.Base.Enums;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
@@ -128,6 +129,18 @@ namespace CodeWorksLibrary.Macros.Files
                 else if (selectedModels.Count > 1)
                 {
                     // Check that all the models in the list are the same
+                    string firstModelPath = selectedModels[1].GetPathName();
+
+                    bool allSelectedSamePath = selectedModels.All(model => model.GetPathName() == firstModelPath);
+
+                    if (allSelectedSamePath)
+                    {
+
+                    }
+                    else
+                    {
+
+                    }
 
                     // Update file properties **common**
                     // Save drawing **common**
