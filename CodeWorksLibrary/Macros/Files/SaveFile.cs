@@ -1,5 +1,6 @@
 ﻿using CADBooster.SolidDna;
 using CodeWorksLibrary.Helpers;
+using SolidWorks.Interop.sldworks;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -70,9 +71,12 @@ namespace CodeWorksLibrary.Macros.Files
 
             try
             {
-                if (model.IsPart)
+                // Check whether or not there are selected components
+                List<ModelDoc2> selectedModels = CwSelectionManager.GetSelectedModels(model.UnsafeObject);
+
+                if (model.IsPart || selectedModels.Count == 1)
                 {
-                    _logger.Log("Save the active part file", LoggerMessageSeverity_e.Information);
+                    _logger.Log("Save the active file", LoggerMessageSeverity_e.Information);
 
                     // Get old file info
                     _oldFilePath = model.FilePath;
@@ -121,11 +125,10 @@ namespace CodeWorksLibrary.Macros.Files
 
                     // Replace reference to old part
                 }
-                else
+                else if (selectedModels.Count > 1)
                 {
-                    // Check whether or not there are selected components
-                    // If nothing is selected
-                    // Save the file as a copy
+                    // Check that all the models in the list are the same
+
                     // Update file properties **common**
                     // Save drawing **common**
                     // Replace drawing reference **common**
