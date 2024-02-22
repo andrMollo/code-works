@@ -73,7 +73,7 @@ namespace CodeWorksLibrary.Macros.Files
             try
             {
                 // Check whether or not there are selected components
-                List<ModelDoc2> selectedModels = CwSelectionManager.GetSelectedModels(model.UnsafeObject);
+                List<Model> selectedModels = CwSelectionManager.GetSelectedModels(model);
 
                 if (model.IsPart || selectedModels.Count == 1)
                 {
@@ -132,9 +132,9 @@ namespace CodeWorksLibrary.Macros.Files
                 else if (selectedModels.Count > 1)
                 {
                     // Check that all the models in the list are the same
-                    string firstModelPath = selectedModels[1].GetPathName();
+                    string firstModelPath = selectedModels[1].FilePath;
 
-                    bool allSelectedSamePath = selectedModels.All(selModel => selModel.GetPathName() == firstModelPath);
+                    bool allSelectedSamePath = selectedModels.All(selModel => selModel.FilePath == firstModelPath);
 
                     if (allSelectedSamePath)
                     {
