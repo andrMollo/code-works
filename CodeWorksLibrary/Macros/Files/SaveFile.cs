@@ -1,13 +1,11 @@
 ﻿using CADBooster.SolidDna;
 using CodeWorksLibrary.Helpers;
-using SolidWorks.Interop.sldworks;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Xarial.XCad.Base.Enums;
-using static CADBooster.SolidDna.SolidWorksEnvironment;
 
 namespace CodeWorksLibrary.Macros.Files
 {
@@ -156,6 +154,9 @@ namespace CodeWorksLibrary.Macros.Files
                         string pathToNewDrawing = SaveNewDrawing(_oldFilePath, pathNewFile);
 
                         // Replace instances of the old component with the new one
+
+                        // Update property for the new model
+
                     }
                     else
                     {
