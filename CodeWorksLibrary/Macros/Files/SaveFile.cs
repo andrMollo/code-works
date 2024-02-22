@@ -79,22 +79,12 @@ namespace CodeWorksLibrary.Macros.Files
                 {
                     _logger.Log("Save the active file", LoggerMessageSeverity_e.Information);
 
-                    #region Move all this in a method
-                    // Get old file info
-                    _oldFilePath = model.FilePath;
-                    _oldFileFolder = Path.GetDirectoryName(_oldFilePath);
-                    _oldFileName = Path.GetFileName(_oldFilePath);
-                    _oldFileExtension = Path.GetExtension(_oldFilePath);
-                    _oldModelType = model.ModelType;
-
-                    // Get the new path
-                    string fileFilter = FileFilter(_oldFileExtension);
-
+                    // Get the new path                  
                     string pathNewFile = GetNewFilePath(
-                        "Make independent with drawing - Select new file position",
-                        _oldFileFolder,
-                        fileFilter,
-                        usePdmSerialNbr);
+                        model,
+                        usePdmSerialNbr,
+                        replaceInstances
+                        );
 
                     // Exists the method of the user left the filename empty
                     if (pathNewFile.IsNullOrEmpty() )
@@ -109,8 +99,6 @@ namespace CodeWorksLibrary.Macros.Files
                         CwMessage.FileAlreadyExists();
                         return;
                     }
-
-                    #endregion
 
                     // Save the new component
                     SaveNewComponent(model, pathNewFile, replaceInstances);
@@ -271,22 +259,44 @@ namespace CodeWorksLibrary.Macros.Files
         /// <summary>
         /// Get the full path for the new file
         /// </summary>
-        /// <param name="titleWindow">The string with the title to the SaveFileDialog window</param>
-        /// <param name="initialDirectory">The folder where the SaveFileDialog starts</param>
-        /// <param name="filter">The filter for the extensions shown in the SaveFileDialog window</param>
+        /// <param name="model">The SolidDNA Model object of the file to be save</param>
         /// <param name="getPdmSerial">True to get the file name from the PDM</param>
+        /// <param name="replaceInstances">True to replace all the instances of the old component with the new one in the current SolidWorks session</param>
         /// <returns>A string with the full path for the new file</returns>
-        private static string GetNewFilePath(string titleWindow, string initialDirectory, string filter, bool getPdmSerial)
+        private static string GetNewFilePath(Model model, bool getPdmSerial, bool replaceInstances)
         {
             string output = string.Empty;
 
+            // Set class fields - Get old file info
+            _oldFilePath = model.FilePath;
+            _oldFileFolder = Path.GetDirectoryName(_oldFilePath);
+            _oldFileName = Path.GetFileName(_oldFilePath);
+            _oldFileExtension = Path.GetExtension(_oldFilePath);
+            _oldModelType = model.ModelType;
+
+            // Set SaveFileDialog title
+            string titleWindow = string.Empty;
+
+            if (replaceInstances)
+            {
+                titleWindow = "Save with drawing - Select new file position";
+            }
+            else
+            {
+                titleWindow = "Make independent with drawing - Select new file position";
+            }
+
+            string filter = FileFilter(_oldFileExtension);
+
             SaveFileDialog saveFileDialog = new SaveFileDialog();
 
+            // FileDialog setup
             saveFileDialog.Title = titleWindow;
-            saveFileDialog.InitialDirectory = initialDirectory;
+            saveFileDialog.InitialDirectory = _oldFileFolder;
             saveFileDialog.Filter = filter;
             saveFileDialog.OverwritePrompt = true;
 
+            // Show a dummy filename if the part number is assigned by PDM
             if (getPdmSerial)
             {
                 saveFileDialog.FileName = "DO NO CHANGE";
