@@ -135,9 +135,27 @@ namespace CodeWorksLibrary.Macros.Files
                             replaceInstances
                             );
 
+                        // Exists the method of the user left the filename empty
+                        if (pathNewFile.IsNullOrEmpty())
+                        {
+                            CwMessage.NoValidPath();
+                            return;
+                        }
+
+                        // Check if a file already exists
+                        if (File.Exists(pathNewFile))
+                        {
+                            CwMessage.FileAlreadyExists();
+                            return;
+                        }
+
                         // Save the first component of the list
-                        // Save the file as a copy
-                        // Replace reference to old part
+                        SaveNewComponent(selectedModels.First(), pathNewFile, replaceInstances);
+
+                        // Save drawing and replace reference
+                        string pathToNewDrawing = SaveNewDrawing(_oldFilePath, pathNewFile);
+
+                        // Replace instances of the old component with the new one
                     }
                     else
                     {
