@@ -79,6 +79,7 @@ namespace CodeWorksLibrary.Macros.Files
                 {
                     _logger.Log("Save the active file", LoggerMessageSeverity_e.Information);
 
+                    #region Move all this in a method
                     // Get old file info
                     _oldFilePath = model.FilePath;
                     _oldFileFolder = Path.GetDirectoryName(_oldFilePath);
@@ -109,6 +110,8 @@ namespace CodeWorksLibrary.Macros.Files
                         return;
                     }
 
+                    #endregion
+
                     // Save the new component
                     SaveNewComponent(model, pathNewFile, replaceInstances);
 
@@ -131,29 +134,19 @@ namespace CodeWorksLibrary.Macros.Files
                     // Check that all the models in the list are the same
                     string firstModelPath = selectedModels[1].GetPathName();
 
-                    bool allSelectedSamePath = selectedModels.All(model => model.GetPathName() == firstModelPath);
+                    bool allSelectedSamePath = selectedModels.All(selModel => selModel.GetPathName() == firstModelPath);
 
                     if (allSelectedSamePath)
                     {
-
+                        // Save the first component of the list
+                        // Save the file as a copy
+                        // Replace reference to old part
                     }
                     else
                     {
-
-                    }
-
-                    // Update file properties **common**
-                    // Save drawing **common**
-                    // Replace drawing reference **common**
-                    // Replace reference to old part
-                    // If there are selected components
-                    // Get all the selected model
-                    // Check that the selection
-                    // Save the file as a copy
-                    // Update file properties **common**
-                    // Save drawing **common**
-                    // Replace drawing reference **common**
-                    // Replace reference to old part
+                        SolidWorksEnvironment.Application.ShowMessageBox("The selection can't contains different components", SolidWorksMessageBoxIcon.Stop);
+                        return;
+                    }                  
                 }
             }
             catch (Exception ex)
