@@ -126,6 +126,15 @@ namespace CodeWorksLibrary.Macros.Files
 
                     if (allSelectedSamePath)
                     {
+                        _logger.Log("Save the first model in the selection", LoggerMessageSeverity_e.Information);
+
+                        // Get the new path                  
+                        string pathNewFile = GetNewFilePath(
+                            selectedModels.First(),
+                            usePdmSerialNbr,
+                            replaceInstances
+                            );
+
                         // Save the first component of the list
                         // Save the file as a copy
                         // Replace reference to old part
