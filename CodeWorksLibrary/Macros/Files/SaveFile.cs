@@ -183,19 +183,29 @@ namespace CodeWorksLibrary.Macros.Files
         /// <param name="replaceInstances">True to replace all instances of the model in the current SolidWorks session</param>
         private static void SaveNewComponent(Model model, string pathNewFile, bool replaceInstances)
         {
+            ModelSaveResult result = null;
+            
             if (replaceInstances == false)
             {
                 // Save the file as a copy
-                ModelSaveResult saveResult = model.SaveAs(
+                result = model.SaveAs(
                     pathNewFile,
                     options: SaveAsOptions.Silent | SaveAsOptions.Copy
                     );
+            }
+            else
+            {
+                // Save as the file
+                result = model.SaveAs(
+                    pathNewFile,
+                    options: SaveAsOptions.Silent
+                    );
+            }
 
-                if (saveResult.Successful == false)
-                {
-                    CwMessage.FailToSaveFile();
-                }
-            }            
+            if (result.Successful == false)
+            {
+                CwMessage.FailToSaveFile();
+            }
         }
 
         /// <summary>
