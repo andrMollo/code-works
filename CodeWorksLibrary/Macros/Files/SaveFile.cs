@@ -175,7 +175,8 @@ namespace CodeWorksLibrary.Macros.Files
                             );
 
                         // Update property for the new model
-
+                        List<Model> newModels = CwSelectionManager.GetSelectedModels(model);
+                        NewModelPropertyUpdate(newModels.First());
                     }
                     else
                     {
