@@ -1,5 +1,6 @@
 ﻿using CADBooster.SolidDna;
 using CodeWorksLibrary.Helpers;
+using SolidWorks.Interop.sldworks;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -124,6 +125,15 @@ namespace CodeWorksLibrary.Macros.Files
 
                     if (allSelectedSamePath)
                     {
+                        // Get the selection list and suspend it
+                        _logger.Log("Suspend the selection list", LoggerMessageSeverity_e.Information);
+
+                        SelectionMgr selectionMgr = new SelectionMgr();
+                        selectionMgr = (SelectionMgr)model.UnsafeObject.SelectionManager;
+
+                        selectionMgr.SuspendSelectionList();
+
+                        // Save the first model of the selection
                         _logger.Log("Save the first model in the selection", LoggerMessageSeverity_e.Information);
 
                         // Get the new path                  
@@ -152,6 +162,9 @@ namespace CodeWorksLibrary.Macros.Files
 
                         // Save drawing and replace reference
                         string pathToNewDrawing = SaveNewDrawing(_oldFilePath, pathNewFile);
+
+                        // Restore the selection list
+                        selectionMgr.ResumeSelectionList2(false);
 
                         // Replace instances of the old component with the new one
 
@@ -340,6 +353,7 @@ namespace CodeWorksLibrary.Macros.Files
                 saveFileDialog.FileName = "DO NO CHANGE";
             }
 
+            // TODO Add control here if userInputFilePath.IsNullOrEmpty()
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string userInputFilePath = saveFileDialog.FileName;
@@ -371,6 +385,8 @@ namespace CodeWorksLibrary.Macros.Files
 
                 output = fileFullPath;
             }
+
+            // TODO Add validation
 
             return output;
         }
