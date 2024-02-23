@@ -1,6 +1,7 @@
 ﻿using CADBooster.SolidDna;
 using CodeWorksLibrary.Helpers;
 using SolidWorks.Interop.sldworks;
+using SolidWorks.Interop.swconst;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -113,9 +114,8 @@ namespace CodeWorksLibrary.Macros.Files
 
                     // Update file properties
                     NewModelPropertyUpdate(_newModel);
-
-                    // Replace reference to old part
                 }
+                // Process the selected components in the assembly
                 else if (selectedModels.Count > 1)
                 {
                     // Check that all the models in the list are the same
@@ -167,6 +167,13 @@ namespace CodeWorksLibrary.Macros.Files
                         selectionMgr.ResumeSelectionList2(false);
 
                         // Replace instances of the old component with the new one
+                        model.AsAssembly().ReplaceComponents2(
+                            pathNewFile,
+                            selectedModels.First().ActiveConfiguration.Name,
+                            false,
+                            (int)swReplaceComponentsConfiguration_e.swReplaceComponentsConfiguration_MatchName,
+                            true
+                            );
 
                         // Update property for the new model
 
