@@ -128,8 +128,7 @@ namespace CodeWorksLibrary.Macros.Files
                         // Get the selection list and suspend it
                         _logger.Log("Suspend the selection list", LoggerMessageSeverity_e.Information);
 
-                        SelectionMgr selectionMgr = new SelectionMgr();
-                        selectionMgr = (SelectionMgr)model.UnsafeObject.SelectionManager;
+                        SelectionMgr selectionMgr = (SelectionMgr)model.UnsafeObject.SelectionManager;
 
                         selectionMgr.SuspendSelectionList();
 
