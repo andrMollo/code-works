@@ -159,6 +159,7 @@
     <None Include="app.config" />
     <None Include="Macros\Drawings\README.md" />
     <None Include="Macros\Export\README.md" />
+    <None Include="Macros\Files\README.md" />
     <None Include="Macros\Properties\README.md" />
     <None Include="packages.config" />
   </ItemGroup>
@@ -197,6 +198,9 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SaveFile.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Xarial.XCad.SolidWorks.0.8.0-beta.4929\build\Xarial.XCad.SolidWorks.targets" Condition="Exists('..\packages\Xarial.XCad.SolidWorks.0.8.0-beta.4929\build\Xarial.XCad.SolidWorks.targets')" />

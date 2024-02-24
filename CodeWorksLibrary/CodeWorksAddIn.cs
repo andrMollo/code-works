@@ -10,8 +10,6 @@ using System.Runtime.InteropServices;
 using Xarial.XCad.Base.Attributes;
 using Xarial.XCad.SolidWorks;
 using Xarial.XCad.UI.Commands;
-using Xarial.XCad.UI.Commands.Attributes;
-using Xarial.XCad.UI.Commands.Enums;
 
 namespace CodeWorksLibrary
 {
@@ -19,7 +17,7 @@ namespace CodeWorksLibrary
     [Guid("B611522B-5141-41D9-A918-2B50BB885BAA")]
     [Title("CodeWorks")]
     [Description("A collection of macros for SolidWorks")]
-    public class AddIn : Xarial.XCad.SolidWorks.SwAddInEx
+    public class AddIn : SwAddInEx
     {
         #region Enumeration
         /// <summary>
@@ -31,15 +29,19 @@ namespace CodeWorksLibrary
         {
             [Title("Copy component PDM")]
             [Description("Make a copy of the selected component and its drawing using PDM part number")]
+            [Icon(typeof(Resources), nameof(Resources.SaveFile))]
             MakeIndepPdmE,
             [Title("Save component PDM")]
             [Description("Save the selected component and its drawing using PDM part number")]
+            [Icon(typeof(Resources), nameof(Resources.SaveFile))]
             SavePdmE,
             [Title("Copy component")]
             [Description("Make a copy of the selected file and its drawing")]
+            [Icon(typeof(Resources), nameof(Resources.SaveFile))]
             MakeIndepE,
             [Title("Save componente PDM")]
             [Description("Save the selected component and its drawing")]
+            [Icon(typeof(Resources), nameof(Resources.SaveFile))]
             SaveE,
             [Title("Set author")]
             [Description("Write the component author in the custom properties")]
