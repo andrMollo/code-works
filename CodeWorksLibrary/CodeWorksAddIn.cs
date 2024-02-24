@@ -1,6 +1,7 @@
 ﻿using CADBooster.SolidDna;
 using CodeWorksLibrary.Macros.Drawings;
 using CodeWorksLibrary.Macros.Export;
+using CodeWorksLibrary.Macros.Files;
 using CodeWorksLibrary.Macros.Properties;
 using CodeWorksLibrary.Properties;
 using SolidWorks.Interop.sldworks;
@@ -16,7 +17,7 @@ namespace CodeWorksLibrary
     [Guid("B611522B-5141-41D9-A918-2B50BB885BAA")]
     [Title("CodeWorks")]
     [Description("A collection of macros for SolidWorks")]
-    public class AddIn : Xarial.XCad.SolidWorks.SwAddInEx
+    public class AddIn : SwAddInEx
     {
         #region Enumeration
         /// <summary>
@@ -26,6 +27,22 @@ namespace CodeWorksLibrary
         [Description("A collection of macros for SolidWorks")]
         public enum CwCommands_e
         {
+            [Title("Copy component PDM")]
+            [Description("Make a copy of the selected component and its drawing using PDM part number")]
+            [Icon(typeof(Resources), nameof(Resources.SaveFile))]
+            MakeIndepPdmE,
+            [Title("Save component PDM")]
+            [Description("Save the selected component and its drawing using PDM part number")]
+            [Icon(typeof(Resources), nameof(Resources.SaveFile))]
+            SavePdmE,
+            [Title("Copy component")]
+            [Description("Make a copy of the selected file and its drawing")]
+            [Icon(typeof(Resources), nameof(Resources.SaveFile))]
+            MakeIndepE,
+            [Title("Save componente PDM")]
+            [Description("Save the selected component and its drawing")]
+            [Icon(typeof(Resources), nameof(Resources.SaveFile))]
+            SaveE,
             [Title("Set author")]
             [Description("Write the component author in the custom properties")]
             [Icon(typeof(Resources), nameof(Resources.SetAuthor))]
@@ -102,6 +119,18 @@ namespace CodeWorksLibrary
         {
             switch (spec)
             {
+                case CwCommands_e.MakeIndepPdmE:
+                    SaveFile.SaveWithDrawing(true, false);
+                    break;
+                case CwCommands_e.SavePdmE:
+                    SaveFile.SaveWithDrawing(true, true);
+                    break;
+                case CwCommands_e.MakeIndepE:
+                    SaveFile.SaveWithDrawing(false, false);
+                    break;
+                case CwCommands_e.SaveE:
+                    SaveFile.SaveWithDrawing(false, true);
+                    break;
                 case CwCommands_e.SetAuthorE:
                     SetAuthorMacro.SetAuthor();
                     break;
