@@ -35,7 +35,9 @@ namespace CodeWorksLibrary.Helpers
             
             // Get the list of selected components
             List<Component2> vComp = new List<Component2>();
-            vComp = GetSelectedComponents((SelectionMgr)model.UnsafeObject.SelectionManager);
+            ModelDoc2 swModel = (ModelDoc2)model.UnsafeObject;
+
+            vComp = GetSelectedComponents((SelectionMgr)swModel.SelectionManager);
 
             // If nothing is selected returns the active model
             if (vComp.Count == 0)
