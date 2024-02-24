@@ -40,7 +40,7 @@ namespace CodeWorksLibrary
             MakeIndepE,
             [Title("Save componente PDM")]
             [Description("Save the selected component and its drawing")]
-            SaveE
+            SaveE,
             [Title("Set author")]
             [Description("Write the component author in the custom properties")]
             [Icon(typeof(Resources), nameof(Resources.SetAuthor))]
