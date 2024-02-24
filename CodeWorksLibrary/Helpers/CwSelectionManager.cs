@@ -47,9 +47,9 @@ namespace CodeWorksLibrary.Helpers
             {
                 for (int i = 0; i < vComp.Count; i++)
                 {
-                    ModelDoc2 selelectedSwModel = (ModelDoc2)vComp[i].GetModelDoc2();
+                    ModelDoc2 selectedSwModel = (ModelDoc2)vComp[i].GetModelDoc2();
 
-                    Model selectedModel = new Model(selelectedSwModel);
+                    Model selectedModel = new Model(selectedSwModel);
 
                     output.Add(selectedModel);
                 }
