@@ -39,7 +39,7 @@ namespace CodeWorksLibrary
             [Description("Make a copy of the selected file and its drawing")]
             [Icon(typeof(Resources), nameof(Resources.SaveFile))]
             MakeIndepE,
-            [Title("Save componente PDM")]
+            [Title("Save component PDM")]
             [Description("Save the selected component and its drawing")]
             [Icon(typeof(Resources), nameof(Resources.SaveFile))]
             SaveE,
