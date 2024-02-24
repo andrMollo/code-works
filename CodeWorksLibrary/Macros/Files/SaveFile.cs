@@ -182,7 +182,9 @@ namespace CodeWorksLibrary.Macros.Files
                         }
 
                         // Update property for the new model
-                        List<Model> newModels = CwSelectionManager.GetSelectedModels(model);
+                        Model activeModel = SolidWorksEnvironment.Application.ActiveModel;
+
+                        List<Model> newModels = CwSelectionManager.GetSelectedModels(activeModel);
                         NewModelPropertyUpdate(newModels.First());
                     }
                     else
