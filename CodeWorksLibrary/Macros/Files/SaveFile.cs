@@ -213,7 +213,17 @@ namespace CodeWorksLibrary.Macros.Files
         {
             Model output = null;
 
-            IEnumerable<(CADBooster.SolidDna.Component, int)> components = model.Components().ToList();
+            IEnumerable<(CADBooster.SolidDna.Component component, int depth)> components = model.Components().ToList();
+
+            foreach (var comp in components)
+            {
+                Model componentModel = comp.component.AsModel;
+
+                if (componentModel.FilePath == path)
+                {
+                    output = componentModel;
+                }
+            }
 
             return output;
         }
