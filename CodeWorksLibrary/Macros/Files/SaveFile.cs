@@ -113,7 +113,7 @@ namespace CodeWorksLibrary.Macros.Files
                     string pathToNewDrawing = SaveNewDrawing(_oldFilePath, pathNewFile);
 
                     // Update file properties
-                    NewModelPropertyUpdate(_newModel);
+                    ModelPropertyUpdate(_newModel);
                 }
                 // Process the selected components in the assembly
                 else if (selectedModels.Count > 1)
@@ -181,13 +181,11 @@ namespace CodeWorksLibrary.Macros.Files
                             _logger.Log("Replacing unsuccessful.", LoggerMessageSeverity_e.Warning);
                         }
 
-                        // HACK: Get the active model again since ReplaceComponents2 destroy the reference?
-                        Model activeModel = SolidWorksEnvironment.Application.ActiveModel;
-
-                        List<Model> newModels = CwSelectionManager.GetSelectedModels(activeModel);
+                        // Get the new model from the assembly components
+                        _newModel = GetModelByPath(SolidWorksEnvironment.Application.ActiveModel, pathNewFile);
 
                         // Update property for the new model
-                        NewModelPropertyUpdate(newModels.First());
+                        ModelPropertyUpdate(_newModel);
                     }
                     else
                     {
@@ -203,9 +201,24 @@ namespace CodeWorksLibrary.Macros.Files
             }
         }
 
-        #endregion
-
         #region Private methods
+
+        /// <summary>
+        /// Get a Model from path by traversing the assembly components
+        /// </summary>
+        /// <param name="model">The SolidDNA Model to be searched in for a component</param>
+        /// <param name="path">The full path to a file</param>
+        /// <returns>The SolidDNA Model object for the input location</returns>
+        private static Model GetModelByPath(Model model, string path)
+        {
+            Model output = null;
+
+            IEnumerable<(CADBooster.SolidDna.Component, int)> components = model.Components().ToList();
+
+            return output;
+        }
+
+        #endregion
 
         /// <summary>
         /// Save the new component
@@ -241,10 +254,10 @@ namespace CodeWorksLibrary.Macros.Files
         }
 
         /// <summary>
-        /// Update the custom properties for the newly created files
+        /// Update the custom properties for the model
         /// </summary>
         /// <param name="model">The SolidDNA Model object of the new componente</param>
-        private static void NewModelPropertyUpdate(Model model)
+        private static void ModelPropertyUpdate(Model model)
         {
             // Delete legacy code
             model.SetCustomProperty("Codice BL", string.Empty);
