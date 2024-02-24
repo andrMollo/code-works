@@ -77,7 +77,7 @@ namespace CodeWorksLibrary.Macros.Files
 
                 if (model.IsPart || selectedModels.Count == 0)
                 {
-                    _logger.Log("Save the active file", LoggerMessageSeverity_e.Information);
+                    _logger.Log("Save the active file");
 
                     // Get the new path                  
                     string pathNewFile = GetNewFilePath(
@@ -85,8 +85,6 @@ namespace CodeWorksLibrary.Macros.Files
                         usePdmSerialNbr,
                         replaceInstances
                         );
-
-                    _logger.Log($"New path file: {pathNewFile}", LoggerMessageSeverity_e.Information);
 
                     // Exists the method of the user left the filename empty
                     if (pathNewFile.IsNullOrEmpty() )
@@ -98,9 +96,11 @@ namespace CodeWorksLibrary.Macros.Files
                     SaveNewComponent(model, pathNewFile, replaceInstances);
 
                     // Close the old file
+                    _logger.Log("Closing the old file");
                     SolidWorksEnvironment.Application.CloseFile(_oldFilePath);
 
                     // Open the new file
+                    _logger.Log("Opening the file");
                     _newModel = SolidWorksEnvironment.Application.OpenFile(pathNewFile, OpenDocumentOptions.Silent);
 
                     // Save drawing and replace reference
@@ -112,22 +112,26 @@ namespace CodeWorksLibrary.Macros.Files
                 // Process the selected components in the assembly
                 else if (selectedModels.Count > 0)
                 {
+                    _logger.Log("Save the selected components");
+
                     // Check that all the models in the list are the same
                     string firstModelPath = selectedModels.First().FilePath;
 
                     bool allSelectedSamePath = selectedModels.All(selModel => selModel.FilePath == firstModelPath);
 
+                    _logger.Log($"Are all selected components the same? {allSelectedSamePath}");
+
                     if (allSelectedSamePath)
                     {
                         // Get the selection list and suspend it
-                        _logger.Log("Suspend the selection list", LoggerMessageSeverity_e.Information);
+                        _logger.Log("Suspend the selection list");
 
                         SelectionMgr selectionMgr = (SelectionMgr)model.UnsafeObject.SelectionManager;
 
                         selectionMgr.SuspendSelectionList();
 
                         // Save the first model of the selection
-                        _logger.Log("Save the first model in the selection", LoggerMessageSeverity_e.Information);
+                        _logger.Log("Save the first model in the selection");
 
                         // Get the new path                  
                         string pathNewFile = GetNewFilePath(
@@ -154,6 +158,7 @@ namespace CodeWorksLibrary.Macros.Files
                         // Replace instances of the old component with the new one
                         AssemblyDoc assemblyModel = (AssemblyDoc)model.Assembly.UnsafeObject;
 
+                        _logger.Log("Replace selected components");
                         bool replaceResult = assemblyModel.ReplaceComponents2(
                             pathNewFile,
                             selectedModels.First().ActiveConfiguration.Name,
@@ -225,9 +230,13 @@ namespace CodeWorksLibrary.Macros.Files
         private static void SaveNewComponent(Model model, string pathNewFile, bool replaceInstances)
         {
             ModelSaveResult result = null;
+
+            _logger.Log("Saving new file");
             
             if (replaceInstances == false)
             {
+                _logger.Log("Saving as copy");
+                
                 // Save the file as a copy
                 result = model.SaveAs(
                     pathNewFile,
@@ -236,6 +245,8 @@ namespace CodeWorksLibrary.Macros.Files
             }
             else
             {
+                _logger.Log("Save as");
+
                 // Save as the file
                 result = model.SaveAs(
                     pathNewFile,
@@ -243,8 +254,12 @@ namespace CodeWorksLibrary.Macros.Files
                     );
             }
 
+            _logger.Log($"Saving result: {result}");
+
             if (result.Successful == false)
             {
+                _logger.Log("Saving failed", LoggerMessageSeverity_e.Error);
+
                 CwMessage.FailToSaveFile();
             }
         }
@@ -255,26 +270,34 @@ namespace CodeWorksLibrary.Macros.Files
         /// <param name="model">The SolidDNA Model object of the new componente</param>
         private static void ModelPropertyUpdate(Model model)
         {
+            _logger.Log("Update custom properties for the new model");
+
             // Delete legacy code
+            _logger.Log("Delete old code");
             model.SetCustomProperty("Codice BL", string.Empty);
-            
+
             // Delete revision
+            _logger.Log("Delete revision");
             model.SetCustomProperty("Revisione", string.Empty);
 
             // Update author
             string authorName = CwPdmManager.GetPdmUserName();
 
+            _logger.Log($"Update author: {authorName}");
             model.SetCustomProperty(GlobalConfig.AuthorPropName, authorName);
 
             // Set original code
+            _logger.Log($"Set originale code: {_oldFileName}");
             model.SetCustomProperty("Codice Origine", _oldFileName);
 
             // * Clean up
 
             // Update filename prop with formula
+            _logger.Log("Update filename with formula");
             model.SetCustomProperty("Nome File", "$PRP:\"SW-File Name\"");
 
             // Delete configuration specific properties
+            _logger.Log("Delete configuration custom properties");
             List<string> modelConfigurations = model.ConfigurationNames;
 
             foreach ( string configurationName in modelConfigurations )
@@ -299,6 +322,8 @@ namespace CodeWorksLibrary.Macros.Files
         {
             string output = string.Empty;
 
+            _logger.Log("Saving the new drawing");
+
             // Change component extension to the drawing one
             string oldDrawingPath = Path.ChangeExtension(oldFilePath, "SLDDRW");
 
@@ -306,27 +331,37 @@ namespace CodeWorksLibrary.Macros.Files
 
             if (File.Exists(newDrawingPath))
             {
+                _logger.Log("A drawing already exists in the directory");
+
                 throw new Exception("A drawing already exists in the directory");
             }
 
             // Create new drawing only if the old file already has a drawing
-            if ( File.Exists(oldDrawingPath))
+            if (File.Exists(oldDrawingPath))
             {
+                _logger.Log("The old file had a drawing");
+                _logger.Log("Copying the old drawing");
+
                 File.Copy(oldDrawingPath, newDrawingPath);
 
                 // Try to remove the read-only flag from the new file
-                FileAttributes fileAttributes = File.GetAttributes(newDrawingPath);
+                _logger.Log("Remove the read only attribute from the new drawing");
 
+                FileAttributes fileAttributes = File.GetAttributes(newDrawingPath);
                 fileAttributes &= ~FileAttributes.ReadOnly;
 
                 File.SetAttributes(newDrawingPath, fileAttributes);
 
-                // Replace the drawing reference
+                // Replace the drawing
+                _logger.Log("Replace drawing reference"); 
+
                 if (SolidWorksEnvironment.Application.UnsafeObject.ReplaceReferencedDocument(newDrawingPath, oldFilePath, newFilePath)
                     == false)
                 {
                     SolidWorksEnvironment.Application.ShowMessageBox("Unable to replace the drawing reference", SolidWorksMessageBoxIcon.Warning);
                 }
+
+                _logger.Log($"Path to the new drawing: {newDrawingPath}");
 
                 output = newDrawingPath;
             }
@@ -380,9 +415,13 @@ namespace CodeWorksLibrary.Macros.Files
                 saveFileDialog.FileName = "DO NO CHANGE";
             }
 
+            _logger.Log("Show save file dialog");
+
             // Exit the macro if the user click cancel
             if (saveFileDialog.ShowDialog() == DialogResult.Cancel)
             {
+                _logger.Log("The user exits the save file dialog", LoggerMessageSeverity_e.Warning);
+
                 CwMessage.MacroStopped();
                 
                 return output;
@@ -391,6 +430,8 @@ namespace CodeWorksLibrary.Macros.Files
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string userInputFilePath = saveFileDialog.FileName;
+
+                _logger.Log($"User selected path: {userInputFilePath}");
 
                 // Get the folder path
                 string folderPath = Path.GetDirectoryName(userInputFilePath);
@@ -407,6 +448,8 @@ namespace CodeWorksLibrary.Macros.Files
                     fileNameNoExt = ComposePdmFileName(folderPath, _oldFileExtension);
                 }
 
+                _logger.Log($"File name without extension: {fileNameNoExt}");
+
                 // Compose new file name
                 string fileName = fileNameNoExt + _oldFileExtension;
 
@@ -418,15 +461,21 @@ namespace CodeWorksLibrary.Macros.Files
             // Output validation
             if (output.IsNullOrEmpty())
             {
+                _logger.Log("The selected path is empty", LoggerMessageSeverity_e.Error);
+
                 CwMessage.NoValidPath();
             }
 
             if (File.Exists(output))
             {
+                _logger.Log("There is already a file in the selected path", LoggerMessageSeverity_e.Error);
+
                 CwMessage.FileAlreadyExists();
 
                 output = string.Empty;
             }
+
+            _logger.Log($"New path file: {output}");
 
             return output;
         }
