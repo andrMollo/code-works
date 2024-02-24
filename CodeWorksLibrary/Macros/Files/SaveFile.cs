@@ -119,7 +119,7 @@ namespace CodeWorksLibrary.Macros.Files
                 else if (selectedModels.Count > 1)
                 {
                     // Check that all the models in the list are the same
-                    string firstModelPath = selectedModels[1].FilePath;
+                    string firstModelPath = selectedModels.First().FilePath;
 
                     bool allSelectedSamePath = selectedModels.All(selModel => selModel.FilePath == firstModelPath);
 
