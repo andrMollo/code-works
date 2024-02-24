@@ -60,7 +60,7 @@ namespace CodeWorksLibrary.Macros.Files
         /// </summary>
         /// <param name="usePdmSerialNbr">True to get the filename from PDM</param>
         /// <param name="replaceInstances">True to replace all the instances of the old component with the new one in the current SolidWorks session</param>
-        public static void MakeIndependentWithDrawingMacro(bool usePdmSerialNbr, bool replaceInstances)
+        public static void SaveWithDrawing(bool usePdmSerialNbr, bool replaceInstances)
         {
             Model model = SolidWorksEnvironment.Application.ActiveModel;
 
