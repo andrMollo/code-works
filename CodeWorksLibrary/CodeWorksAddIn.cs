@@ -30,11 +30,17 @@ namespace CodeWorksLibrary
         public enum CwCommands_e
         {
             [Title("Copy component PDM")]
-            [Description("Make a copy of the selected file and its drawing using PDM part number")]
+            [Description("Make a copy of the selected component and its drawing using PDM part number")]
             MakeIndepPdmE,
+            [Title("Save component PDM")]
+            [Description("Save the selected component and its drawing using PDM part number")]
+            SavePdmE,
             [Title("Copy component")]
             [Description("Make a copy of the selected file and its drawing")]
             MakeIndepE,
+            [Title("Save componente PDM")]
+            [Description("Save the selected component and its drawing")]
+            SaveE
             [Title("Set author")]
             [Description("Write the component author in the custom properties")]
             [Icon(typeof(Resources), nameof(Resources.SetAuthor))]
@@ -114,8 +120,14 @@ namespace CodeWorksLibrary
                 case CwCommands_e.MakeIndepPdmE:
                     SaveFile.MakeIndependentWithDrawingMacro(true, false);
                     break;
+                case CwCommands_e.SavePdmE:
+                    SaveFile.MakeIndependentWithDrawingMacro(true, true);
+                    break;
                 case CwCommands_e.MakeIndepE:
                     SaveFile.MakeIndependentWithDrawingMacro(false, false);
+                    break;
+                case CwCommands_e.SaveE:
+                    SaveFile.MakeIndependentWithDrawingMacro(false, true);
                     break;
                 case CwCommands_e.SetAuthorE:
                     SetAuthorMacro.SetAuthor();
