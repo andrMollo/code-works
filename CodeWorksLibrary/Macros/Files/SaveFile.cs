@@ -75,7 +75,7 @@ namespace CodeWorksLibrary.Macros.Files
                 // Check whether or not there are selected components
                 List<Model> selectedModels = CwSelectionManager.GetSelectedModels(model);
 
-                if (model.IsPart || selectedModels.Count == 1)
+                if (model.IsPart || selectedModels.Count == 0)
                 {
                     _logger.Log("Save the active file", LoggerMessageSeverity_e.Information);
 
