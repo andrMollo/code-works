@@ -116,7 +116,7 @@ namespace CodeWorksLibrary.Macros.Files
                     ModelPropertyUpdate(_newModel);
                 }
                 // Process the selected components in the assembly
-                else if (selectedModels.Count > 1)
+                else if (selectedModels.Count > 0)
                 {
                     // Check that all the models in the list are the same
                     string firstModelPath = selectedModels.First().FilePath;
