@@ -1,5 +1,5 @@
-﻿using CodeWorksLibrary.Helpers;
-using SolidWorks.Interop.sldworks;
+﻿using CADBooster.SolidDna;
+using CodeWorksLibrary.Helpers;
 using System.Collections.Generic;
 using static CADBooster.SolidDna.SolidWorksEnvironment;
 
@@ -25,21 +25,16 @@ namespace CodeWorksLibrary.Macros.Properties
             }
             #endregion
 
-            ModelDoc2 swModel = model.UnsafeObject;
-
             // Get the list of selected models
             // If nothing is selected add the active model to the list of model object
-            List<ModelDoc2> models = CwSelectionManager.GetSelectedModels(swModel);
+            List<Model> models = CwSelectionManager.GetSelectedModels(model);
 
             // Get the username connected to PDM
             string userName = CwPdmManager.GetPdmUserName();
 
-            // Set the username in each member of the list of model
-            for (int i = 0; i < models.Count; i++)
+            foreach (Model selectedModel in  models)
             {
-                var prpManager = new CwPropertyManager();
-
-                prpManager.SetCustomProperty(models[i], GlobalConfig.AuthorPropName, userName);
+                selectedModel.SetCustomProperty(GlobalConfig.AuthorPropName, userName);
             }
         }
     }

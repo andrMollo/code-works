@@ -128,12 +128,13 @@
     <Compile Include="GlobalConfig.cs" />
     <Compile Include="Helpers\CwBomManager.cs" />
     <Compile Include="Helpers\CwLayerManager.cs" />
+    <Compile Include="Helpers\CwLogger.cs" />
     <Compile Include="Helpers\CwMessage.cs" />
     <Compile Include="Helpers\CwPdmManager.cs" />
     <Compile Include="Helpers\CwPropertyManager.cs" />
     <Compile Include="Helpers\CwSelectionManager.cs" />
     <Compile Include="Helpers\CwValidation.cs" />
-    <Compile Include="Helpers\CwLogger.cs" />
+    <Compile Include="Helpers\CwTextLogger.cs" />
     <Compile Include="Helpers\PictureDispConverter.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -141,6 +142,7 @@
     <Compile Include="Macros\Export\ExportAssembly.cs" />
     <Compile Include="Macros\Export\ExportDocument.cs" />
     <Compile Include="Macros\Export\FastPrintMacro.cs" />
+    <Compile Include="Macros\Files\SaveFile.cs" />
     <Compile Include="Macros\Properties\SetAuthorMacro.cs" />
     <Compile Include="Macros\Properties\WriteQuantityMacro.cs" />
     <Compile Include="Models\BomElement.cs" />
@@ -157,6 +159,7 @@
     <None Include="app.config" />
     <None Include="Macros\Drawings\README.md" />
     <None Include="Macros\Export\README.md" />
+    <None Include="Macros\Files\README.md" />
     <None Include="Macros\Properties\README.md" />
     <None Include="packages.config" />
   </ItemGroup>
@@ -195,6 +198,9 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SaveFile.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Xarial.XCad.SolidWorks.0.8.0-beta.4929\build\Xarial.XCad.SolidWorks.targets" Condition="Exists('..\packages\Xarial.XCad.SolidWorks.0.8.0-beta.4929\build\Xarial.XCad.SolidWorks.targets')" />

@@ -38,13 +38,49 @@ namespace CodeWorksLibrary
         /// </summary>
         public const string JobNumberPropName = "Commessa";
 
+        /// <summary>
+        /// The name of the project for standard components
+        /// </summary>
+        public const string StandardProjectNumber = "A000";
+
         #endregion
 
-        #region Private constants
+        #region Private path constants
+
         /// <summary>
         /// The name of the Vault database
         /// </summary>
         public const string VaultName = GlobalConfigPrivate.MyVaultName;
+
+        /// <summary>
+        /// The name of the root folder for the PDM
+        /// </summary>
+        public const string VaultRootFolder = GlobalConfigPrivate.MyVaultRootFolder;
+
+        /// <summary>
+        /// The path to the root folder for build components
+        /// </summary>
+        public const string ComponentRootFolder = GlobalConfigPrivate.MyComponentRootFolder;
+
+        /// <summary>
+        /// The path to the root folder for trade \ buy components
+        /// </summary>
+        public const string LibraryRootFolder = GlobalConfigPrivate.MyLibraryRootFolder;
+
+        /// <summary>
+        /// The path to the root folder for drat components
+        /// </summary>
+        public const string DraftRootFolder = GlobalConfigPrivate.MyDraftRootFolder;
+
+        /// <summary>
+        /// The path to the PDM folder with the standard components
+        /// </summary>
+        public const string StandardComponentsFolder = GlobalConfigPrivate.MyStandardComponentsFolder;
+
+        /// <summary>
+        /// The path to my map for the new sheet format
+        /// </summary>
+        public const string MyReplaceMapPath = GlobalConfigPrivate.MyReplaceMapPath;
 
         /// <summary>
         /// The license key for the Document Manager API
@@ -56,7 +92,51 @@ namespace CodeWorksLibrary
         /// </summary>
         public const string SheetFormatMapPath = GlobalConfigPrivate.MyReplaceMapPath;
 
-        #endregion        
+        #endregion
+
+        #region Private PDM Variables and serials names
+
+        /// <summary>
+        /// The name of the variabile with the project starting letter
+        /// </summary>
+        public const string ProjectLetterVariable = GlobalConfigPrivate.MyProjectLetterVariable;
+
+        /// <summary>
+        /// The name of the variable with the project number
+        /// </summary>
+        public const string ProjectNumberVariable = GlobalConfigPrivate.MyProjectNumberVariable;
+
+        /// <summary>
+        /// The name of the serial for part files
+        /// </summary>
+        public const string PartSerialNumberName = GlobalConfigPrivate.MyPartSerialNumberName;
+
+        /// <summary>
+        /// The name of the serial for assembly files
+        /// </summary>
+        public const string AssemblySerialNumberName = GlobalConfigPrivate.MyAssemblySerialNumberName;
+
+        /// <summary>
+        /// The name of the serial for draft part files
+        /// </summary>
+        public const string DraftPartSerialNumberName = GlobalConfigPrivate.MyDraftPartSerialNumberName;
+
+        /// <summary>
+        /// The name of the serial for draft assembly files
+        /// </summary>
+        public const string DraftAssemblySerialNumberName = GlobalConfigPrivate.MyDraftAssemblySerialNumberName;
+
+        /// <summary>
+        /// The name of the serial number for library files
+        /// </summary>
+        public const string LibrarySerialNumberName = GlobalConfigPrivate.MyLibrarySerialNumberName;
+
+        /// <summary>
+        /// The name of the serial for non coded files
+        /// </summary>
+        public const string NonCodedSerialNumberName = GlobalConfigPrivate.MyNonCodedSerialNumberName;
+
+        #endregion
 
         #region Print setup
 
@@ -96,5 +176,10 @@ namespace CodeWorksLibrary
         public const string PrintJobLayer = "COMMESSA STAMPA";
 
         #endregion
+
+        /// <summary>
+        /// The name of the logger for the Add-In
+        /// </summary>
+        public const string LoggerName = "CodeWorksLog";
     }
 }

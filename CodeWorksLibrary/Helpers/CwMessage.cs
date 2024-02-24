@@ -121,12 +121,34 @@ namespace CodeWorksLibrary.Helpers
         }
 
         /// <summary>
-        /// Show a message box for SolidWorks file externsion not found
+        /// Show a message box for SolidWorks file extension not found
         /// </summary>
         public static void NoValidSolidWorksFile()
         {
             Application.ShowMessageBox("The document ha no valid SolidWorks file extension", SolidWorksMessageBoxIcon.Stop);
         }
+
+        /// <summary>
+        /// Show a message box for invalid path to file
+        /// </summary>
+        public static void NoValidPath()
+        {
+            Application.ShowMessageBox("Select a valid path to file.", SolidWorksMessageBoxIcon.Stop);
+        }
+
+        /// <summary>
+        /// Show a message box for a file that already exists
+        /// </summary>
+        public static void FileAlreadyExists()
+        {
+            Application.ShowMessageBox("The file already exists in the destination folder", SolidWorksMessageBoxIcon.Stop);
+        }
+
+        public static void FailToSaveFile()
+        {
+            Application.ShowMessageBox("Unable to save the file", SolidWorksMessageBoxIcon.Stop);
+        }
+
         #endregion
 
         #region Private methods
