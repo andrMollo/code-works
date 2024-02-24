@@ -86,17 +86,11 @@ namespace CodeWorksLibrary.Macros.Files
                         replaceInstances
                         );
 
+                    _logger.Log($"New path file: {pathNewFile}", LoggerMessageSeverity_e.Information);
+
                     // Exists the method of the user left the filename empty
                     if (pathNewFile.IsNullOrEmpty() )
                     {
-                        CwMessage.NoValidPath();
-                        return;
-                    }
-
-                    // Check if a file already exists
-                    if (File.Exists(pathNewFile))
-                    {
-                        CwMessage.FileAlreadyExists();
                         return;
                     }
 
@@ -145,14 +139,6 @@ namespace CodeWorksLibrary.Macros.Files
                         // Exists the method of the user left the filename empty
                         if (pathNewFile.IsNullOrEmpty())
                         {
-                            CwMessage.NoValidPath();
-                            return;
-                        }
-
-                        // Check if a file already exists
-                        if (File.Exists(pathNewFile))
-                        {
-                            CwMessage.FileAlreadyExists();
                             return;
                         }
 
@@ -394,15 +380,17 @@ namespace CodeWorksLibrary.Macros.Files
                 saveFileDialog.FileName = "DO NO CHANGE";
             }
 
-            // TODO Add control here if userInputFilePath.IsNullOrEmpty()
+            // Exit the macro if the user click cancel
+            if (saveFileDialog.ShowDialog() == DialogResult.Cancel)
+            {
+                CwMessage.MacroStopped();
+                
+                return output;
+            }
+
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string userInputFilePath = saveFileDialog.FileName;
-
-                if (userInputFilePath.IsNullOrEmpty())
-                {
-                    return output;
-                }
 
                 // Get the folder path
                 string folderPath = Path.GetDirectoryName(userInputFilePath);
@@ -427,7 +415,18 @@ namespace CodeWorksLibrary.Macros.Files
                 output = fileFullPath;
             }
 
-            // TODO Add validation
+            // Output validation
+            if (output.IsNullOrEmpty())
+            {
+                CwMessage.NoValidPath();
+            }
+
+            if (File.Exists(output))
+            {
+                CwMessage.FileAlreadyExists();
+
+                output = string.Empty;
+            }
 
             return output;
         }
