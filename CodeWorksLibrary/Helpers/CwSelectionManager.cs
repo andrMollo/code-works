@@ -10,18 +10,18 @@ namespace CodeWorksLibrary.Helpers
         /// Get the Component2 objects of the selection
         /// </summary>
         /// <param name="selectionMgr">The model selection manager object</param>
-        /// <returns>A list of Component2</returns>
+        /// <returns>A list of Component2 objects</returns>
         private static List<Component2> GetSelectedComponents(SelectionMgr selectionMgr)
         {
-            List<Component2> swCompList = new List<Component2>();
+            List<Component2> output = new List<Component2>();
 
             for (int i = 0; i < selectionMgr.GetSelectedObjectCount2(-1); i++)
             {
                 Component2 swComponent = (Component2)selectionMgr.GetSelectedObjectsComponent4(i + 1, -1);
-                swCompList.Add(swComponent);
+                output.Add(swComponent);
             }
 
-            return swCompList;
+            return output;
         }
 
         /// <summary>
