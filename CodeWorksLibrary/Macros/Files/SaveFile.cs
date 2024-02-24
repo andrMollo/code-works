@@ -181,10 +181,12 @@ namespace CodeWorksLibrary.Macros.Files
                             _logger.Log("Replacing unsuccessful.", LoggerMessageSeverity_e.Warning);
                         }
 
-                        // Update property for the new model
+                        // HACK: Get the active model again since ReplaceComponents2 destroy the reference?
                         Model activeModel = SolidWorksEnvironment.Application.ActiveModel;
 
                         List<Model> newModels = CwSelectionManager.GetSelectedModels(activeModel);
+
+                        // Update property for the new model
                         NewModelPropertyUpdate(newModels.First());
                     }
                     else
