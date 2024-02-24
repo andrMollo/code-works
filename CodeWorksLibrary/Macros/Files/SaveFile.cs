@@ -166,13 +166,20 @@ namespace CodeWorksLibrary.Macros.Files
                         selectionMgr.ResumeSelectionList2(false);
 
                         // Replace instances of the old component with the new one
-                        model.AsAssembly().ReplaceComponents2(
+                        AssemblyDoc assemblyModel = (AssemblyDoc)model.Assembly.UnsafeObject;
+
+                        bool replaceResult = assemblyModel.ReplaceComponents2(
                             pathNewFile,
                             selectedModels.First().ActiveConfiguration.Name,
                             false,
                             (int)swReplaceComponentsConfiguration_e.swReplaceComponentsConfiguration_MatchName,
                             true
                             );
+
+                        if (replaceResult == false)
+                        {
+                            _logger.Log("Replacing unsuccessful.", LoggerMessageSeverity_e.Warning);
+                        }
 
                         // Update property for the new model
                         List<Model> newModels = CwSelectionManager.GetSelectedModels(model);
