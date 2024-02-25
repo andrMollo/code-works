@@ -19,7 +19,8 @@ namespace CodeWorksLibrary
     [Description("A collection of macros for SolidWorks")]
     public class AddIn : SwAddInEx
     {
-        #region Enumeration
+        #region Enumerations
+
         /// <summary>
         /// Enumeration that contains the commands to be added to SolidWorks
         /// </summary>
@@ -27,19 +28,19 @@ namespace CodeWorksLibrary
         [Description("A collection of macros for SolidWorks")]
         public enum CwCommands_e
         {
-            [Title("Copy component PDM")]
+            [Title("Copy PDM")]
             [Description("Make a copy of the selected component and its drawing using PDM part number")]
             [Icon(typeof(Resources), nameof(Resources.SaveFile))]
             MakeIndepPdmE,
-            [Title("Save component PDM")]
+            [Title("Save PDM")]
             [Description("Save the selected component and its drawing using PDM part number")]
             [Icon(typeof(Resources), nameof(Resources.SaveFile))]
             SavePdmE,
-            [Title("Copy component")]
+            [Title("Copy")]
             [Description("Make a copy of the selected file and its drawing")]
             [Icon(typeof(Resources), nameof(Resources.SaveFile))]
             MakeIndepE,
-            [Title("Save component PDM")]
+            [Title("Save")]
             [Description("Save the selected component and its drawing")]
             [Icon(typeof(Resources), nameof(Resources.SaveFile))]
             SaveE,
