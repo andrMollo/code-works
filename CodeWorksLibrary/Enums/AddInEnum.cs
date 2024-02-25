@@ -26,7 +26,7 @@ namespace CodeWorksLibrary.Enums
             [CommandItemInfo(true, false, WorkspaceTypes_e.Part | WorkspaceTypes_e.Assembly, true, RibbonTabTextDisplay_e.TextBelow)]
             SavePdmE,
             [Title("Copy")]
-            [Description("Make a copy of the selected file and its drawing")]
+            [Description("Make a copy of the selected component and its drawing")]
             [Icon(typeof(Resources), nameof(Resources.SaveFile))]
             [CommandItemInfo(true, false, WorkspaceTypes_e.Part | WorkspaceTypes_e.Assembly, true, RibbonTabTextDisplay_e.TextBelow)]
             MakeIndepE,
