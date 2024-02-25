@@ -125,6 +125,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CodeWorksAddIn.cs" />
+    <Compile Include="Enums\AddInEnum.cs" />
     <Compile Include="GlobalConfig.cs" />
     <Compile Include="Helpers\CwBomManager.cs" />
     <Compile Include="Helpers\CwLayerManager.cs" />
