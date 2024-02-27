@@ -74,6 +74,9 @@ namespace CodeWorksLibrary
                 case CwCommands_e.SaveE:
                     SaveFile.SaveWithDrawing(false, true);
                     break;
+                case CwCommands_e.CloseAllNoActiveE:
+                    CloseNoActive.CloseNoActiveMacro();
+                    break;
                 case CwCommands_e.SetAuthorE:
                     SetAuthorMacro.SetAuthor();
                     break;
