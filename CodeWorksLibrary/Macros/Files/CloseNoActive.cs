@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 
 namespace CodeWorksLibrary.Macros.Files
 {
@@ -49,9 +50,13 @@ namespace CodeWorksLibrary.Macros.Files
                         const int WM_COMMAND = 0x111;
                         const int CMD_FileClose = 0x0000B776;
 
+                        SendMessage((IntPtr)swFrame.GetHWnd(), WM_COMMAND, (IntPtr)CMD_FileClose, (IntPtr)0);
                     }
                 }
             }
         }
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
     }
 }
