@@ -35,6 +35,10 @@ namespace CodeWorksLibrary.Enums
             [Icon(typeof(Resources), nameof(Resources.SaveFile))]
             [CommandItemInfo(true, false, WorkspaceTypes_e.Part | WorkspaceTypes_e.Assembly, true, RibbonTabTextDisplay_e.TextBelow)]
             SaveE,
+            [Title("Close no active")]
+            [Description("Close all the open documents except the active one")]
+            [CommandItemInfo(true, false, WorkspaceTypes_e.AllDocuments, true, RibbonTabTextDisplay_e.TextBelow)]
+            CloseAllNoActiveE,
             [Title("Set author")]
             [Description("Write the component author in the custom properties")]
             [Icon(typeof(Resources), nameof(Resources.SetAuthor))]

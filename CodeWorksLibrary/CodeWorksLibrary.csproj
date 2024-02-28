@@ -143,6 +143,7 @@
     <Compile Include="Macros\Export\ExportAssembly.cs" />
     <Compile Include="Macros\Export\ExportDocument.cs" />
     <Compile Include="Macros\Export\FastPrintMacro.cs" />
+    <Compile Include="Macros\Files\CloseNoActive.cs" />
     <Compile Include="Macros\Files\SaveFile.cs" />
     <Compile Include="Macros\Properties\SetAuthorMacro.cs" />
     <Compile Include="Macros\Properties\WriteQuantityMacro.cs" />
