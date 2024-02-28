@@ -11,8 +11,8 @@ namespace CodeWorksLibrary.Macros.Files
         /// <summary>
         /// A logger model for this add-in
         /// </summary>
-        private static CwLogger _logger;
-        
+        private static CwLogger _logger = new CwLogger();
+
         /// <summary>
         /// Open the folder containing the selected file
         /// </summary>

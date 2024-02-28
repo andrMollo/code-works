@@ -12,7 +12,7 @@ namespace CodeWorksLibrary.Macros.Files
         /// <summary>
         /// A logger model for this add-in
         /// </summary>
-        private static CwLogger _logger;
+        private static CwLogger _logger = new CwLogger();
 
         /// <summary>
         /// Close all the open documents except the active one
