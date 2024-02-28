@@ -1,11 +1,9 @@
 ﻿using CADBooster.SolidDna;
 using CodeWorksLibrary.Helpers;
-using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CodeWorksLibrary.Macros.Files
 {
@@ -28,16 +26,19 @@ namespace CodeWorksLibrary.Macros.Files
 
             string folderPath = string.Empty;
 
+            // Get the path to the folder to open
             if (selectedModels.Count == 0)
             {
                 // Open the current model folder
-
+                folderPath = Path.GetDirectoryName(model.FilePath);
             }
             else
             {
                 // Open the folder of the first selected component
-                 
+                folderPath = Path.GetDirectoryName(selectedModels.First().FilePath);
             }
+
+            Process.Start("explorer.exe", folderPath);
         }
     }
 }
