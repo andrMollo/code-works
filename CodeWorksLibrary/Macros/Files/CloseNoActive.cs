@@ -3,10 +3,6 @@ using CodeWorksLibrary.Helpers;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 
 namespace CodeWorksLibrary.Macros.Files
@@ -47,16 +43,23 @@ namespace CodeWorksLibrary.Macros.Files
                         // Display the close confirmation dialog for unsaved files
                         AddIn.SwApp.ActivateDoc3(swRefModel.GetTitle(), false, (int)swRebuildOnActivation_e.swDontRebuildActiveDoc, 0);
 
-                        const int WM_COMMAND = 0x111;
-                        const int CMD_FileClose = 0x0000B776;
+                        int WM_COMMAND = 0x111;
+                        int CMD_FileClose = 57602;
 
-                        SendMessage((IntPtr)swFrame.GetHWnd(), WM_COMMAND, (IntPtr)CMD_FileClose, (IntPtr)0);
+                        SendMessage(swFrame.GetHWnd(), WM_COMMAND, CMD_FileClose, IntPtr.Zero);
+                    }
+                    else
+                    {
+                        AddIn.SwApp.CloseDoc(swDocWin.ModelDoc.GetTitle());
                     }
                 }
             }
+
+            // Active back the original file
+            AddIn.SwApp.ActivateDoc3(swModel.GetTitle(), true, (int)swRebuildOnActivation_e.swUserDecision, 0);
         }
 
-        [DllImport("user32.dll")]
-        private static extern IntPtr SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        private static extern IntPtr SendMessage(long hWnd, int Msg, int wParam, IntPtr lParam);
     }
 }
