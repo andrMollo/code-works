@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CADBooster.SolidDna;
+using CodeWorksLibrary.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +15,13 @@ namespace CodeWorksLibrary.Macros.Files
         /// </summary>
         public static void OpenFolderMacro()
         {
+            Model model = SolidWorksEnvironment.Application.ActiveModel;
+
+            if (CwValidation.ModelIsOpen(model) == false)
+            {
+                CwMessage.OpenAFile();
+                return;
+            }
 
         }
     }
