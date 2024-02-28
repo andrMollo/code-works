@@ -2,7 +2,6 @@
 using CodeWorksLibrary.Helpers;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 
 namespace CodeWorksLibrary.Macros.Files
@@ -25,20 +24,21 @@ namespace CodeWorksLibrary.Macros.Files
             List<Model> selectedModels = CwSelectionManager.GetSelectedModels(model);
 
             string folderPath = string.Empty;
+            string filePath = string.Empty;
 
             // Get the path to the folder to open
             if (selectedModels.Count == 0)
             {
-                // Open the current model folder
-                folderPath = Path.GetDirectoryName(model.FilePath);
+                // Get the path of the active model
+                filePath = model.FilePath;
             }
             else
             {
-                // Open the folder of the first selected component
-                folderPath = Path.GetDirectoryName(selectedModels.First().FilePath);
+                // Get the path of the first of the selected Models
+                filePath = selectedModels.First().FilePath;
             }
 
-            Process.Start("explorer.exe", folderPath);
+            Process.Start("explorer.exe", $"/select,\"{filePath}\"");
         }
     }
 }
