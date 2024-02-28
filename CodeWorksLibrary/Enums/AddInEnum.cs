@@ -39,6 +39,10 @@ namespace CodeWorksLibrary.Enums
             [Description("Close all the open documents except the active one")]
             [CommandItemInfo(true, false, WorkspaceTypes_e.AllDocuments, true, RibbonTabTextDisplay_e.TextBelow)]
             CloseAllNoActiveE,
+            [Title("Open file folder")]
+            [Description("Open the folder containing the selected file")]
+            [CommandItemInfo(true, false, WorkspaceTypes_e.AllDocuments, true, RibbonTabTextDisplay_e.TextBelow)]
+            OpenFIleFolderE,
             [Title("Set author")]
             [Description("Write the component author in the custom properties")]
             [Icon(typeof(Resources), nameof(Resources.SetAuthor))]
