@@ -8,6 +8,15 @@ Macro to close all SolidWorks documents except the active one.
 
 - [Original macro from CodeStack](https://www.codestack.net/solidworks-api/application/frame/close-all-documents-except-active/)
 
+## Open component folder
+
+ Open the explorer folder for the selected component.
+
+### References
+
+- [Original macro from CodeStack](https://www.codestack.net/solidworks-api/document/assembly/components/show-selected-assembly-component-window-folder/)
+
+
 ## Save file
 
 Save as a copy the target model with its drawing. Drawing must have same name and path of target model. Target model is the selected component(s) or the active component if nothing is selected. Multiple selected components are allowed but must be identical.
