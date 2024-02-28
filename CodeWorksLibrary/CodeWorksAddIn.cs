@@ -77,6 +77,9 @@ namespace CodeWorksLibrary
                 case CwCommands_e.CloseAllNoActiveE:
                     CloseNoActive.CloseNoActiveMacro();
                     break;
+                case CwCommands_e.OpenFIleFolderE:
+                    FileFolder.OpenFolderMacro();
+                    break;
                 case CwCommands_e.SetAuthorE:
                     SetAuthorMacro.SetAuthor();
                     break;
