@@ -10,7 +10,7 @@ Macro to close all SolidWorks documents except the active one.
 
 ## Open component folder
 
- Open the explorer folder for the selected component.
+ Open the explorer folder for the selected component, or the active one is the selection is empty.
 
 ### References
 
