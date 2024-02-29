@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CodeWorksWpfLibrary.Interfaces;
+using CodeWorksWpfLibrary.ViewModels;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace CodeWorksWpfLibrary.Views
 {
@@ -22,6 +12,26 @@ namespace CodeWorksWpfLibrary.Views
         public SelectJobView()
         {
             InitializeComponent();
+
+            this.DataContext = new SelectJobViewModel();
+
+            Loaded += SelectJobView_Loaded;
+        }
+
+        private void SelectJobView_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is ICloseWindow viewModel)
+            {
+                viewModel.Close += () =>
+                {
+                    this.Close();
+                };
+
+                viewModel.Cancel += () =>
+                {
+                    this.Close();
+                };
+            }
         }
     }
 }
