@@ -7,7 +7,7 @@ namespace CodeWorksWpfLibrary.ViewModels.Base
     /// A base view model that fires the property changed event as needed
     /// </summary>
     [AddINotifyPropertyChangedInterfaceAttribute]
-    internal class BaseViewModel : INotifyPropertyChanged
+    public class BaseViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
     }

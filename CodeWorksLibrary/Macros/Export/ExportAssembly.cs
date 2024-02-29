@@ -3,6 +3,7 @@ using CodeWorksLibrary.Helpers;
 using CodeWorksLibrary.Macros.Properties;
 using CodeWorksLibrary.Models;
 using CodeWorksUI;
+using CodeWorksWpfLibrary.ViewModels;
 using SolidWorks.Interop.sldworks;
 using System;
 using System.Collections.Generic;
@@ -74,6 +75,15 @@ namespace CodeWorksLibrary.Macros.Export
             // Compose the full path to the logger
             AssExpLog = new CwTextLogger();
             AssExpLog.LogPath = CwTextLogger.ComposeLogPath(string.Empty);
+
+            // Show UI to select job number
+            var selectJobWindow = new CodeWorksWpfLibrary.Views.SelectJobView();
+
+            // Get the ViewModel for the select job number UI
+            var selectJonViewModel = new CodeWorksWpfLibrary.ViewModels.SelectJobViewModel();
+            selectJonViewModel = (SelectJobViewModel)selectJobWindow.DataContext;
+
+            selectJobWindow.ShowDialog();
 
             // Initiate form
             var expAsmForm = AssemblyFormSetup();

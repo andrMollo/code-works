@@ -192,6 +192,10 @@
       <Project>{1dd82b69-97c1-4285-a2f3-9b698e015bdb}</Project>
       <Name>CodeWorksUI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CodeWorksWpfLibrary\CodeWorksWpfLibrary.csproj">
+      <Project>{59576b9b-1116-4bf3-bee3-aba8cf5e499b}</Project>
+      <Name>CodeWorksWpfLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\WriteQuantity.png" />

@@ -12,7 +12,7 @@ namespace CodeWorksWpfLibrary.ViewModels
     /// <summary>
     /// The view model for the job selection window
     /// </summary>
-    internal class SelectJobViewModel : BaseViewModel, ICloseWindow
+    public class SelectJobViewModel : BaseViewModel, ICloseWindow
     {
         #region Private fields
 
