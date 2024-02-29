@@ -3,13 +3,13 @@ using CodeWorksLibrary.Macros.Drawings;
 using CodeWorksLibrary.Macros.Export;
 using CodeWorksLibrary.Macros.Files;
 using CodeWorksLibrary.Macros.Properties;
-using CodeWorksLibrary.Properties;
 using SolidWorks.Interop.sldworks;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using Xarial.XCad.Base.Attributes;
 using Xarial.XCad.SolidWorks;
 using Xarial.XCad.UI.Commands;
+using static CodeWorksLibrary.Enums.AddInEnum;
 
 namespace CodeWorksLibrary
 {
@@ -19,66 +19,6 @@ namespace CodeWorksLibrary
     [Description("A collection of macros for SolidWorks")]
     public class AddIn : SwAddInEx
     {
-        #region Enumeration
-        /// <summary>
-        /// Enumeration that contains the commands to be added to SolidWorks
-        /// </summary>
-        [Title("CodeWorks")]
-        [Description("A collection of macros for SolidWorks")]
-        public enum CwCommands_e
-        {
-            [Title("Copy component PDM")]
-            [Description("Make a copy of the selected component and its drawing using PDM part number")]
-            [Icon(typeof(Resources), nameof(Resources.SaveFile))]
-            MakeIndepPdmE,
-            [Title("Save component PDM")]
-            [Description("Save the selected component and its drawing using PDM part number")]
-            [Icon(typeof(Resources), nameof(Resources.SaveFile))]
-            SavePdmE,
-            [Title("Copy component")]
-            [Description("Make a copy of the selected file and its drawing")]
-            [Icon(typeof(Resources), nameof(Resources.SaveFile))]
-            MakeIndepE,
-            [Title("Save componente PDM")]
-            [Description("Save the selected component and its drawing")]
-            [Icon(typeof(Resources), nameof(Resources.SaveFile))]
-            SaveE,
-            [Title("Set author")]
-            [Description("Write the component author in the custom properties")]
-            [Icon(typeof(Resources), nameof(Resources.SetAuthor))]
-            SetAuthorE,
-            [Title("Export file")]
-            [Description("Export the current file in different formats")]
-            [Icon(typeof(Resources), nameof(Resources.ExportFile))]
-            ExportFileE,
-            [Title("Export print file")]
-            [Description("Export and print the current file in different formats")]
-            [Icon(typeof(Resources), nameof(Resources.ExportFile))]
-            ExportFilePrintE,
-            [Title("Export assembly")]
-            [Description("Export the current assembly and its components")]
-            [Icon(typeof(Resources), nameof(Resources.ExportAssy))]
-            ExportAssemblyE,
-            [Title("Print drawing")]
-            [Description("Print all the sheet of the active drawing")]
-            [Icon(typeof(Resources), nameof(Resources.FastPrint))]
-            FastPrintE,
-            [Title("Print sheet")]
-            [Description("Print the current sheet")]
-            [Icon(typeof(Resources), nameof(Resources.FastPrintSheet))]
-            FastPrintSheetE,
-            [Title("Update sheet format")]
-            [Description("Update sheet format for all the sheet of the active document")]
-            [Icon(typeof(Resources), nameof(Resources.ChangeFormat))]
-            UpdateFormatE,
-            [Title("Write quantity")]
-            [Description("Write the quantity custom property in all components of the open assembly")]
-            [Icon(typeof(Resources), nameof(Resources.WriteQuantity))]
-            WriteQuantityE,
-        }
-
-        #endregion
-
         #region Public properties
         
         /// <summary>
@@ -115,6 +55,9 @@ namespace CodeWorksLibrary
             AddInIntegration.TearDown();
         }
 
+        /// <summary>
+        /// Event handler to execute commands on click in Command Tab
+        /// </summary>
         private void OnCommandClick(CwCommands_e spec)
         {
             switch (spec)
@@ -130,6 +73,12 @@ namespace CodeWorksLibrary
                     break;
                 case CwCommands_e.SaveE:
                     SaveFile.SaveWithDrawing(false, true);
+                    break;
+                case CwCommands_e.CloseAllNoActiveE:
+                    CloseNoActive.CloseNoActiveMacro();
+                    break;
+                case CwCommands_e.OpenFIleFolderE:
+                    FileFolder.OpenFolderMacro();
                     break;
                 case CwCommands_e.SetAuthorE:
                     SetAuthorMacro.SetAuthor();
