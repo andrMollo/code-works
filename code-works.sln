@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeWorksWpfLibrary", "CodeWorksWpfLibrary\CodeWorksWpfLibrary.csproj", "{59576B9B-1116-4BF3-BEE3-ABA8CF5E499B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +28,10 @@ Global
 		{1DD82B69-97C1-4285-A2F3-9B698E015BDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1DD82B69-97C1-4285-A2F3-9B698E015BDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1DD82B69-97C1-4285-A2F3-9B698E015BDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59576B9B-1116-4BF3-BEE3-ABA8CF5E499B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59576B9B-1116-4BF3-BEE3-ABA8CF5E499B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59576B9B-1116-4BF3-BEE3-ABA8CF5E499B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59576B9B-1116-4BF3-BEE3-ABA8CF5E499B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
