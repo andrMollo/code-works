@@ -5,8 +5,113 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CodeWorksWpfLibrary.Views"
         mc:Ignorable="d"
-        Title="SelectJobView" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="Job selection"        
+        Height="450" Width="400"
+        FontSize="18"
+        WindowStartupLocation="CenterScreen">
+    
+    <Window.Resources>
+        <Style x:Key="HeaderStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="#FF009FE3"/>
+            <Setter Property="FontSize" Value="24"/>
+        </Style>
+        <Style x:Key="WarningStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontStyle" Value="Italic"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Foreground" Value="Red"/>
+        </Style>
+        <Style x:Key="OptionSyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontSize" Value="16"/>
+        </Style>
+    </Window.Resources>
+
+    <Border Padding="8" Background="White">
+
+        <StackPanel>
+            <!-- Header -->
+            <TextBlock Style="{StaticResource HeaderStyle}" Text = "Job selection" Margin="0 0 0 16" />
+
+            <!-- Job number -->
+            <Grid Margin="0 0 0 8" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="Job Number" />
+                <TextBox Grid.Column="1" x:Name="JobNumber" Text ="{Binding JobNumber}" />
+            </Grid>
+
+            <!-- Job Year -->
+            <Grid Margin="0 0 0 8" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="Job Year" />
+                <TextBox Grid.Column="1" x:Name="JobYear" Text ="{Binding JobYear}" />
+            </Grid>
+
+            <!-- Ticket Number -->
+            <Grid Margin="0 0 0 8" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="Ticket Number" />
+                <TextBox Grid.Column="1" x:Name="TicketNumber" Text ="{Binding TicketNumber}" />
+            </Grid>
+
+            <!-- Quantity -->
+            <Grid Margin="0 16 0 8" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="Quantity" />
+                <TextBox Grid.Column="1" x:Name="JobQuantity" Text ="{Binding JobQuantity}"/>
+            </Grid>
+
+            <!-- Warning -->
+            <TextBlock Text="Job number, year and quantity must be positive numbers." 
+                    Name="ValidationWarning" 
+                   Style="{StaticResource WarningStyle}"
+                    TextWrapping="Wrap"  Margin="0 0 0 8" />
+
+            <!-- Export again -->
+            <CheckBox x:Name="FullExport" IsChecked="{Binding ExportAgain}" VerticalContentAlignment="Center" Margin="0 8 0 8" >
+                <TextBlock Style="{StaticResource OptionSyle}">
+                    <AccessText TextWrapping="Wrap"  
+                    Text="Select to export again all components."/>
+                </TextBlock>
+            </CheckBox>
+
+            <!-- Buttons -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Cancel button -->
+                <Button Grid.Column="0" Margin="8 24 16 8"
+                        MinHeight="48"
+                        Content="Cancel"
+                        x:Name="CancelButton" 
+                        Command="{Binding CancelCommand}"/>
+
+                <!-- OK button -->
+                <Button Grid.Column="1" Margin="8 24 16 8"
+                    MinHeight="48"
+                    Content="OK" 
+                    x:Name="OkButton" 
+                    IsEnabled="{Binding IsOkButtonEnabled}"
+                    Command="{Binding OkCommand}"/>
+            </Grid>
+
+        </StackPanel>
+    </Border>
 </Window>
